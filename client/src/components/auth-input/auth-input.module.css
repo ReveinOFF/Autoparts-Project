@@ -1,0 +1,36 @@
+.formPart {
+  margin-bottom: 20px;
+}
+
+.formPart {
+  display: flex;
+  flex-direction: column;
+}
+
+.formPart input {
+  border: 0;
+  border-bottom: 1px solid #000;
+  outline: 0;
+  height: 30px;
+  font-size: 15px;
+}
+
+.formPart label {
+  font-weight: bold;
+  font-style: italic;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-right: 10px;
+}
+
+.formPart input:is(.error) {
+  border-color: red;
+}
+
+.formPart div {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: red;
+  margin-top: 8px;
+  text-wrap: wrap;
+  font-weight: bold;
+  font-size: 15px;
+}

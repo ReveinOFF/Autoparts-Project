@@ -4,3 +4,74 @@
   width: 100%;
   background-size: cover;
 }
+
+.login > div {
+  height: 100%;
+  padding-block: 30px;
+}
+
+.login form {
+  padding: 2%;
+  background-color: #fff;
+  margin-left: auto;
+  box-shadow: 1px 1px 3px 3px #fff;
+  width: 30%;
+  height: 100%;
+}
+
+.login form h2 {
+  margin-bottom: 20px;
+}
+
+.formSubmitBtn {
+  background-color: rgb(255 188 11);
+  width: 100%;
+  border: 0;
+  border-radius: 20px;
+  padding: 3% 0;
+  font-weight: bold;
+  font-size: 20px;
+  transition: 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.formSubmitBtn:hover {
+  background-color: #000;
+  color: #fff;
+  transition: 0.3s ease;
+}
+
+.suggestionBlock a {
+  color: #000;
+  transition: 0.1s;
+}
+
+.suggestionBlock a:hover {
+  color: rgb(255 188 11);
+}
+
+.formPart input[type="checkbox"] {
+  accent-color: rgb(255 188 11);
+  border: 0;
+  outline: 0;
+  width: 25px;
+  margin: 0;
+  margin-top: 10px;
+  margin-left: -3px;
+}
+
+.formPart label {
+  font-weight: bold;
+  font-style: italic;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-right: 10px;
+}
+
+.formPart {
+  display: flex;
+  flex-direction: column;
+}
+
+.formPart {
+  margin-bottom: 20px;
+}
