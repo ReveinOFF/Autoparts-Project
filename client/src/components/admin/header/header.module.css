@@ -1,0 +1,18 @@
+.header {
+  background: #fdb819;
+  height: 50px;
+  align-items: center;
+  padding-inline: 60px;
+}
+
+.header > div {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.header > a {
+  color: #000;
+  font-size: 20px;
+  font-weight: 700;
+  gap: 10px;
+}
