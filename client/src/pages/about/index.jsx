@@ -1,7 +1,10 @@
+import styles from "./about.module.css";
+
 export default function About() {
   return (
-    <>
-      <h1>About</h1>
-    </>
+    <div className="container">
+      <h1 className={styles.h1}>О нас</h1>
+      <div className={styles.info}>Lorem ipsum dolor</div>
+    </div>
   );
 }
