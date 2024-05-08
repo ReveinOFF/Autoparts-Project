@@ -1,7 +1,7 @@
 export const AUTH_USER_ACTION = "AUTH_USER_ACTION";
 
 const initialState = {
-  isAuth: false,
+  isAuth: (localStorage.getItem("token") ? true : false) || false,
 };
 
 const AuthReducer = (state = initialState, action) => {

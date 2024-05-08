@@ -13,7 +13,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { AUTH_USER_ACTION } from "../../reducers/authReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DEFAULT_DATA_USER_ACTION } from "../../reducers/profileReducer";
 import axios from "axios";
 
@@ -21,6 +21,7 @@ export default function Header() {
   const [course, setCourse] = useState(localStorage.getItem("course") || "uah");
   const { i18n } = useTranslation();
   const location = useLocation();
+  const { isAuth } = useSelector((s) => s.auth);
   const dispatch = useDispatch();
 
   const changeLang = (lang) => {
@@ -39,6 +40,7 @@ export default function Header() {
       dispatch({ type: AUTH_USER_ACTION, payload: { isAuth: false } });
       dispatch({ type: DEFAULT_DATA_USER_ACTION });
       localStorage.removeItem("token");
+      window.location.reload();
     } catch (error) {}
   };
 
@@ -60,10 +62,17 @@ export default function Header() {
             </Link>
           </div>
           <div className={styles.h_top_r}>
-            <Link to="/login" className="flex-align">
-              <img src={clientImg} alt="client" width={20} height={20} />{" "}
-              Увійти/Створити кабінет
-            </Link>
+            {isAuth ? (
+              <button onClick={logout} className="flex-align">
+                <img src={clientImg} alt="client" width={20} height={20} />{" "}
+                Вийти
+              </button>
+            ) : (
+              <Link to="/login" className="flex-align">
+                <img src={clientImg} alt="client" width={20} height={20} />{" "}
+                Увійти/Створити кабінет
+              </Link>
+            )}
             <div>
               <div className={`flex-align ${styles.select_block}`}>
                 <div style={{ fontSize: 18 }}>

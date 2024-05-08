@@ -5,11 +5,9 @@ import AuthInput from "../../../components/auth-input";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../login/login.module.css";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 export default function Registration() {
   const { t, i18n } = useTranslation();
-  const { isAuth } = useSelector((s) => s.AuthReducer);
   const navigate = useNavigate();
 
   const onHandleSubmit = async (formData) => {
