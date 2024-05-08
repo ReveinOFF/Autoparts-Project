@@ -35,6 +35,12 @@ header {
   margin-block: 20px;
   align-items: center;
   gap: 70px;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+}
+
+.header_middle > a > img {
+  width: 100%;
 }
 
 .header_bottom {
@@ -124,4 +130,136 @@ header {
 .select_block {
   gap: 5px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+  .cart_info {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .header_middle {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 10px;
+    column-gap: 30px;
+  }
+
+  .header_middle > a {
+    grid-column: 1 / 3;
+  }
+
+  .search_block {
+    grid-row: 2;
+    grid-column: 1 / 5;
+  }
+
+  .cart_block {
+    grid-column: 4;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .h_top_l,
+  .h_top_r {
+    display: grid;
+  }
+
+  .h_top_r > a {
+    grid-row: 1;
+    grid-column: 1/3;
+    justify-self: center;
+  }
+  .h_top_r > div:first-of-type {
+    grid-row: 2;
+  }
+  .h_top_r > div:last-of-type > div:first-of-type {
+    grid-row: 2;
+    justify-content: flex-end;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .header_bottom > nav {
+    width: 100%;
+  }
+
+  .header_bottom > nav > a {
+    display: none;
+  }
+
+  .header_bottom > nav > div:not(:last-child) {
+    border-right: 0;
+  }
+
+  .header_bottom > nav > div {
+    border-right: 0;
+    width: 100%;
+    height: 80px;
+  }
+
+  .header_bottom > nav > div > div:first-of-type {
+    height: 100%;
+  }
+
+  .header_bottom > nav > div > div:first-of-type > img:first-of-type {
+    width: 30px;
+    height: auto;
+  }
+
+  .header_bottom > nav > div > div:first-of-type > div {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 37.5px;
+  }
+
+  .header_bottom > nav > div > div:first-of-type > img:last-of-type {
+    width: 18px;
+    height: auto;
+    margin-left: auto;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .header_top {
+    display: none;
+  }
+
+  .header_middle {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .header_middle > a {
+    grid-row: 1;
+    grid-column: unset;
+  }
+
+  .search_block {
+    grid-row: 3;
+    grid-column: unset;
+  }
+
+  .cart_block {
+    grid-row: 2;
+    grid-column: unset;
+    background-color: #fdb819;
+    padding-block: 30px;
+    gap: 30px;
+  }
+
+  .cart_info {
+    display: block;
+  }
+
+  .cart > img {
+    width: 38px;
+    height: auto;
+  }
+
+  .cart > div {
+    background-color: transparent;
+    top: -15px;
+    right: -15px;
+  }
 }

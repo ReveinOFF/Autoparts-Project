@@ -12,12 +12,17 @@ import uaImg from "../../assets/images/header/ua.png";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { AUTH_USER_ACTION } from "../../reducers/authReducer";
+import { useDispatch } from "react-redux";
+import { DEFAULT_DATA_USER_ACTION } from "../../reducers/profileReducer";
+import axios from "axios";
 
 export default function Header() {
   const [course, setCourse] = useState(localStorage.getItem("course") || "uah");
   const { i18n } = useTranslation();
   const location = useLocation();
-  console.log(location.pathname);
+  const dispatch = useDispatch();
+
   const changeLang = (lang) => {
     i18n.changeLanguage(lang);
     localStorage.setItem("lng", lang);
@@ -28,12 +33,21 @@ export default function Header() {
     setCourse(course);
   };
 
+  const logout = async () => {
+    try {
+      await axios.post(`${process.env.REACT_APP_HOST}/authentication/logout`);
+      dispatch({ type: AUTH_USER_ACTION, payload: { isAuth: false } });
+      dispatch({ type: DEFAULT_DATA_USER_ACTION });
+      localStorage.removeItem("token");
+    } catch (error) {}
+  };
+
   return (
     <header>
       <div className={`flex-between ${styles.header_top}`}>
         <div className="container flex-between">
           <div className={styles.h_top_l}>
-            <Link to="/temp" className="flex-align">
+            <Link to="/favourites" className="flex-align">
               <img src={heartImg} alt="heart" width={20} height={20} />
               Обрані
             </Link>
@@ -71,9 +85,9 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className={`container flex-between ${styles.header_middle}`}>
+      <div className={`container ${styles.header_middle}`}>
         <Link to="/">
-          <img src={logoImg} alt="logo" width={350} height={120} />
+          <img src={logoImg} alt="logo" />
         </Link>
         <div className={styles.search_block}>
           <input
@@ -84,7 +98,7 @@ export default function Header() {
             <img src={searchImg} alt="search" width={20} height={20} />
           </button>
         </div>
-        <Link className={`flex-full ${styles.cart_block}`}>
+        <div className={`flex-full ${styles.cart_block}`}>
           <div className={styles.cart}>
             <img src={cartImg} alt="cart" width={30} height={30} />
             <div>0</div>
@@ -93,7 +107,7 @@ export default function Header() {
             <div>Кошик</div>
             <div>0$</div>
           </div>
-        </Link>
+        </div>
       </div>
       {location.pathname === "/login" ||
       location.pathname === "/registration" ? null : (

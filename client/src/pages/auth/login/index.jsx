@@ -4,16 +4,20 @@ import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import { FormikProvider, useFormik } from "formik";
 import AuthInput from "../../../components/auth-input";
-import { api } from "../../../api/api";
+import axios from "axios";
 
 export default function Login() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const onHandleSubmit = async (formData) => {
+    console.log(process.env.REACT_APP_HOST);
     try {
-      const { data } = await api.post("/authentication/login", formData);
-      localStorage.setItem("accessToken", data?.token);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_HOST}/authentication/login`,
+        formData
+      );
+      localStorage.setItem("token", data?.token);
       navigate("/");
     } catch (error) {
       alert(error?.response?.data?.message || "Error occurred login");

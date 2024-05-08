@@ -4,16 +4,21 @@ import * as Yup from "yup";
 import AuthInput from "../../../components/auth-input";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../login/login.module.css";
-import { api } from "../../../api/api";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 export default function Registration() {
   const { t, i18n } = useTranslation();
+  const { isAuth } = useSelector((s) => s.AuthReducer);
   const navigate = useNavigate();
 
   const onHandleSubmit = async (formData) => {
     try {
-      const { data } = await api.post("/authentication/registration", formData);
-      localStorage.setItem("accessToken", data?.token);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_HOST}/authentication/registration`,
+        formData
+      );
+      localStorage.setItem("token", data?.token);
       navigate("/");
     } catch (error) {
       alert(error?.response?.data?.message || "Error occurred registration");
@@ -104,7 +109,7 @@ export default function Registration() {
               Submit
             </button>
             <div className={styles.suggestionBlock}>
-              Have an account? <Link to="/registration">Login</Link>
+              Have an account? <Link to="/login">Login</Link>
             </div>
           </form>
         </FormikProvider>
