@@ -11,7 +11,6 @@ export default function Login() {
   const navigate = useNavigate();
 
   const onHandleSubmit = async (formData) => {
-    console.log(process.env.REACT_APP_HOST);
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_HOST}/authentication/login`,

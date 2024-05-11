@@ -6,7 +6,9 @@ import Login from "./pages/auth/login";
 import Registration from "./pages/auth/registration";
 import AdminLayout from "./components/admin/layout";
 import AdminLogin from "./pages/admin/auth/login";
-import AdminReg from "./pages/admin/auth/registration";
+import Favourites from "./pages/favourites";
+import { BlockRoute } from "./components/private-route/privateRoute";
+import Product from "./pages/product";
 
 export default function App() {
   return (
@@ -14,13 +16,29 @@ export default function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
+        <Route path="favourites" element={<Favourites />} />
+        <Route path="product" element={<Product />} />
 
-        <Route path="login" element={<Login />} />
-        <Route path="registration" element={<Registration />} />
+        <Route
+          path="login"
+          element={
+            <BlockRoute>
+              <Login />
+            </BlockRoute>
+          }
+        />
+        <Route
+          path="registration"
+          element={
+            <BlockRoute>
+              <Registration />
+            </BlockRoute>
+          }
+        />
       </Route>
+
       <Route path="admin" element={<AdminLayout />}>
         <Route path="login" element={<AdminLogin />} />
-        <Route path="registration" element={<AdminReg />} />
       </Route>
     </Routes>
   );

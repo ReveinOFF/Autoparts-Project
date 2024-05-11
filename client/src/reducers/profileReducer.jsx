@@ -10,9 +10,14 @@ const initialState = {
 };
 
 const ProfileReducer = (state = initialState, action) => {
+  const { payload } = action;
+
   switch (action.type) {
     case DATA_USER_ACTION:
-      return Object.assign(state, action.payload);
+      return {
+        ...state,
+        payload,
+      };
     case DEFAULT_DATA_USER_ACTION:
       return initialState;
     default:

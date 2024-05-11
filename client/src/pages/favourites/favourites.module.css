@@ -1,0 +1,63 @@
+.favourites_block {
+  border-top: 1px solid #d9d9d9;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin-bottom: 60px;
+}
+
+.favourite {
+  border-width: 0px 0px 1px 1px;
+  border-style: solid;
+  border-color: #d9d9d9;
+}
+
+.favourite:nth-child(5n) {
+  border-right: 1px solid #d9d9d9;
+}
+
+.favourite > img {
+  object-fit: cover;
+  width: 100%;
+}
+
+.favourite {
+  padding: 15px;
+}
+
+.name {
+  color: #000000;
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28.13px;
+}
+
+.price {
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 46.88px;
+}
+
+.block_price {
+  align-items: center;
+}
+
+.block_price > img {
+  width: 30px;
+}
+
+.delivery {
+  gap: 15px;
+}
+
+.delivery > span {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 17.58px;
+  color: #fdb819;
+}
+
+.delivery > img {
+  width: 25px;
+}

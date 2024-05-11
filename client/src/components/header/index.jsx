@@ -22,6 +22,7 @@ export default function Header() {
   const { i18n } = useTranslation();
   const location = useLocation();
   const { isAuth } = useSelector((s) => s.auth);
+  const state = useSelector((s) => s.cart);
   const dispatch = useDispatch();
 
   const changeLang = (lang) => {
@@ -94,27 +95,29 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className={`container ${styles.header_middle}`}>
-        <Link to="/">
-          <img src={logoImg} alt="logo" />
-        </Link>
-        <div className={styles.search_block}>
-          <input
-            type="text"
-            placeholder="Пошук за назвою товару, номер і тд."
-          />
-          <button>
-            <img src={searchImg} alt="search" width={20} height={20} />
-          </button>
-        </div>
-        <div className={`flex-full ${styles.cart_block}`}>
-          <div className={styles.cart}>
-            <img src={cartImg} alt="cart" width={30} height={30} />
-            <div>0</div>
+      <div className={styles.mid_h}>
+        <div className={`container ${styles.header_middle}`}>
+          <Link to="/">
+            <img src={logoImg} alt="logo" />
+          </Link>
+          <div className={styles.search_block}>
+            <input
+              type="text"
+              placeholder="Пошук за назвою товару, номер і тд."
+            />
+            <button>
+              <img src={searchImg} alt="search" width={20} height={20} />
+            </button>
           </div>
-          <div className={styles.cart_info}>
-            <div>Кошик</div>
-            <div>0$</div>
+          <div className={`flex-full ${styles.cart_block}`}>
+            <div className={styles.cart}>
+              <img src={cartImg} alt="cart" width={30} height={30} />
+              <div>{state.count}</div>
+            </div>
+            <div className={styles.cart_info}>
+              <div>Кошик</div>
+              <div>{state.totalPrice}$</div>
+            </div>
           </div>
         </div>
       </div>

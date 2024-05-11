@@ -69,6 +69,10 @@ header {
   width: 100%;
 }
 
+.mid_h {
+  background: white;
+}
+
 .header_bottom {
   background: #dfdfdf;
 }
