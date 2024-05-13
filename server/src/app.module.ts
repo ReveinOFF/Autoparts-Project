@@ -9,10 +9,12 @@ import { CategoriesModule } from './categories/categories.module';
 import { StructureRoutesModule } from './structure-routes/structure-routes.module';
 import { ProductModule } from './product/product.module';
 
-
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: path.join(__dirname,'.env')}),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: path.join(__dirname, '.env'),
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -20,10 +22,10 @@ import { ProductModule } from './product/product.module';
         const uri = configService.get('MONGO_LINK');
         const appEnv = configService.get('APP_ENV');
         console.log(uri);
-        
+
         return {
           uri,
-          dbName: appEnv === "DEV" ? 'crave_u' : 'name_databases'
+          dbName: appEnv === 'DEV' ? 'crave_u' : 'name_databases',
         };
       },
     }),
@@ -34,6 +36,5 @@ import { ProductModule } from './product/product.module';
     StructureRoutesModule,
     ProductModule,
   ],
- 
 })
 export class AppModule {}

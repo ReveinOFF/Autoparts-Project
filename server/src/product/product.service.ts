@@ -6,63 +6,76 @@ import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class ProductService {
+  constructor(
+    @InjectModel(Product.name) private productsModel: Model<Product>,
+  ) {}
+  async create(dto: AddProductDto) {
+    try {
+      return this.productsModel.create(dto);
+    } catch (error) {}
+  }
 
-    constructor(
-        @InjectModel(Product.name) private productsModel: Model<Product>,
-    ){}
-    async create (dto: AddProductDto){
-        try {
-            return this.productsModel.create(dto)
-        } catch (error) {
-            
-        }
-    }   
+  async findAll(filters: FiltersProductDto) {
+    try {
+      // Построение объекта фильтрации на основе входных параметров
+      const filterQuery: any = {};
 
-    async findAll (filters:FiltersProductDto){
-        try {
-            // Построение объекта фильтрации на основе входных параметров
-            const filterQuery: any = {};
+      if (filters.categorieIds && filters.categorieIds.length > 0) {
+        filterQuery.categorieId = { $in: filters.categorieIds };
+      }
 
-            if (filters.categorieIds && filters.categorieIds.length > 0) {
-                filterQuery.categorieId = { $in: filters.categorieIds };
-            }
+      if (filters.brandIds && filters.brandIds.length > 0) {
+        filterQuery.brandId = { $in: filters.brandIds };
+      }
 
-            if (filters.brandIds && filters.brandIds.length > 0) {
-                filterQuery.brandId = { $in: filters.brandIds };
-            }
+      if (filters.modelIds && filters.modelIds.length > 0) {
+        filterQuery.modelId = { $in: filters.modelIds };
+      }
 
-            if (filters.modelIds && filters.modelIds.length > 0) {
-                filterQuery.modelId = { $in: filters.modelIds };
-            }
+      if (filters.minPrice) {
+        filterQuery.price = { $gte: filters.minPrice };
+      }
 
-            if (filters.minPrice) {
-                filterQuery.price = { $gte: filters.minPrice };
-            }
+      if (filters.maxPrice) {
+        filterQuery.price = { ...filterQuery.price, $lte: filters.maxPrice };
+      }
 
-            if (filters.maxPrice) {
-                filterQuery.price = { ...filterQuery.price, $lte: filters.maxPrice };
-            }
-
-            return this.productsModel.find(filterQuery).exec();
-        } catch (error) {
-           
-            throw error;
-        }
+      return this.productsModel.find(filterQuery).exec();
+    } catch (error) {
+      throw error;
     }
+  }
 
-    async findAllProductsById(ids: string[]) {
-       
-        try {
-            const idsObject = ids?.map(id => new Types.ObjectId(id))
-
-            const products = await this.productsModel.find({
-                _id: { $in: idsObject },
-            }).exec();
-    
-            return products;
-        } catch (error) {
-            // Обработка ошибок при поиске по _id
-            throw error;
-        }
+  async searchProd(text: string) {
+    try {
+      return this.productsModel
+        .find({
+          $or: [
+            { title: { $in: [new RegExp(text, 'i')] } },
+            { description: { $in: [new RegExp(text, 'i')] } },
+          ],
+        })
+        .limit(4)
+        .exec();
+    } catch (error) {
+      throw error;
     }
+  }
+
+  async findAllProductsById(ids: string[]) {
+    try {
+      const idsObject = ids?.map((id) => new Types.ObjectId(id));
+
+      const products = await this.productsModel
+        .find({
+          _id: { $in: idsObject },
+        })
+        .exec();
+
+      return products;
+    } catch (error) {
+      // Обработка ошибок при поиске по _id
+      throw error;
+    }
+  }
 }

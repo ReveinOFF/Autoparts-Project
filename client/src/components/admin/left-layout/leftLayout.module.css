@@ -1,0 +1,34 @@
+.ly {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100%;
+}
+
+.left_modal {
+  border-right: 1px solid #000000;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.left_modal nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.left_modal nav a {
+  color: #000000;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 15px 38px;
+}
+
+.left_modal nav a:is(.active) {
+  font-weight: 700;
+  background-color: #fdb819;
+}
+
+.left_modal img {
+  margin: 15px;
+}

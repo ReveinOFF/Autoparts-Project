@@ -81,6 +81,45 @@ header {
   display: flex;
 }
 
+.search_f {
+  border-color: #000000;
+  border-style: solid;
+  border-width: 1px;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(50px);
+  transition: all 500ms;
+  background: #ffffff;
+}
+
+.search_f > a {
+  display: flex;
+  align-items: center;
+  color: #5d8bff;
+  font-size: 17px;
+  font-weight: 400;
+  gap: 25px;
+  padding: 0 15px;
+  height: 45px;
+}
+
+.search_f > a:hover {
+  background: #d9d9d9;
+}
+
+.search_active > .search_f {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.header_bottom nav > a:hover {
+  background-color: #ffc641;
+}
+
 .header_bottom nav > a,
 .category > div:first-child {
   padding: 15px 22px;
@@ -95,6 +134,22 @@ header {
 
 .category {
   background-color: #fdb819;
+  position: relative;
+}
+
+.category > div:first-of-type > img:last-of-type {
+  rotate: -90deg;
+  transition: rotate 500ms;
+}
+
+.active_cat > .cat_modal {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.active_cat > div:first-of-type > img:last-of-type {
+  rotate: 0deg;
 }
 
 .category > div:first-child {
@@ -103,10 +158,36 @@ header {
   gap: 10px;
 }
 
+.cat_modal {
+  background-color: #fdb819;
+  display: grid;
+  position: absolute;
+  gap: 10px;
+  padding: 10px 15px;
+  top: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  border: 1px solid #000000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(50px);
+  transition: all 500ms;
+}
+
+.cat_modal > a {
+  color: #000000;
+  white-space: nowrap;
+}
+
+.cat_modal > a:hover {
+  color: #ffffff;
+}
+
 .search_block {
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
+  position: relative;
 }
 
 .search_block input {
@@ -124,6 +205,13 @@ header {
   border-bottom-right-radius: 5px;
   background: #fdb819;
   padding-inline: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.search_block button:hover > img {
+  filter: invert(100%) sepia(0%) saturate(7476%) hue-rotate(111deg)
+    brightness(108%) contrast(108%);
 }
 
 .cart {

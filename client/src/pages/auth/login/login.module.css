@@ -2,7 +2,8 @@
   background-image: url("../../../assets/images/auth/AuthBg.png");
   height: 100%;
   width: 100%;
-  background-size: cover;
+  background-size: 1100px;
+  background-repeat: repeat;
 }
 
 .login > div {
@@ -74,4 +75,18 @@
 
 .formPart {
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1000px) {
+  .login form {
+    padding: 4%;
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .login form {
+    margin-right: auto;
+    width: 100%;
+  }
 }

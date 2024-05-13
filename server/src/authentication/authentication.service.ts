@@ -103,6 +103,38 @@ export class AuthenticationService {
     return { ...authUser, token };
   }
 
+  async adminLogin(dto: AuthDto): Promise<{ token: string }> {
+    const { login, password } = dto;
+
+    const user = await this.authModel.findOne({ login });
+
+    if (!user || user.role !== ROLE.ADMIN) {
+      throw new HttpException('INCORECT_LOGIN', HttpStatus.NOT_FOUND);
+    }
+
+    const isAuth = await bcrypt.compare(password, user.password);
+
+    if (!isAuth) {
+      throw new HttpException(INCORECT_PWD, HttpStatus.NOT_FOUND);
+    }
+
+    const token = await this.jwtService.signAsync(
+      { login, role: user.role, _id: user._id },
+      {
+        secret: this.configService.get('JWT_SECRET') || '6TzPv26KfZguepuKu4rM',
+        expiresIn: '30d',
+      },
+    );
+
+    const authUser = (
+      await this.authModel
+        .findOneAndUpdate({ _id: user._id }, { token, lastEntered: new Date() })
+        .select('name surname role login')
+    ).toObject();
+
+    return { ...authUser, token };
+  }
+
   async refresh(token: string) {
     const user = await this.authModel
       .findOne({ token })

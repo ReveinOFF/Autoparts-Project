@@ -16,10 +16,15 @@ export class ProductController {
     return this.productService.findAll(filters);
   }
 
+  @Post('search-product')
+  async searchProd(@Body('text') text: string) {
+    return this.productService.searchProd(text);
+  }
+
   @Post('all-product-by-id')
   async findAllProductsById(@Body() ids: string[]) {
-    console.log("ids",ids);
-    
+    console.log('ids', ids);
+
     return this.productService.findAllProductsById(ids);
   }
 }
