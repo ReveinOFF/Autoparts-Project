@@ -1,0 +1,35 @@
+.lang_list {
+  background-color: gainsboro;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 150px;
+}
+
+.lang_block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.lang_block:last-of-type {
+  margin-top: 20px;
+}
+
+.lang_block label {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.lang_block input {
+  width: 20px;
+  height: 20px;
+}
+
+.lang_block img {
+  object-fit: cover;
+}

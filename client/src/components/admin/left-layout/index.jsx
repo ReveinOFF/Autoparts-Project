@@ -54,9 +54,9 @@ export default function LeftLayout() {
             Єкспорт/Імпорт
           </NavLink>
           <NavLink
-            to="/admin/edit/course"
+            to="/admin/edit/curr"
             className={
-              location.pathname === "/admin/edit/course" ? styles.active : null
+              location.pathname === "/admin/edit/curr" ? styles.active : null
             }
           >
             Валюта

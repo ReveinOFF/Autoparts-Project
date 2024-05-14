@@ -22,38 +22,3 @@ export class CategoriesController {
     return await this.categoriesService.Delete(id);
   }
 }
-
-// [
-//   id_brand,
-//   [
-//     id_categiries1,
-//     [
-//       id_subcategories1,
-//       [
-//         id_subsubcategories1,
-//         [
-
-//         ],
-//         id_subsubcategories2,
-//         [
-
-//         ],
-//       ]
-//       id_subcategories2,
-//       [
-
-//       ]
-//     ],
-//     id_categiries2,
-//     [
-//      id_subcategories1,
-//      [
-
-//      ]
-//      id_subcategories2,
-//      [
-
-//      ]
-//     ],
-//   ]
-// ]

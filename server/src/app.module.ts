@@ -9,6 +9,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { StructureRoutesModule } from './structure-routes/structure-routes.module';
 import { ProductModule } from './product/product.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { LangModule } from './lang/lang.module';
+import { CurrModule } from './currency/currency.module';
 
 @Module({
   imports: [
@@ -16,13 +18,11 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       isGlobal: true,
       envFilePath: path.join(__dirname, '.env'),
     }),
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '..', 'upload'),
+    }),
     MongooseModule.forRootAsync({
-      imports: [
-        ConfigModule,
-        ServeStaticModule.forRoot({
-          rootPath: path.join(__dirname, '..', 'upload'),
-        }),
-      ],
+      imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const uri = configService.get('MONGO_LINK');
@@ -41,6 +41,9 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     CategoriesModule,
     StructureRoutesModule,
     ProductModule,
+    LangModule,
+    CurrModule,
   ],
+  controllers: [],
 })
 export class AppModule {}

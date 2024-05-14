@@ -1,0 +1,62 @@
+.course_list {
+  background-color: gainsboro;
+  border-radius: 10px;
+  margin-right: 30px;
+  margin-top: 50px;
+  border: 1px solid black;
+}
+
+.course_block {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.course_block > div {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.course_block > div:first-of-type {
+  font-size: 25px;
+  margin-top: -4px;
+  margin-right: 10px;
+}
+
+.course_block:not(:last-of-type) {
+  border-bottom: 1px solid black;
+}
+
+.course_block > img {
+  margin-left: auto;
+  filter: invert(27%) sepia(99%) saturate(7228%) hue-rotate(357deg)
+    brightness(108%) contrast(116%);
+  cursor: pointer;
+}
+
+.input {
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid gray;
+  width: 250px;
+  display: flex;
+  margin-inline: auto;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn {
+  border-radius: 10px;
+  background-color: rgb(34, 185, 34);
+  padding: 10px 60px;
+  margin-top: 10px;
+  margin-inline: auto;
+  display: flex;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.btn:hover {
+  background-color: rgb(37, 207, 37);
+}

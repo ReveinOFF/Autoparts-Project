@@ -18,6 +18,8 @@ import AdminHome from "./pages/admin/home";
 import AdminCategory from "./pages/admin/category";
 import ExportImport from "./pages/admin/export";
 import AdminProduct from "./pages/admin/product";
+import LangAdmin from "./pages/admin/lang";
+import AdminCourse from "./pages/admin/course";
 
 export default function App() {
   return (
@@ -67,6 +69,8 @@ export default function App() {
           <Route path="category" element={<AdminCategory />} />
           <Route path="exp" element={<ExportImport />} />
           <Route path="products" element={<AdminProduct />} />
+          <Route path="lang" element={<LangAdmin />} />
+          <Route path="curr" element={<AdminCourse />} />
         </Route>
       </Route>
     </Routes>
