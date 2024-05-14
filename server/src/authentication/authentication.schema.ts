@@ -13,25 +13,28 @@ export class Authentication {
   password: string;
 
   @Prop()
-  role: ROLE
+  role: ROLE;
 
   @Prop()
   token: string;
 
   @Prop()
   name: string;
-  
+
   @Prop()
   surname: string;
 
   @Prop()
-  address: string
+  address: string;
+
+  @Prop()
+  phone: string;
 
   @Prop()
   registrationDate: Date;
 }
 
-export const AuthenticationSchema = SchemaFactory.createForClass(Authentication);
-
+export const AuthenticationSchema =
+  SchemaFactory.createForClass(Authentication);
 
 // .insertOne({login: 'Veronika', role: admin ,password: '$2a$12$6EgNB/y5sqPvsDjRav79zezQaAEQgSO.2Xfmxu6eSq9.XG9rMZivK',token: '',lastEntered: new Date(), })

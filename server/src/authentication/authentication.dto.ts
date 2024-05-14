@@ -11,11 +11,20 @@ export class UserIdDto {
   userId: string;
 }
 
-export class ChangePasswordDto extends UserIdDto{
+export class ChangePasswordDto extends UserIdDto {
+  oldPassword: string;
   newPassword: string;
 }
 
-export class RegistrationDto extends AuthDto{
+export class ChangeUserDto extends UserIdDto {
+  login: string;
+  name: string;
+  surname: string;
+  address: string;
+  phone: string;
+}
+
+export class RegistrationDto extends AuthDto {
   name: string;
   surname: string;
 }

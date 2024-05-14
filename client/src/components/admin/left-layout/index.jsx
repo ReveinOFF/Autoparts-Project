@@ -46,6 +46,22 @@ export default function LeftLayout() {
             Мова
           </NavLink>
           <NavLink
+            to="/admin/edit/mark"
+            className={
+              location.pathname === "/admin/edit/mark" ? styles.active : null
+            }
+          >
+            Марка, модель
+          </NavLink>
+          <NavLink
+            to="/admin/edit/pages"
+            className={
+              location.pathname === "/admin/edit/pages" ? styles.active : null
+            }
+          >
+            Сторінки
+          </NavLink>
+          <NavLink
             to="/admin/edit/exp"
             className={
               location.pathname === "/admin/edit/exp" ? styles.active : null

@@ -38,6 +38,11 @@ export default function Header() {
       .catch((e) => alert(e));
   }, []);
 
+  useEffect(() => {
+    if (localStorage.getItem("token"))
+      dispatch({ type: AUTH_USER_ACTION, payload: { isAuth: true } });
+  }, []);
+
   const searchProduct = () => {
     if (searchValue.length > 0) {
       axios
@@ -147,7 +152,7 @@ export default function Header() {
             </button>
             <div className={styles.search_f}>
               {products?.map((item) => (
-                <Link to="/" key={item._id}>
+                <Link to={`/product/${item._id}`} key={item._id}>
                   <img src={searchImg} alt="search" width={15} height={15} />{" "}
                   {item.title}
                 </Link>

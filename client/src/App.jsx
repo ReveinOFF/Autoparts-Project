@@ -20,6 +20,9 @@ import ExportImport from "./pages/admin/export";
 import AdminProduct from "./pages/admin/product";
 import LangAdmin from "./pages/admin/lang";
 import AdminCourse from "./pages/admin/course";
+import AdminSetting from "./pages/admin/settings";
+import AdminMark from "./pages/admin/mark";
+import AdminPages from "./pages/admin/pages";
 
 export default function App() {
   return (
@@ -71,6 +74,9 @@ export default function App() {
           <Route path="products" element={<AdminProduct />} />
           <Route path="lang" element={<LangAdmin />} />
           <Route path="curr" element={<AdminCourse />} />
+          <Route path="setting" element={<AdminSetting />} />
+          <Route path="mark" element={<AdminMark />} />
+          <Route path="pages" element={<AdminPages />} />
         </Route>
       </Route>
     </Routes>

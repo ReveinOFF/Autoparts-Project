@@ -4,15 +4,19 @@ import {
   Post,
   HttpException,
   HttpStatus,
-  UseGuards,
   Get,
-  Req,
+  Put,
+  Param,
 } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
-import { AuthDto, LogouthDto, RegistrationDto } from './authentication.dto';
-import { JwtAuthGuard } from './authentication.guard';
+import {
+  AuthDto,
+  ChangePasswordDto,
+  ChangeUserDto,
+  LogouthDto,
+  RegistrationDto,
+} from './authentication.dto';
 import { LOGOUT_SUCCESS, TOKEN_NOT_FOUND_MESSAGE } from 'src/utils/AppMessage';
-import { Request } from 'express';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -68,8 +72,18 @@ export class AuthenticationController {
     return { message: LOGOUT_SUCCESS };
   }
 
-  @Get('get-user-statistic')
-  async getUserStatistic() {
-    return await this.authService.getUserStatistic();
+  @Get('user/:id')
+  async getUser(@Param('id') id: string) {
+    return await this.authService.getUser(id);
+  }
+
+  @Put('user/edit')
+  async UpdateUser(@Body() data: ChangeUserDto) {
+    return await this.authService.changeUser(data);
+  }
+
+  @Put('pass/edit')
+  async UpdatePass(@Body() data: ChangePasswordDto) {
+    return await this.authService.changePassword(data);
   }
 }

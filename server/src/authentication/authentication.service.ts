@@ -5,22 +5,19 @@ import { Authentication } from './authentication.schema';
 import {
   AuthDto,
   ChangePasswordDto,
+  ChangeUserDto,
   LogouthDto,
   RegistrationDto,
-  UserIdDto,
 } from './authentication.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { ROLE } from 'src/types/types';
 import {
-  INCORECT_LOGIN,
   INCORECT_PWD,
   INVALID_TOKEN_MESSAGE,
   USER_ALREADY_CREATED,
 } from 'src/utils/AppMessage';
-
-// console.log( "--->",bcrypt.hashSync('',3),"<---");
 
 @Injectable()
 export class AuthenticationService {
@@ -151,64 +148,35 @@ export class AuthenticationService {
     return;
   }
 
-  async changePassword(dto: ChangePasswordDto): Promise<void> {
-    const { userId, newPassword } = dto;
-    const hashPassword = await bcrypt.hash(newPassword, 3);
-    await this.authModel.findOneAndUpdate(
-      { _id: userId },
-      { password: hashPassword },
-    );
-    return;
-  }
-
-  async deleteUser(dto: UserIdDto): Promise<void> {
-    const { userId } = dto;
-    await this.authModel.deleteOne({ _id: userId });
-    return;
-  }
-
-  async getAllUser() {
-    return await this.authModel
-      .find({ role: { $ne: 'admin' } })
-      .select('-password')
-      .select('-token');
-  }
-
-  async getUserStatistic() {
+  async changePassword(dto: ChangePasswordDto) {
     try {
-      const result: { date: Date; count: number }[] = [];
+      const { userId, newPassword, oldPassword } = dto;
 
-      for (let i = 0; i < 10; i++) {
-        const currentDate = new Date();
-        currentDate.setDate(currentDate.getDate() - i);
-
-        const count = await this.authModel.countDocuments({
-          registrationDate: {
-            $gte: new Date(
-              currentDate.getFullYear(),
-              currentDate.getMonth(),
-              currentDate.getDate(),
-              0,
-              0,
-              0,
-            ),
-            $lt: new Date(
-              currentDate.getFullYear(),
-              currentDate.getMonth(),
-              currentDate.getDate() + 1,
-              0,
-              0,
-              0,
-            ),
-          },
-        });
-
-        result.push({ date: currentDate, count });
+      const user = await this.authModel.findById(userId);
+      if (!user) {
+        throw new Error('User not found');
       }
 
-      return result.reverse();
+      const passwordMatch = await bcrypt?.compare(oldPassword, user?.password);
+      if (!passwordMatch) {
+        throw new Error('Old password is incorrect');
+      }
+
+      const hashPassword = await bcrypt.hash(newPassword, 10);
+
+      return await this.authModel.findByIdAndUpdate(userId, {
+        password: hashPassword,
+      });
     } catch (error) {
-      throw error;
+      throw new Error('Failed to change password: ' + error.message);
     }
+  }
+
+  async getUser(id: string): Promise<Authentication> {
+    return await this.authModel.findById(id).exec();
+  }
+
+  async changeUser(data: ChangeUserDto) {
+    return await this.authModel.findByIdAndUpdate(data.userId, data).exec();
   }
 }
