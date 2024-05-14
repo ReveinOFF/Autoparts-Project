@@ -4,42 +4,44 @@ import { Categories } from './categories.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-
 @Injectable()
 export class CategoriesService {
+  constructor(
+    @InjectModel(Categories.name) private categoriesModel: Model<Categories>,
+  ) {}
 
-    constructor(
-        @InjectModel(Categories.name) private categoriesModel: Model<Categories>,
-      ) {}
-    
+  async create(createCategoriesDto: CreateCatogoriesDto) {
+    try {
+      const { title } = createCategoriesDto;
 
-    async create(createCategoriesDto: CreateCatogoriesDto) {
-        try {
-          const { title } = createCategoriesDto;
-      
-          const brand = await this.categoriesModel.findOne({ title });
-      
-          if (brand) {
-            throw new HttpException('BRAND ALREADY EXISTS', HttpStatus.BAD_REQUEST);
-          }
+      const brand = await this.categoriesModel.findOne({ title });
 
-          const newBrand = await this.categoriesModel.create(createCategoriesDto);
-      
-          return newBrand;
-        } catch (error) {
-          throw error; 
-        }
+      if (brand) {
+        throw new HttpException('BRAND ALREADY EXISTS', HttpStatus.BAD_REQUEST);
       }
 
-    async getAll(){
-        try {
-            return await this.categoriesModel.find()
-        } catch (error) {
-            throw error; 
-        }
-    }
+      const newBrand = await this.categoriesModel.create(createCategoriesDto);
 
- 
-  
-    
+      return newBrand;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async Delete(id: string) {
+    try {
+      return await this.categoriesModel.findByIdAndDelete(id);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getAll() {
+    try {
+      return await this.categoriesModel.find();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

@@ -1,6 +1,18 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+  Request,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { AddProductDto, FiltersProductDto } from './product.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('product')
 export class ProductController {
@@ -9,6 +21,11 @@ export class ProductController {
   @Post('add-product')
   async create(@Body() createProductDto: AddProductDto) {
     return await this.productService.create(createProductDto);
+  }
+
+  @Delete('delete-product/:id')
+  async delete(@Param('id') id: string) {
+    return await this.productService.Delete(id);
   }
 
   @Post('all-product')
@@ -23,8 +40,17 @@ export class ProductController {
 
   @Post('all-product-by-id')
   async findAllProductsById(@Body() ids: string[]) {
-    console.log('ids', ids);
-
     return this.productService.findAllProductsById(ids);
+  }
+
+  @Get('export')
+  async exportProduct(@Query('format') format: string) {
+    return this.productService.exportProductsToFormat(format);
+  }
+
+  @Post('import')
+  @UseInterceptors(FileInterceptor('file'))
+  async importProduct(@UploadedFile() file: Express.Multer.File) {
+    return this.productService.importProductsFromFile(file);
   }
 }

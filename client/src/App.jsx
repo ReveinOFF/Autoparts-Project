@@ -16,6 +16,8 @@ import Product from "./pages/product";
 import LeftLayout from "./components/admin/left-layout";
 import AdminHome from "./pages/admin/home";
 import AdminCategory from "./pages/admin/category";
+import ExportImport from "./pages/admin/export";
+import AdminProduct from "./pages/admin/product";
 
 export default function App() {
   return (
@@ -62,7 +64,9 @@ export default function App() {
           }
         >
           <Route path="home" element={<AdminHome />} />
-          <Route path="home" element={<AdminCategory />} />
+          <Route path="category" element={<AdminCategory />} />
+          <Route path="exp" element={<ExportImport />} />
+          <Route path="products" element={<AdminProduct />} />
         </Route>
       </Route>
     </Routes>

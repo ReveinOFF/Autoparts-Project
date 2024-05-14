@@ -1,0 +1,47 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.import {
+  background: rgb(36, 218, 36);
+  padding: 20px;
+}
+
+.import:hover {
+  background: rgb(65, 200, 65);
+}
+
+.import > input {
+  display: none;
+}
+
+.import,
+.export1,
+.export2 {
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.export1,
+.export2 {
+  background: rgb(36, 127, 218);
+  padding: 18px;
+}
+
+.export1:hover,
+.export2:hover {
+  background: rgb(57, 121, 185);
+  padding: 18px;
+}
+
+.export1 {
+  margin-top: 30px;
+}
+
+.export2 {
+  margin-top: 10px;
+}

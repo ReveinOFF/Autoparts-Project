@@ -8,6 +8,7 @@ import { FilesModule } from './files/files.module';
 import { CategoriesModule } from './categories/categories.module';
 import { StructureRoutesModule } from './structure-routes/structure-routes.module';
 import { ProductModule } from './product/product.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
@@ -16,7 +17,12 @@ import { ProductModule } from './product/product.module';
       envFilePath: path.join(__dirname, '.env'),
     }),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [
+        ConfigModule,
+        ServeStaticModule.forRoot({
+          rootPath: path.join(__dirname, '..', 'upload'),
+        }),
+      ],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const uri = configService.get('MONGO_LINK');

@@ -14,6 +14,11 @@ body {
   margin: 0 auto;
 }
 
+.container_a {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
 body > div {
   display: grid;
   grid-template-columns: 1fr;
@@ -82,4 +87,110 @@ button {
 
 .pages > div {
   cursor: default;
+}
+
+.container_a > a {
+  border-radius: 10px;
+  background-color: rgb(24, 170, 228);
+  font-weight: 600;
+  font-size: 20px;
+  padding: 15px 20px;
+}
+
+.container_a > a:hover {
+  background-color: rgb(73, 183, 226);
+}
+
+.list_a {
+  margin-top: 30px;
+  border: 1px solid black;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-right: 20px;
+}
+
+.item_a1,
+.item_a2 {
+  display: flex;
+  background-color: #d8d8d8;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.item_a1 {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item_a2 img {
+  width: 100px;
+  margin-right: 20px;
+  border-radius: 10px;
+}
+
+.item_a1:not(:last-of-type),
+.item_a2:not(:last-of-type) {
+  margin-bottom: 10px;
+}
+
+.item_a1 .title,
+.item_a2 .title {
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: underline;
+}
+
+.item_a1 .desc,
+.item_a2 .desc {
+  margin-top: 5px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.item_a2 .price {
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.item_a2 .desc {
+  margin-top: 20px;
+}
+
+.item_a2 > div:last-of-type {
+  margin-left: auto;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item_a1 > div:last-of-type {
+  display: flex;
+  gap: 10px;
+}
+
+.item_a1 > div:last-of-type > button,
+.item_a2 > div:last-of-type > button {
+  border-radius: 10px;
+  background-color: red;
+  padding: 15px 20px;
+}
+
+.item_a1 > div:last-of-type > button:hover,
+.item_a2 > div:last-of-type > button:hover {
+  background-color: rgb(255, 106, 106);
+}
+
+.item_a1 > div:last-of-type > a,
+.item_a2 > div:last-of-type > a {
+  border-radius: 10px;
+  background-color: rgb(60, 193, 60);
+  padding: 15px 20px;
+}
+
+.item_a1 > div:last-of-type > a:hover,
+.item_a2 > div:last-of-type > a:hover {
+  background-color: rgb(74, 224, 74);
 }
