@@ -8,7 +8,7 @@ export default function AdminProduct() {
   const [data, setData] = useState([]);
 
   const getProd = async () => {
-    const res = await ProductHttp.getProduct();
+    const res = await ProductHttp.getProducts();
     setData(res.data);
     console.log(res.data.image);
   };
@@ -43,7 +43,7 @@ export default function AdminProduct() {
               <div className="price">{item.price}$</div>
             </div>
             <div>
-              <Link to={`/admin/edit/products/${item._id}`}>Змінити</Link>
+              <Link to={item._id}>Змінити</Link>
               <button onClick={() => deleteProd(item._id)}>Видалити</button>
             </div>
           </div>

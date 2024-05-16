@@ -32,4 +32,14 @@ export class ModeleController {
   async findAll() {
     return this.modeleService.findAll();
   }
+
+  @Get('one-modele/:id')
+  async findOne(@Param('id') id: string) {
+    return this.modeleService.findOne(id);
+  }
+
+  @Post('modele-mark')
+  async findByMark(@Body() id: string[]) {
+    return this.modeleService.findByMark(id);
+  }
 }

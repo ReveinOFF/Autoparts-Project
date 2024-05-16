@@ -7,9 +7,23 @@ export class CategoriesHttp {
       payload
     );
   }
+
+  static async putCategories(payload) {
+    return await axios.put(
+      `${process.env.REACT_APP_HOST}/categories/update-categories`,
+      payload
+    );
+  }
+
   static async getCategories() {
     return await axios.get(
       `${process.env.REACT_APP_HOST}/categories/all-categories`
+    );
+  }
+
+  static async getCategory(id) {
+    return await axios.get(
+      `${process.env.REACT_APP_HOST}/categories/one-category/${id}`
     );
   }
 }

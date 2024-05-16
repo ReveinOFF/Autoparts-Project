@@ -52,4 +52,12 @@ export class CategoriesService {
       throw error;
     }
   }
+
+  async getOne(id: string) {
+    try {
+      return await this.categoriesModel.findById(id).exec();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

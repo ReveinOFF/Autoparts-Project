@@ -41,4 +41,24 @@ export class MarkService {
       throw error;
     }
   }
+
+  async findOne(id: string) {
+    try {
+      return this.markModel.findById(id).exec();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findByCat(id: string[]) {
+    try {
+      return this.markModel
+        .find({
+          categoryIds: { $in: id },
+        })
+        .exec();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

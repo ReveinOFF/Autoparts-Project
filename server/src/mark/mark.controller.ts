@@ -32,4 +32,14 @@ export class MarkController {
   async findAll() {
     return this.markService.findAll();
   }
+
+  @Get('one-mark/:id')
+  async findOne(@Param('id') id: string) {
+    return this.markService.findOne(id);
+  }
+
+  @Post('mark-cat')
+  async findByCat(@Body() id: string[]) {
+    return this.markService.findByCat(id);
+  }
 }

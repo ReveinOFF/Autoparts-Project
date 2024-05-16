@@ -23,6 +23,8 @@ import AdminCourse from "./pages/admin/course";
 import AdminSetting from "./pages/admin/settings";
 import AdminMark from "./pages/admin/mark";
 import AdminPages from "./pages/admin/pages";
+import AddCategory from "./pages/admin/addCategory";
+import AddProduct from "./pages/admin/addProduct";
 
 export default function App() {
   return (
@@ -70,8 +72,10 @@ export default function App() {
         >
           <Route path="home" element={<AdminHome />} />
           <Route path="category" element={<AdminCategory />} />
+          <Route path="category/:id" element={<AddCategory />} />
           <Route path="exp" element={<ExportImport />} />
           <Route path="products" element={<AdminProduct />} />
+          <Route path="products/:id" element={<AddProduct />} />
           <Route path="lang" element={<LangAdmin />} />
           <Route path="curr" element={<AdminCourse />} />
           <Route path="setting" element={<AdminSetting />} />

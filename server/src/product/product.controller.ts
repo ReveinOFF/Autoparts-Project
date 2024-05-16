@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   Query,
-  Request,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -37,6 +36,11 @@ export class ProductController {
   @Post('all-product')
   async findAll(@Body() filters: FiltersProductDto) {
     return this.productService.findAll(filters);
+  }
+
+  @Get('get-product/:id')
+  async findOne(@Param('id') id: string) {
+    return this.productService.findOne(id);
   }
 
   @Post('search-product')

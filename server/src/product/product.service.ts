@@ -72,6 +72,28 @@ export class ProductService {
     }
   }
 
+  async findOne(id: string) {
+    return await this.productsModel.findById(id).exec();
+  }
+
+  async findOneWithCat(id: string) {
+    return await this.productsModel
+      .aggregate([
+        {
+          $match: { _id: id },
+        },
+        {
+          $lookup: {
+            from: 'modele',
+            localField: 'modelId',
+            foreignField: '_id',
+            as: 'modele',
+          },
+        },
+      ])
+      .exec();
+  }
+
   async searchProd(text: string) {
     try {
       return this.productsModel

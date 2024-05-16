@@ -1,0 +1,124 @@
+.h1 {
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  gap: 15px;
+  justify-content: center;
+}
+
+.form fieldset {
+  border: 0;
+  display: grid;
+  justify-content: center;
+}
+
+.form label {
+  margin-bottom: 10px;
+}
+
+.form input,
+.form textarea {
+  border-radius: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.471);
+  padding: 10px;
+  width: 500px;
+}
+
+.form input[type="file"] {
+  display: none;
+}
+
+.form textarea {
+  resize: none;
+  height: 200px;
+}
+
+.form > textarea > div > span {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.form .sl:is(.disable) {
+  cursor: not-allowed;
+  color: gray;
+}
+
+.form > button {
+  background-color: rgb(23, 176, 23);
+  border-radius: 10px;
+  padding: 20px 10px;
+  width: 200px;
+  margin-inline: auto;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 50px;
+}
+
+.form > button:hover {
+  background-color: rgb(33, 217, 33);
+}
+
+.form fieldset > button {
+  background-color: rgb(172, 216, 59);
+  border-radius: 10px;
+  padding: 20px 10px;
+  width: 200px;
+  margin-inline: auto;
+  font-size: 18px;
+  font-weight: 600;
+  margin-block: 10px;
+}
+
+.form fieldset > button:hover {
+  background-color: rgb(183, 239, 39);
+}
+
+.form .selector {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 500px;
+}
+
+.form .sl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(128, 128, 128, 0.451);
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  width: 500px;
+}
+
+.form .sl > img {
+  rotate: -90deg;
+}
+
+.form .images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.form .images > div {
+  position: relative;
+}
+
+.form .images > div > img:first-of-type {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border-radius: 50%;
+  filter: invert(15%) sepia(93%) saturate(6754%) hue-rotate(4deg)
+    brightness(111%) contrast(120%);
+  cursor: pointer;
+}
+
+.form .images > div > img:last-of-type {
+  width: 100%;
+  border-radius: 10px;
+}

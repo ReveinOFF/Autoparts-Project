@@ -24,7 +24,7 @@ export default function AdminCategory() {
 
   return (
     <div className="container_a">
-      <Link to="add">Добавить</Link>
+      <Link to="/admin/edit/category/add">Добавить</Link>
       <div className="list_a">
         {data?.map((item) => (
           <div className="item_a1" key={item._id}>

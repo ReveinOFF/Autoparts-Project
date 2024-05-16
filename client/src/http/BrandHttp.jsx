@@ -7,8 +7,17 @@ export class BrandHttp {
       payload
     );
   }
+
   static async getBrands() {
-    return await axios.get(`${process.env.REACT_APP_HOST}/brand/all-brand`);
+    return await axios.get(`${process.env.REACT_APP_HOST}/mark/all-mark`);
+  }
+
+  static async getBrand(id) {
+    return await axios.get(`${process.env.REACT_APP_HOST}/mark/one-mark/${id}`);
+  }
+
+  static async getBrandByCat(id) {
+    return await axios.post(`${process.env.REACT_APP_HOST}/mark/mark-cat`, id);
   }
 
   static async addModel(payload) {
@@ -17,11 +26,18 @@ export class BrandHttp {
       payload
     );
   }
-  static async getModels({ id }) {
-    return await axios.get(
-      `${process.env.REACT_APP_HOST}/brand/all-models-id/${id}`
+
+  static async getModels() {
+    return await axios.get(`${process.env.REACT_APP_HOST}/modele/all-modele`);
+  }
+
+  static async getModelByMark(id) {
+    return await axios.post(
+      `${process.env.REACT_APP_HOST}/modele/modele-mark`,
+      id
     );
   }
+
   static async getAllModels() {
     return await axios.get(`${process.env.REACT_APP_HOST}/brand/all-models`);
   }

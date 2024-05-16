@@ -12,7 +12,10 @@ export class Mark {
   description: string;
 
   @Prop()
-  image: string[];
+  image: string;
+
+  @Prop()
+  categoryIds: string[];
 }
 
 export const MarkSchema = SchemaFactory.createForClass(Mark);

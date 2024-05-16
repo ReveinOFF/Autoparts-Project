@@ -41,4 +41,24 @@ export class ModeleService {
       throw error;
     }
   }
+
+  async findOne(id: string) {
+    try {
+      return this.modeleModel.findById(id).exec();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findByMark(id: string[]) {
+    try {
+      return this.modeleModel
+        .find({
+          markIds: { $in: id },
+        })
+        .exec();
+    } catch (error) {
+      throw error;
+    }
+  }
 }
