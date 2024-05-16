@@ -14,7 +14,6 @@ import {
   ChangePasswordDto,
   ChangeUserDto,
   LogouthDto,
-  RegistrationDto,
 } from './authentication.dto';
 import { LOGOUT_SUCCESS, TOKEN_NOT_FOUND_MESSAGE } from 'src/utils/AppMessage';
 
@@ -23,7 +22,7 @@ export class AuthenticationController {
   constructor(private authService: AuthenticationService) {}
 
   @Post('registration')
-  async registration(@Body() createAuthDto: RegistrationDto) {
+  async registration(@Body() createAuthDto) {
     const newUser = await this.authService.registration(createAuthDto);
     if (!newUser.token) {
       throw new HttpException(TOKEN_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);

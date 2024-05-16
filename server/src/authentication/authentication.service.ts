@@ -7,17 +7,16 @@ import {
   ChangePasswordDto,
   ChangeUserDto,
   LogouthDto,
-  RegistrationDto,
 } from './authentication.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { ROLE } from 'src/types/types';
 import {
   INCORECT_PWD,
   INVALID_TOKEN_MESSAGE,
   USER_ALREADY_CREATED,
 } from 'src/utils/AppMessage';
+import { ROLE } from 'src/enum/enum';
 
 @Injectable()
 export class AuthenticationService {
@@ -27,7 +26,7 @@ export class AuthenticationService {
     private readonly configService: ConfigService,
   ) {}
 
-  async registration(dto: RegistrationDto) {
+  async registration(dto) {
     const { login, password } = dto;
 
     const isUserCreated = await this.authModel.findOne({ login });

@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export type BrandType = HydratedDocument<Brand>;
+export type MarkType = HydratedDocument<Mark>;
 
 @Schema()
-export class Brand {
+export class Mark {
   @Prop()
   title: string;
 
@@ -15,4 +15,4 @@ export class Brand {
   image: string[];
 }
 
-export const BrandSchema = SchemaFactory.createForClass(Brand);
+export const MarkSchema = SchemaFactory.createForClass(Mark);

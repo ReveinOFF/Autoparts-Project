@@ -23,8 +23,3 @@ export class ChangeUserDto extends UserIdDto {
   address: string;
   phone: string;
 }
-
-export class RegistrationDto extends AuthDto {
-  name: string;
-  surname: string;
-}

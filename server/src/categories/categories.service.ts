@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateCatogoriesDto } from './categories.dto';
+import { CreateCatogoriesDto, UpdateCatogoriesDto } from './categories.dto';
 import { Categories } from './categories.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -23,6 +23,14 @@ export class CategoriesService {
       const newBrand = await this.categoriesModel.create(createCategoriesDto);
 
       return newBrand;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async update(data: UpdateCatogoriesDto) {
+    try {
+      return await this.categoriesModel.findByIdAndUpdate(data._id, data);
     } catch (error) {
       throw error;
     }

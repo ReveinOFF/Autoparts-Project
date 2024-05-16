@@ -3,14 +3,14 @@ import * as path from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { BrandModule } from './brand/brand.module';
 import { FilesModule } from './files/files.module';
 import { CategoriesModule } from './categories/categories.module';
-import { StructureRoutesModule } from './structure-routes/structure-routes.module';
 import { ProductModule } from './product/product.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { LangModule } from './lang/lang.module';
 import { CurrModule } from './currency/currency.module';
+import { MarkModule } from './mark/mark.module';
+import { ModeleModule } from './modele/modele.module';
 
 @Module({
   imports: [
@@ -37,12 +37,12 @@ import { CurrModule } from './currency/currency.module';
     }),
     FilesModule,
     AuthenticationModule,
-    BrandModule,
     CategoriesModule,
-    StructureRoutesModule,
     ProductModule,
     LangModule,
     CurrModule,
+    MarkModule,
+    ModeleModule,
   ],
   controllers: [],
 })
