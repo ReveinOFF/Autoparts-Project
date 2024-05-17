@@ -178,4 +178,42 @@ export class AuthenticationService {
   async changeUser(data: ChangeUserDto) {
     return await this.authModel.findByIdAndUpdate(data.userId, data).exec();
   }
+
+  async getUserStatistic() {
+    try {
+      const result: { date: Date; count: number }[] = [];
+
+      for (let i = 0; i < 10; i++) {
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() - i);
+
+        const count = await this.authModel.countDocuments({
+          registrationDate: {
+            $gte: new Date(
+              currentDate.getFullYear(),
+              currentDate.getMonth(),
+              currentDate.getDate(),
+              0,
+              0,
+              0,
+            ),
+            $lt: new Date(
+              currentDate.getFullYear(),
+              currentDate.getMonth(),
+              currentDate.getDate() + 1,
+              0,
+              0,
+              0,
+            ),
+          },
+        });
+
+        result.push({ date: currentDate, count });
+      }
+
+      return result.reverse();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

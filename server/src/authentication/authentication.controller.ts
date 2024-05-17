@@ -85,4 +85,9 @@ export class AuthenticationController {
   async UpdatePass(@Body() data: ChangePasswordDto) {
     return await this.authService.changePassword(data);
   }
+
+  @Get('get-user-statistic')
+  async getUserStatistic() {
+    return await this.authService.getUserStatistic();
+  }
 }
