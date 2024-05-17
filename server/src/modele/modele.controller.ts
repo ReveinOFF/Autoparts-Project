@@ -42,4 +42,9 @@ export class ModeleController {
   async findByMark(@Body() id: string[]) {
     return this.modeleService.findByMark(id);
   }
+
+  @Get('a-modele-mark')
+  async findWithMark() {
+    return this.modeleService.findWithMark();
+  }
 }

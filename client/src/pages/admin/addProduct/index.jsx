@@ -7,6 +7,7 @@ import MultiSelect from "../../../components/admin/multi-select";
 import { CategoriesHttp } from "../../../http/CategoriesHttp";
 import { BrandHttp } from "../../../http/BrandHttp";
 import closeImg from "../../../assets/images/admin/ha_exit.svg";
+import { FilesHttp } from "../../../http/FileHttp";
 
 export default function AddProduct() {
   const refInp = useRef();
@@ -14,6 +15,7 @@ export default function AddProduct() {
   const [data, setData] = useState({});
   const [files, setFiles] = useState([]);
   const [urlImg, setUrlImg] = useState([]);
+  const [oldImg, setOldImg] = useState([]);
   const [model, setModel] = useState([]);
   const [mark, setMark] = useState([]);
   const [category, setCategory] = useState([]);
@@ -32,7 +34,10 @@ export default function AddProduct() {
     } else {
       ProductHttp.getProduct(id).then((res) => {
         setData(res.data);
-
+        setModelSelected(res.data.modelIds || []);
+        setMarkSelected(res.data.brandIds || []);
+        setCategorySelected(res.data.categorieIds || []);
+        setOldImg(res.data.image || []);
         setType("id");
       });
     }
@@ -48,7 +53,19 @@ export default function AddProduct() {
       formDataObject[key] = value;
     });
 
+    delete formDataObject["files"];
+    formDataObject["categorieIds"] = categorySelected;
+    formDataObject["brandIds"] = markSelected;
+    formDataObject["modelIds"] = modelSelected;
+
     if (type === "add") {
+      if (files.length > 0) {
+        const form = new FormData();
+        files.forEach((item) => form.append(`files`, item));
+        const res = await FilesHttp.uploadFile(form);
+        formDataObject["image"] = res.data;
+      }
+
       await ProductHttp.addProduct(formDataObject);
       navigate("/admin/edit/products");
     } else {
@@ -70,6 +87,11 @@ export default function AddProduct() {
   const getModel = async () => {
     const res = await BrandHttp.getModelByMark(markSelected);
     setModel(res?.data || []);
+  };
+
+  const deleteImg = (i) => {
+    setUrlImg((prev) => prev.filter((_, index) => index !== i));
+    setFiles((prev) => prev.filter((_, index) => index !== i));
   };
 
   useEffect(() => {
@@ -131,19 +153,17 @@ export default function AddProduct() {
             Загрузити фотографії
             <input
               type="file"
+              name="files"
               multiple
               accept=".jpg, .jpeg, .png"
               ref={refInp}
               onChange={(e) => {
                 if (e.target.files && e.target.files.length > 0) {
-                  console.log(e);
                   const newFiles = Array.from(e.target.files);
-                  console.log(newFiles);
                   setFiles(newFiles);
                   newFiles.forEach((item) => {
                     setUrlImg((prev) => [...prev, URL.createObjectURL(item)]);
                   });
-                  console.log(URL.createObjectURL(newFiles[0]));
                 }
               }}
             />
@@ -151,7 +171,13 @@ export default function AddProduct() {
           <div className={styles.images}>
             {urlImg?.map((item, index) => (
               <div key={index}>
-                <img src={closeImg} alt="close" width={20} height={20} />
+                <img
+                  src={closeImg}
+                  alt="delete"
+                  width={20}
+                  height={20}
+                  onClick={() => deleteImg(index)}
+                />
                 <img src={item} alt="img-url" />
               </div>
             ))}

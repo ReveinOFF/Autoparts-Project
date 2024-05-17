@@ -17,7 +17,7 @@
   border-radius: 10px;
   box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr auto;
 }
 
 .modal > div > img {

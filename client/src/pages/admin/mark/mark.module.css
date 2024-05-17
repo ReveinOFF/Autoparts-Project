@@ -1,0 +1,136 @@
+.h1 {
+  text-align: center;
+}
+
+.mark_block {
+  border-radius: 10px;
+  border: 1px solid gray;
+  margin-bottom: 20px;
+  padding: 10px;
+  margin-right: 20px;
+}
+
+.mark_info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
+}
+
+.mark_info > img {
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.mark_info > div {
+  margin-left: auto;
+  display: grid;
+  gap: 5px;
+}
+
+.mark_info > div > button {
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.mark_info > div > button:first-of-type {
+  background-color: rgb(225, 177, 45);
+}
+
+.mark_info > div > button:first-of-type:hover {
+  background-color: rgb(255, 194, 26);
+}
+
+.mark_info > div > button:last-of-type {
+  background-color: rgb(220, 26, 26);
+}
+
+.mark_info > div > button:last-of-type:hover {
+  background-color: rgb(237, 42, 42);
+}
+
+.create_btn {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+.create_btn > button {
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  background-color: rgb(98, 200, 30);
+}
+
+.create_btn > button:hover {
+  background-color: rgb(103, 231, 18);
+}
+
+.model_block {
+  display: grid;
+  padding: 10px;
+}
+
+.model_block > div {
+  background-color: gainsboro;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.model_block > div > img {
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.model_info {
+  display: grid;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.model_info > div:first-of-type {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.model_info > div:last-of-type {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.model_btn {
+  display: grid;
+  margin-left: auto;
+  gap: 5px;
+}
+
+.model_btn > button {
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.model_btn > button:first-of-type {
+  background-color: rgb(212, 206, 26);
+}
+
+.model_btn > button:first-of-type:hover {
+  background-color: rgb(229, 222, 36);
+}
+
+.model_btn > button:last-of-type {
+  background-color: rgb(212, 26, 26);
+}
+
+.model_btn > button:last-of-type:hover {
+  background-color: rgb(238, 19, 19);
+}

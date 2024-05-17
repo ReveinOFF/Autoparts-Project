@@ -121,4 +121,6 @@
 .form .images > div > img:last-of-type {
   width: 100%;
   border-radius: 10px;
+  height: 100%;
+  object-fit: cover;
 }

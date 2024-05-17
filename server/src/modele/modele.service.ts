@@ -61,4 +61,60 @@ export class ModeleService {
       throw error;
     }
   }
+
+  async findWithMark() {
+    try {
+      return this.modeleModel
+        .aggregate([
+          {
+            $addFields: {
+              markIds: {
+                $map: {
+                  input: '$markIds',
+                  as: 'id',
+                  in: { $toObjectId: '$$id' },
+                },
+              },
+            },
+          },
+          {
+            $unwind: '$markIds',
+          },
+          {
+            $lookup: {
+              from: 'marks',
+              localField: 'markIds',
+              foreignField: '_id',
+              as: 'mark',
+            },
+          },
+          {
+            $unwind: '$mark',
+          },
+          {
+            $group: {
+              _id: '$mark._id',
+              markName: { $first: '$mark.title' },
+              markImage: { $first: '$mark.image' },
+              modele: { $push: '$$ROOT' },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              markId: '$_id',
+              markTitle: '$markName',
+              markImage: '$markImage',
+              modele: 1,
+            },
+          },
+          {
+            $unset: ['mark', 'markIds'],
+          },
+        ])
+        .exec();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

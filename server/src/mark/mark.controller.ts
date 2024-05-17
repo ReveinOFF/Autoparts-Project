@@ -40,6 +40,7 @@ export class MarkController {
 
   @Post('mark-cat')
   async findByCat(@Body() id: string[]) {
+    console.log(id);
     return this.markService.findByCat(id);
   }
 }

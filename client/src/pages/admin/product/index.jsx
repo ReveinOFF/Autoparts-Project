@@ -10,7 +10,6 @@ export default function AdminProduct() {
   const getProd = async () => {
     const res = await ProductHttp.getProducts();
     setData(res.data);
-    console.log(res.data.image);
   };
 
   useEffect(() => {
