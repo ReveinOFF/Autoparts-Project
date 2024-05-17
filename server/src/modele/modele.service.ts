@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Modele } from './modele.schema';
+import { FilesService } from 'src/files/files.service';
 
 @Injectable()
 export class ModeleService {
-  constructor(@InjectModel(Modele.name) private modeleModel: Model<Modele>) {}
+  constructor(
+    @InjectModel(Modele.name) private modeleModel: Model<Modele>,
+    private readonly filesService: FilesService,
+  ) {}
 
   async create(dto) {
     try {
@@ -27,7 +31,9 @@ export class ModeleService {
 
   async Delete(id: string) {
     try {
-      return await this.modeleModel.findByIdAndDelete(id);
+      const data = await this.modeleModel.findById(id);
+      await this.filesService.deleteFile(data.image, 'upload');
+      return await this.modeleModel.deleteOne({ _id: id });
     } catch (error) {
       console.error(error);
       throw error;

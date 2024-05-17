@@ -30,6 +30,22 @@ export class FilesController {
     return fileNames;
   }
 
+  @Post('upload-file')
+  @UseInterceptors(FilesInterceptor('file'))
+  async uploadFile(@UploadedFiles() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No files uploaded');
+    }
+
+    const fileNames = await this.filesService.uploadSingleFile(
+      file[0],
+      'upload',
+      false,
+    );
+
+    return fileNames;
+  }
+
   @Post('delete-files')
   async deletesFile(@Body() files: string[]) {
     await this.filesService.deleteFiles(files, 'upload');

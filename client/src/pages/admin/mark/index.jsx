@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./mark.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BrandHttp } from "../../../http/BrandHttp";
 
 export default function AdminMark() {
   const [data, setData] = useState([]);
@@ -12,8 +13,6 @@ export default function AdminMark() {
       `${process.env.REACT_APP_HOST}/modele/a-modele-mark`
     );
 
-    console.log(res);
-
     setData(res.data);
   };
 
@@ -21,9 +20,15 @@ export default function AdminMark() {
     getModeleWithMark();
   }, []);
 
-  const deleteModel = async (id) => {};
+  const deleteModel = async (id) => {
+    await BrandHttp.delModele(id);
+    window.location.reload();
+  };
 
-  const deleteMark = async (id) => {};
+  const deleteMark = async (id) => {
+    await BrandHttp.delBrand(id);
+    window.location.reload();
+  };
 
   return (
     <div className="container_a">

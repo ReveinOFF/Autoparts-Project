@@ -41,8 +41,8 @@ import { ModeleModule } from './modele/modele.module';
     ProductModule,
     LangModule,
     CurrModule,
-    MarkModule,
     ModeleModule,
+    MarkModule,
   ],
   controllers: [],
 })

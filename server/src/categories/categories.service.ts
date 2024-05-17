@@ -38,6 +38,17 @@ export class CategoriesService {
 
   async Delete(id: string) {
     try {
+      const documents = await this.categoriesModel.db
+        .collection('marks')
+        .find({ categoryIds: id })
+        .toArray();
+
+      for (const doc of documents) {
+        await this.categoriesModel.db
+          .collection('marks')
+          .updateOne({ _id: doc._id }, { $pull: { categoryIds: id } });
+      }
+
       return await this.categoriesModel.findByIdAndDelete(id);
     } catch (error) {
       console.error(error);

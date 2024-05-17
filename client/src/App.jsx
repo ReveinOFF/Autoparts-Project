@@ -25,6 +25,8 @@ import AdminMark from "./pages/admin/mark";
 import AdminPages from "./pages/admin/pages";
 import AddCategory from "./pages/admin/addCategory";
 import AddProduct from "./pages/admin/addProduct";
+import AddMark from "./pages/admin/addMark";
+import AddModel from "./pages/admin/addModel";
 
 export default function App() {
   return (
@@ -80,6 +82,8 @@ export default function App() {
           <Route path="curr" element={<AdminCourse />} />
           <Route path="setting" element={<AdminSetting />} />
           <Route path="mark" element={<AdminMark />} />
+          <Route path="mark/mk/:id" element={<AddMark />} />
+          <Route path="mark/ml/:id" element={<AddModel />} />
           <Route path="pages" element={<AdminPages />} />
         </Route>
       </Route>
