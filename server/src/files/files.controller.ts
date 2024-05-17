@@ -21,14 +21,24 @@ export class FilesController {
       throw new BadRequestException('No files uploaded');
     }
 
-    const fileNames = await this.filesService.uploadFiles(files, 'upload');
+    const fileNames = await this.filesService.uploadFiles(
+      files,
+      'upload',
+      false,
+    );
 
     return fileNames;
   }
 
   @Post('delete-files')
-  async deletesFile(@Body() { files }: { files: string[] }) {
+  async deletesFile(@Body() files: string[]) {
     await this.filesService.deleteFiles(files, 'upload');
+    return HTTP_MESSAGE.FILE_DELETE;
+  }
+
+  @Post('delete-file')
+  async deleteFile(@Body('fileName') fileName: string) {
+    await this.filesService.deleteFile(fileName, 'upload');
     return HTTP_MESSAGE.FILE_DELETE;
   }
 }

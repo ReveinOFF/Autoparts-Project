@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductHttp } from "../../../http/ProductHttp";
 import Image from "../../../components/image/image";
+import { FilesHttp } from "../../../http/FileHttp";
 
 export default function AdminProduct() {
   const [data, setData] = useState([]);
@@ -16,10 +17,13 @@ export default function AdminProduct() {
     getProd();
   }, []);
 
-  const deleteProd = async (id) => {
+  const deleteProd = async (id, images) => {
+    if (images.length > 0) await FilesHttp.deleteFiles(images);
+
     await axios.delete(
       `${process.env.REACT_APP_HOST}/product/delete-product/${id}`
     );
+
     setData(data.filter((item) => item._id !== id));
   };
 
@@ -43,7 +47,9 @@ export default function AdminProduct() {
             </div>
             <div>
               <Link to={item._id}>Змінити</Link>
-              <button onClick={() => deleteProd(item._id)}>Видалити</button>
+              <button onClick={() => deleteProd(item._id, item.image || [])}>
+                Видалити
+              </button>
             </div>
           </div>
         ))}

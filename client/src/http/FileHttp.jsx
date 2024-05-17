@@ -7,4 +7,17 @@ export class FilesHttp {
       files
     );
   }
+
+  static async deleteFiles(files) {
+    return await axios.post(
+      `${process.env.REACT_APP_HOST}/files/delete-files`,
+      files
+    );
+  }
+
+  static async deleteFile(file) {
+    return await axios.post(`${process.env.REACT_APP_HOST}/files/delete-file`, {
+      fileName: file,
+    });
+  }
 }

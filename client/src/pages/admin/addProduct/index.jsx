@@ -16,6 +16,7 @@ export default function AddProduct() {
   const [files, setFiles] = useState([]);
   const [urlImg, setUrlImg] = useState([]);
   const [oldImg, setOldImg] = useState([]);
+  const [delImg, setDelImg] = useState([]);
   const [model, setModel] = useState([]);
   const [mark, setMark] = useState([]);
   const [category, setCategory] = useState([]);
@@ -58,17 +59,23 @@ export default function AddProduct() {
     formDataObject["brandIds"] = markSelected;
     formDataObject["modelIds"] = modelSelected;
 
-    if (type === "add") {
-      if (files.length > 0) {
-        const form = new FormData();
-        files.forEach((item) => form.append(`files`, item));
-        const res = await FilesHttp.uploadFile(form);
-        formDataObject["image"] = res.data;
-      }
+    if (files.length > 0) {
+      const form = new FormData();
+      files.forEach((item) => form.append(`files`, item));
+      const res = await FilesHttp.uploadFile(form);
+      formDataObject["image"] = res.data;
+    }
 
+    if (type === "add") {
       await ProductHttp.addProduct(formDataObject);
       navigate("/admin/edit/products");
     } else {
+      await FilesHttp.deleteFiles(delImg);
+      if (formDataObject["image"]) {
+        formDataObject["image"] = [...formDataObject["image"], ...oldImg];
+      } else {
+        formDataObject["image"] = oldImg;
+      }
       await ProductHttp.putProduct({ _id: id, ...formDataObject });
       window.location.reload();
     }
@@ -92,6 +99,11 @@ export default function AddProduct() {
   const deleteImg = (i) => {
     setUrlImg((prev) => prev.filter((_, index) => index !== i));
     setFiles((prev) => prev.filter((_, index) => index !== i));
+  };
+
+  const deleteOldImg = async (i) => {
+    setOldImg((prev) => prev.filter((item) => item !== i));
+    setDelImg((prev) => [...prev, i]);
   };
 
   useEffect(() => {
@@ -181,6 +193,21 @@ export default function AddProduct() {
                 <img src={item} alt="img-url" />
               </div>
             ))}
+            {oldImg?.map((item, index) => (
+              <div key={index}>
+                <img
+                  src={closeImg}
+                  alt="delete"
+                  width={20}
+                  height={20}
+                  onClick={() => deleteOldImg(item)}
+                />
+                <img
+                  src={`${process.env.REACT_APP_IMG}${item}`}
+                  alt="img-url"
+                />
+              </div>
+            ))}
           </div>
         </fieldset>
         <fieldset>
@@ -189,10 +216,7 @@ export default function AddProduct() {
             type="text"
             name="title"
             placeholder="Назва"
-            defaultValue={data.title}
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, title: e.target.value }))
-            }
+            defaultValue={data?.title}
           />
         </fieldset>
         <fieldset>
@@ -200,10 +224,7 @@ export default function AddProduct() {
           <textarea
             name="description"
             placeholder="Опис"
-            defaultValue={data.description}
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, description: e.target.value }))
-            }
+            defaultValue={data?.description}
           ></textarea>
         </fieldset>
         <fieldset>
@@ -212,10 +233,7 @@ export default function AddProduct() {
             type="text"
             name="price"
             placeholder="Ціна"
-            defaultValue={data.price}
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, price: e.target.value }))
-            }
+            defaultValue={data?.price}
           />
         </fieldset>
         <fieldset>
@@ -249,7 +267,7 @@ export default function AddProduct() {
             <img src={arrowImg} alt="arrow" width={10} />
           </div>
         </fieldset>
-        <fieldset className={styles.disable}>
+        <fieldset>
           <label htmlFor="price">Модель</label>
           <div
             className={`${styles.sl} ${

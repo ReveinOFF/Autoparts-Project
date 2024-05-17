@@ -10,7 +10,7 @@ export class FilesService {
     dirName?: string,
     isOriginalFileName: boolean = true,
   ): Promise<string> {
-    const dirPath = path.join(__dirname, '../../', dirName || 'uploads');
+    const dirPath = path.join(__dirname, '../../', dirName || 'upload');
 
     this.accessDir(dirPath);
 
@@ -25,8 +25,6 @@ export class FilesService {
 
       await writeFile(path.join(dirPath, fileName), file.buffer);
 
-      console.log(fileName);
-
       return fileName;
     } catch (error) {
       throw error;
@@ -34,7 +32,7 @@ export class FilesService {
   }
 
   async deleteFile(fileName: string, dirName: string) {
-    const dirPath = path.join(__dirname, '../../', dirName || 'uploads');
+    const dirPath = path.join(__dirname, '../../', dirName || 'upload');
     try {
       await unlink(`${dirPath}/${fileName}`);
     } catch (error) {
@@ -79,7 +77,7 @@ export class FilesService {
 
   accessDir(dirPath: string): void {
     try {
-      const uploadsDir = path.join(__dirname, '../../', 'uploads');
+      const uploadsDir = path.join(__dirname, '../../', 'upload');
 
       if (!existsSync(uploadsDir)) {
         mkdirSync(uploadsDir);
