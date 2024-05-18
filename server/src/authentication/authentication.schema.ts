@@ -32,6 +32,12 @@ export class Authentication {
 
   @Prop()
   registrationDate: Date;
+
+  @Prop()
+  orderIds: string[];
+
+  @Prop()
+  saveProductIds: string[];
 }
 
 export const AuthenticationSchema =

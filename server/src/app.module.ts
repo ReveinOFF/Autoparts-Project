@@ -11,6 +11,7 @@ import { LangModule } from './lang/lang.module';
 import { CurrModule } from './currency/currency.module';
 import { MarkModule } from './mark/mark.module';
 import { ModeleModule } from './modele/modele.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { ModeleModule } from './modele/modele.module';
     CurrModule,
     ModeleModule,
     MarkModule,
+    OrderModule,
   ],
   controllers: [],
 })

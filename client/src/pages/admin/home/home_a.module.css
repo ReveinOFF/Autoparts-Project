@@ -1,0 +1,20 @@
+.orders_list {
+  display: grid;
+  margin-top: 20px;
+  margin-bottom: 60px;
+  justify-content: center;
+}
+
+.order_block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  border-bottom: 1px solid gray;
+  padding-block: 15px;
+}
+
+.order_inf {
+  display: grid;
+  gap: 10px;
+}
