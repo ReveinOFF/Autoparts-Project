@@ -194,3 +194,7 @@ button {
 .item_a2 > div:last-of-type > a:hover {
   background-color: rgb(74, 224, 74);
 }
+
+:focus-visible {
+  outline: none;
+}
