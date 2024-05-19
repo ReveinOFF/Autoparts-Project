@@ -15,8 +15,9 @@
   margin: 0;
 }
 
-.editor > p:not(:last-of-type) {
-  margin-bottom: 10px;
+.editor > p,
+.editor > a {
+  margin-block: 5px;
 }
 
 .toolbar {
@@ -35,4 +36,23 @@
 
 .toolbar img {
   margin-bottom: -2px;
+}
+
+.editor img {
+  width: 30%;
+}
+
+.btn_save {
+  background: rgb(36, 172, 36);
+  border-radius: 10px;
+  padding: 15px 50px;
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 15px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn_save:hover {
+  background: rgb(44, 200, 44);
 }

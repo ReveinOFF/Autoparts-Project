@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSlate } from "slate-react";
-import { Editor, Transforms, Element as SlateElement, Path } from "slate";
+import { Editor, Transforms, Element as SlateElement, Range } from "slate";
 import boldImg from "../../assets/images/admin/rich/bold.svg";
 import italicImg from "../../assets/images/admin/rich/italic.svg";
 import underlineImg from "../../assets/images/admin/rich/underline.svg";
@@ -16,10 +16,13 @@ import bg from "../../assets/images/admin/rich/bg.svg";
 import color from "../../assets/images/admin/rich/text-color.svg";
 import image from "../../assets/images/admin/rich/image.svg";
 import linkimg from "../../assets/images/admin/rich/link.svg";
+import fsimg from "../../assets/images/admin/rich/font_size.svg";
+import marginimg from "../../assets/images/admin/rich/margin.svg";
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
 const ToolbarButton = ({
+  style,
   format,
   icon,
   altText,
@@ -83,6 +86,11 @@ const ToolbarButton = ({
     }
 
     setIsActive(!isActive1);
+  };
+
+  const toggleMarkVal = (event, value) => {
+    event.preventDefault();
+    Editor.addMark(editor, format, value);
   };
 
   const toggleAlign = (event) => {
@@ -199,6 +207,29 @@ const ToolbarButton = ({
     }
   };
 
+  const insertLink = (url, text) => {
+    const { selection } = editor;
+    const isCollapsed = selection && Range.isCollapsed(selection);
+
+    const link = {
+      type: "link",
+      url,
+      children: isCollapsed ? [{ text: text }] : [],
+    };
+
+    if (isCollapsed) {
+      Transforms.insertNodes(editor, link);
+    } else {
+      Transforms.wrapNodes(editor, link, { split: true });
+      Transforms.collapse(editor, { edge: "end" });
+    }
+  };
+
+  const insertImage = (url) => {
+    const image = { type: "image", url, children: [{ text: "" }] };
+    Transforms.insertNodes(editor, image);
+  };
+
   const handleClick = (event) => {
     if (["left", "center", "right"].includes(format)) {
       toggleAlign(event);
@@ -214,6 +245,23 @@ const ToolbarButton = ({
       colorRef.current.click();
     } else if (format === "bg") {
       bgRef.current.click();
+    } else if (format === "link") {
+      const url = prompt("Введіть URL: ");
+      const text = prompt("Введіть текст: ");
+      if (url && text) {
+        insertLink(url, text);
+      }
+    } else if (format === "image") {
+      const url = prompt("Введіть URL фотографії або Base64: ");
+      if (url) {
+        insertImage(url);
+      }
+    } else if (["ml", "mr", "mt", "mb"].includes(format)) {
+      const val = prompt("Отступити (наприклад: 10px або 50% або auto): ");
+      toggleMarkVal(event, val);
+    } else if (format === "fs") {
+      const val = prompt("Розмір шрифта в px: ");
+      toggleMarkVal(event, val);
     } else {
       toggleMark(event);
     }
@@ -230,6 +278,7 @@ const ToolbarButton = ({
         border: isActive ? "1px solid gray" : "1px solid transparent",
         marginTop: "5px",
         marginBottom: "7px",
+        ...style,
       }}
     >
       <img src={icon} alt={altText} width={25} height={25} />
@@ -282,6 +331,8 @@ const Toolbar = ({ className }) => {
             currentAlign={currentAlign}
             setAlign={setCurrentAlign}
           />
+          <ToolbarButton format="fs" icon={fsimg} altText="font_size" />
+          <ToolbarButton format="mt" icon={marginimg} altText="mt" />
         </div>
         <div>
           <ToolbarButton
@@ -318,6 +369,24 @@ const Toolbar = ({ className }) => {
             altText="ul"
             listActive={listActive}
             setListActive={setListActive}
+          />
+          <ToolbarButton
+            format="ml"
+            icon={marginimg}
+            altText="ml"
+            style={{ rotate: "-90deg" }}
+          />
+          <ToolbarButton
+            format="mr"
+            icon={marginimg}
+            altText="mr"
+            style={{ rotate: "90deg" }}
+          />
+          <ToolbarButton
+            format="mb"
+            icon={marginimg}
+            altText="mb"
+            style={{ rotate: "180deg" }}
           />
         </div>
       </div>

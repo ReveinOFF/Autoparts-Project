@@ -1,21 +1,52 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Slate, Editable, withReact } from "slate-react";
-import { Editor, createEditor } from "slate";
+import {
+  Editor,
+  Range,
+  Transforms,
+  createEditor,
+  Element as SlateElement,
+} from "slate";
 import { withHistory } from "slate-history";
 import Toolbar from "./toolbar";
 import styles from "./rich.module.css";
 
-const RichText = () => {
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-  const [value, setValue] = useState([
-    {
-      type: "paragraph",
-      children: [{ text: "" }],
-    },
-  ]);
+const withLinks = (editor) => {
+  const { deleteBackward } = editor;
+
+  editor.deleteBackward = (unit) => {
+    const { selection } = editor;
+
+    if (selection && Range.isCollapsed(selection)) {
+      const [match] = Editor.nodes(editor, {
+        match: (n) =>
+          !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === "link",
+      });
+
+      if (match) {
+        Transforms.setNodes(
+          editor,
+          { type: "paragraph" },
+          { match: (n) => SlateElement.isElement(n) && n.type === "link" }
+        );
+        return;
+      }
+    }
+
+    deleteBackward(unit);
+  };
+
+  return editor;
+};
+
+const RichText = ({ value, setValue, onClick }) => {
+  const editor = useMemo(
+    () => withLinks(withHistory(withReact(createEditor()))),
+    []
+  );
 
   const renderElement = useCallback(({ attributes, children, element }) => {
-    const style = { textAlign: element.align };
+    const style = { textAlign: element.align, justifyContent: element.align };
     switch (element.type) {
       case "bulleted-list":
         return (
@@ -41,6 +72,22 @@ const RichText = () => {
             {children}
           </h2>
         );
+      case "link":
+        return (
+          <a
+            href={element.url}
+            style={{ color: "blue", ...style }}
+            {...attributes}
+          >
+            {children}
+          </a>
+        );
+      case "image":
+        return (
+          <p {...attributes} style={{ display: "flex", ...style }}>
+            <img src={element.url} alt="img" />
+          </p>
+        );
       case "heading-three":
         return (
           <h3 style={style} {...attributes}>
@@ -63,7 +110,6 @@ const RichText = () => {
   }, []);
 
   const renderLeaf = useCallback(({ attributes, children, leaf }) => {
-    console.log(leaf);
     if (leaf.bold) {
       children = <strong>{children}</strong>;
     }
@@ -79,7 +125,15 @@ const RichText = () => {
     return (
       <span
         {...attributes}
-        style={{ color: leaf.color, backgroundColor: leaf.bgColor }}
+        style={{
+          color: leaf.color,
+          backgroundColor: leaf.bgColor,
+          fontSize: `${leaf.fs}px`,
+          marginLeft: leaf.ml,
+          marginRight: leaf.mr,
+          marginTop: leaf.mt,
+          marginBottom: leaf.mb,
+        }}
       >
         {children}
       </span>
@@ -108,14 +162,17 @@ const RichText = () => {
     return !!firstNode;
   };
 
-  const handleSave = async () => {};
-
   return (
     <div>
       <Slate
         editor={editor}
         value={value}
-        initialValue={value}
+        initialValue={[
+          {
+            type: "paragraph",
+            children: [{ text: "" }],
+          },
+        ]}
         onChange={(newValue) => setValue(newValue)}
       >
         <Toolbar className={styles.toolbar} />
@@ -133,7 +190,9 @@ const RichText = () => {
           }}
         />
       </Slate>
-      <button onClick={handleSave}>Save</button>
+      <button onClick={onClick} className={styles.btn_save}>
+        Зберегти
+      </button>
     </div>
   );
 };
