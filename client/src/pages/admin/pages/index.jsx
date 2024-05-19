@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RichText from "../../../components/rich-text";
 
 export default function AdminPages() {
@@ -20,6 +20,8 @@ export default function AdminPages() {
       children: [{ text: "" }],
     },
   ]);
+
+  useEffect(() => {}, []);
 
   const saveAbout = async () => {
     console.log(JSON.stringify(contact));
