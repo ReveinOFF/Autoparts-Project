@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Slate, Editable, withReact } from "slate-react";
-import { createEditor } from "slate";
+import { Editor, createEditor } from "slate";
 import { withHistory } from "slate-history";
-import axios from "axios";
 import Toolbar from "./toolbar";
 import styles from "./rich.module.css";
 
@@ -15,26 +14,76 @@ const RichText = () => {
     },
   ]);
 
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       const result = await axios.get("/load");
-  //       setValue(JSON.parse(result.data));
-  //     };
-
-  //     fetchData();
-  //   }, []);
-
-  const renderElement = useCallback((props) => {
-    switch (props.element.type) {
-      case "code":
-        return <CodeElement {...props} />;
+  const renderElement = useCallback(({ attributes, children, element }) => {
+    const style = { textAlign: element.align };
+    switch (element.type) {
+      case "bulleted-list":
+        return (
+          <ul style={style} {...attributes}>
+            {children}
+          </ul>
+        );
+      case "heading-one":
+        return (
+          <h1 style={style} {...attributes}>
+            {children}
+          </h1>
+        );
+      case "list-item":
+        return (
+          <li style={style} {...attributes}>
+            {children}
+          </li>
+        );
+      case "heading-two":
+        return (
+          <h2 style={style} {...attributes}>
+            {children}
+          </h2>
+        );
+      case "heading-three":
+        return (
+          <h3 style={style} {...attributes}>
+            {children}
+          </h3>
+        );
+      case "numbered-list":
+        return (
+          <ol style={style} {...attributes}>
+            {children}
+          </ol>
+        );
       default:
-        return <DefaultElement {...props} />;
+        return (
+          <p style={style} {...attributes}>
+            {children}
+          </p>
+        );
     }
   }, []);
 
-  const renderLeaf = useCallback((props) => {
-    return <Leaf {...props} />;
+  const renderLeaf = useCallback(({ attributes, children, leaf }) => {
+    console.log(leaf);
+    if (leaf.bold) {
+      children = <strong>{children}</strong>;
+    }
+
+    if (leaf.italic) {
+      children = <em>{children}</em>;
+    }
+
+    if (leaf.underline) {
+      children = <u>{children}</u>;
+    }
+
+    return (
+      <span
+        {...attributes}
+        style={{ color: leaf.color, backgroundColor: leaf.bgColor }}
+      >
+        {children}
+      </span>
+    );
   }, []);
 
   const renderPlaceholder = useCallback((props) => {
@@ -49,16 +98,17 @@ const RichText = () => {
           left: "10px",
         }}
       >
-        Введіть текст
+        {props.children}
       </span>
     );
   }, []);
 
-  const handleSave = async () => {
-    const content = JSON.stringify(value);
-    console.log(content);
-    // await axios.post("/save", { content });
+  const hasText = () => {
+    const [firstNode] = Editor.nodes(editor, { match: Text.isText });
+    return !!firstNode;
   };
+
+  const handleSave = async () => {};
 
   return (
     <div>
@@ -74,7 +124,7 @@ const RichText = () => {
           renderLeaf={renderLeaf}
           className={styles.editor}
           renderPlaceholder={renderPlaceholder}
-          placeholder="Введіть текст"
+          placeholder={!hasText() ? "Введіть текст" : ""}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.shiftKey) {
               event.preventDefault();
@@ -85,38 +135,6 @@ const RichText = () => {
       </Slate>
       <button onClick={handleSave}>Save</button>
     </div>
-  );
-};
-
-const CodeElement = (props) => {
-  return (
-    <pre {...props.attributes}>
-      <code>{props.children}</code>
-    </pre>
-  );
-};
-
-const DefaultElement = (props) => {
-  return <p {...props.attributes}>{props.children}</p>;
-};
-
-const Leaf = (props) => {
-  return (
-    <span
-      {...props.attributes}
-      style={{
-        fontWeight: props.leaf.bold ? "bold" : "normal",
-        fontStyle: props.leaf.italic ? "italic" : "normal",
-        textDecoration: props.leaf.underline ? "underline" : "none",
-        textAlign: props.leaf.textRight
-          ? "end"
-          : props.leaf.textCenter
-          ? "center"
-          : "start",
-      }}
-    >
-      {props.children}
-    </span>
   );
 };
 
