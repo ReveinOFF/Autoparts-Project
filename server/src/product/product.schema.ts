@@ -9,6 +9,9 @@ export class Product {
   categorieIds: string[];
 
   @Prop()
+  subCategorieIds: string[];
+
+  @Prop()
   brandIds: string[];
 
   @Prop()

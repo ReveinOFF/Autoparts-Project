@@ -1,8 +1,24 @@
 const serialize = (nodes) => {
   return nodes
     .map((node) => {
-      const style = `text-align: ${node.align};`;
-      const styleImg = `justify-content: ${node.align};`;
+      const style = `
+        text-align: ${node.align};
+        margin-left: ${node.ml};
+        margin-right: ${node.mr};
+        margin-top: ${node.mt};
+        margin-bottom: ${node.mb};
+        margin-inline: ${node.mx};
+        margin-block: ${node.my};
+        `;
+      const styleImg = `
+        justify-content: ${node.align};
+        margin-left: ${node.ml};
+        margin-right: ${node.mr};
+        margin-top: ${node.mt};
+        margin-bottom: ${node.mb};
+        margin-inline: ${node.mx};
+        margin-block: ${node.my};
+        `;
       switch (node.type) {
         case "paragraph":
           return `<p style="${style}">${serialize(node.children)}</p>`;
@@ -51,10 +67,6 @@ const serializeMarks = (node) => {
     color: ${node.color || "inherit"};
     background-color: ${node.bgColor || "inherit"};
     font-size: ${node.fs || "inherit"}px;
-    margin-left: ${node.ml || 0}px;
-    margin-right: ${node.mr || 0}px;
-    margin-top: ${node.mt || 0}px;
-    margin-bottom: ${node.mb || 0}px;
   `;
 
   return `<span style="${style}">${text}</span>`;

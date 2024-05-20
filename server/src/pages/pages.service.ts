@@ -12,16 +12,10 @@ export class PagesService {
       const find = await this.pagesModel.findOne({ type: data.type }).exec();
 
       if (!find) {
-        return await this.pagesModel.create({
-          type: data.type,
-          content: data.content,
-        });
+        return await this.pagesModel.create(data);
       }
 
-      return await this.pagesModel.updateOne({
-        type: data.type,
-        content: data.content,
-      });
+      return await this.pagesModel.updateOne(data);
     } catch (error) {
       console.error(error);
       throw error;

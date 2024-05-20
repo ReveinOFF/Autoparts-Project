@@ -17,6 +17,7 @@ export enum ROLE {
   ADMIN = 'admin',
   USER = 'user',
 }
+
 export enum STATUS {
   ACTIVE = 'active',
   CANCEL = 'cancel',
@@ -26,6 +27,5 @@ export enum STATUS {
 export enum TYPEPAGE {
   ABOUT = 'about',
   PRIVACY = 'privacy',
-  CONTACT = 'contact',
   ORDER = 'order',
 }

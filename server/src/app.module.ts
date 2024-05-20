@@ -14,6 +14,7 @@ import { ModeleModule } from './modele/modele.module';
 import { OrderModule } from './order/order.module';
 import { PagesController } from './pages/pages.controller';
 import { PagesModule } from './pages/pages.module';
+import { SubcategoriesModule } from './subcategories/subcategories.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { PagesModule } from './pages/pages.module';
     MarkModule,
     OrderModule,
     PagesModule,
+    SubcategoriesModule,
   ],
   controllers: [],
 })

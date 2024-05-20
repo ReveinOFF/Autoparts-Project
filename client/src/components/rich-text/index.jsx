@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { Slate, Editable, withReact } from "slate-react";
 import {
   Editor,
@@ -39,14 +39,28 @@ const withLinks = (editor) => {
   return editor;
 };
 
-const RichText = ({ value, setValue, onClick }) => {
+const RichText = ({ value, setValue }) => {
   const editor = useMemo(
     () => withLinks(withHistory(withReact(createEditor()))),
     []
   );
 
+  useEffect(() => {
+    editor.children = value;
+  }, [editor, value]);
+
   const renderElement = useCallback(({ attributes, children, element }) => {
-    const style = { textAlign: element.align, justifyContent: element.align };
+    const style = {
+      textAlign: element.align,
+      justifyContent: element.align,
+      marginTop: element.mt,
+      marginBottom: element.mb,
+      marginRight: element.mr,
+      marginLeft: element.ml,
+      marginInline: element.mx,
+      marginBlock: element.my,
+    };
+
     switch (element.type) {
       case "bulleted-list":
         return (
@@ -129,10 +143,6 @@ const RichText = ({ value, setValue, onClick }) => {
           color: leaf.color,
           backgroundColor: leaf.bgColor,
           fontSize: `${leaf.fs}px`,
-          marginLeft: leaf.ml,
-          marginRight: leaf.mr,
-          marginTop: leaf.mt,
-          marginBottom: leaf.mb,
         }}
       >
         {children}
@@ -167,12 +177,7 @@ const RichText = ({ value, setValue, onClick }) => {
       <Slate
         editor={editor}
         value={value}
-        initialValue={[
-          {
-            type: "paragraph",
-            children: [{ text: "" }],
-          },
-        ]}
+        initialValue={value}
         onChange={(newValue) => setValue(newValue)}
       >
         <Toolbar className={styles.toolbar} />
@@ -190,9 +195,6 @@ const RichText = ({ value, setValue, onClick }) => {
           }}
         />
       </Slate>
-      <button onClick={onClick} className={styles.btn_save}>
-        Зберегти
-      </button>
     </div>
   );
 };

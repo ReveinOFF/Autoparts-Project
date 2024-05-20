@@ -21,6 +21,7 @@ import marginimg from "../../assets/images/admin/rich/margin.svg";
 import margintwoimg from "../../assets/images/admin/rich/marginTwo.svg";
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
+const MARGIN = ["ml", "mr", "mt", "mb", "my", "mx"];
 
 const ToolbarButton = ({
   style,
@@ -89,8 +90,19 @@ const ToolbarButton = ({
     setIsActive(!isActive1);
   };
 
+  const toggleBlockVal = (event, value) => {
+    event.preventDefault();
+
+    Transforms.setNodes(
+      editor,
+      { [format]: value },
+      { match: (n) => SlateElement.isElement(n) }
+    );
+  };
+
   const toggleMarkVal = (event, value) => {
     event.preventDefault();
+
     Editor.addMark(editor, format, value);
   };
 
@@ -257,9 +269,9 @@ const ToolbarButton = ({
       if (url) {
         insertImage(url);
       }
-    } else if (["ml", "mr", "mt", "mb", "my", "mx"].includes(format)) {
+    } else if (MARGIN.includes(format)) {
       const val = prompt("Отступити (наприклад: 10px або 50% або auto): ");
-      toggleMarkVal(event, val);
+      toggleBlockVal(event, val);
     } else if (format === "fs") {
       const val = prompt("Розмір шрифта в px: ");
       toggleMarkVal(event, val);

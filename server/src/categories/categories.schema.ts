@@ -10,6 +10,9 @@ export class Categories {
 
   @Prop()
   description: string;
+
+  @Prop()
+  subCategorieIds: string[];
 }
 
 export const CategoriesSchema = SchemaFactory.createForClass(Categories);

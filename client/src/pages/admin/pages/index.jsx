@@ -1,27 +1,41 @@
 import { useEffect, useState } from "react";
 import RichText from "../../../components/rich-text";
 import axios from "axios";
+import styles from "./pages.module.css";
 
 export default function AdminPages() {
-  const [contact, setContact] = useState([
+  const [privacyUa, setPrivacyUa] = useState([
     {
       type: "paragraph",
       children: [{ text: "" }],
     },
   ]);
-  const [privacy, setPrivacy] = useState([
+  const [orderUa, setOrderUa] = useState([
     {
       type: "paragraph",
       children: [{ text: "" }],
     },
   ]);
-  const [order, setOrder] = useState([
+  const [aboutUa, setAboutUa] = useState([
     {
       type: "paragraph",
       children: [{ text: "" }],
     },
   ]);
-  const [about, setAbout] = useState([
+
+  const [privacyEn, setPrivacyEn] = useState([
+    {
+      type: "paragraph",
+      children: [{ text: "" }],
+    },
+  ]);
+  const [orderEn, setOrderEn] = useState([
+    {
+      type: "paragraph",
+      children: [{ text: "" }],
+    },
+  ]);
+  const [aboutEn, setAboutEn] = useState([
     {
       type: "paragraph",
       children: [{ text: "" }],
@@ -30,66 +44,108 @@ export default function AdminPages() {
 
   useEffect(() => {
     const getPages = async () => {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_HOST}/pages/get-pages`
-      );
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_HOST}/pages/get-pages`
+        );
 
-      if (!data) return;
+        if (data.length < 1) return;
 
-      setContact(data.find((item) => item.type === "contact"));
-      setPrivacy(data.find((item) => item.type === "privacy"));
-      setOrder(data.find((item) => item.type === "order"));
-      setAbout(data.find((item) => item.type === "about"));
+        const defaultValue = [
+          {
+            type: "paragraph",
+            children: [{ text: "" }],
+          },
+        ];
+
+        const privacyItemUa = data?.find(
+          (item) => item.type === "privacy"
+        )?.contentUa;
+        const orderItemUa = data?.find(
+          (item) => item.type === "order"
+        )?.contentUa;
+        const aboutItemUa = data?.find(
+          (item) => item.type === "about"
+        )?.contentUa;
+        const privacyItemEn = data?.find(
+          (item) => item.type === "privacy"
+        )?.contentEn;
+        const orderItemEn = data?.find(
+          (item) => item.type === "order"
+        )?.contentEn;
+        const aboutItemEn = data?.find(
+          (item) => item.type === "about"
+        )?.contentEn;
+
+        setPrivacyUa(privacyItemUa ? JSON.parse(privacyItemUa) : defaultValue);
+        setOrderUa(orderItemUa ? JSON.parse(orderItemUa) : defaultValue);
+        setAboutUa(aboutItemUa ? JSON.parse(aboutItemUa) : defaultValue);
+
+        setPrivacyEn(privacyItemEn ? JSON.parse(privacyItemEn) : defaultValue);
+        setOrderEn(orderItemEn ? JSON.parse(orderItemEn) : defaultValue);
+        setAboutEn(aboutItemEn ? JSON.parse(aboutItemEn) : defaultValue);
+      } catch (error) {
+        console.error("Error fetching pages: ", error);
+      }
     };
 
     getPages();
   }, []);
 
-  const saveAbout = async () => {
-    await axios.post(`${process.env.REACT_APP_HOST}/pages/update-page`, {
-      type: "about",
-      content: JSON.stringify(about),
-    });
-    window.location.reload();
-  };
-
-  const saveContact = async () => {
-    await axios.post(`${process.env.REACT_APP_HOST}/pages/update-page`, {
-      type: "contact",
-      content: JSON.stringify(contact),
-    });
-    window.location.reload();
-  };
-
-  const savePrivacy = async () => {
-    await axios.post(`${process.env.REACT_APP_HOST}/pages/update-page`, {
-      type: "privacy",
-      content: JSON.stringify(privacy),
-    });
-    window.location.reload();
-  };
-
-  const saveOrder = async () => {
-    await axios.post(`${process.env.REACT_APP_HOST}/pages/update-page`, {
-      type: "order",
-      content: JSON.stringify(order),
-    });
-    window.location.reload();
+  const savePage = async (type, contentUa, contentEn) => {
+    try {
+      await axios.post(`${process.env.REACT_APP_HOST}/pages/update-page`, {
+        type,
+        contentUa: JSON.stringify(contentUa),
+        contentEn: JSON.stringify(contentEn),
+      });
+      window.location.reload();
+    } catch (error) {
+      console.error("Error saving page: ", error);
+    }
   };
 
   return (
     <div className="container_a" style={{ marginBottom: "30px" }}>
       <h1 style={{ textAlign: "center" }}>Редагування сторінок</h1>
-      <h2 style={{ marginTop: "30px" }}>Сторінка "Контакти"</h2>
-      <RichText value={contact} setValue={setContact} onClick={saveContact} />
+
       <h2 style={{ marginTop: "60px" }}>
         Сторінка "Политика конфинденциальности"
       </h2>
-      <RichText value={privacy} setValue={setPrivacy} onClick={savePrivacy} />
+      <h3>UA</h3>
+      <RichText value={privacyUa} setValue={setPrivacyUa} />
+      <h3>EN</h3>
+      <RichText value={privacyEn} setValue={setPrivacyEn} />
+      <button
+        className={styles.btn_save}
+        onClick={() => savePage("privacy", privacyUa, privacyEn)}
+      >
+        Зберегти
+      </button>
+
       <h2 style={{ marginTop: "60px" }}>Сторінка "Условия доставки"</h2>
-      <RichText value={order} setValue={setOrder} onClick={saveOrder} />
+      <h3>UA</h3>
+      <RichText value={orderUa} setValue={setOrderUa} />
+      <h3>EN</h3>
+      <RichText value={orderEn} setValue={setOrderEn} />
+      <button
+        className={styles.btn_save}
+        onClick={() => savePage("order", orderUa, orderEn)}
+      >
+        Зберегти
+      </button>
+
       <h2 style={{ marginTop: "60px" }}>Сторінка "Про нас"</h2>
-      <RichText value={about} setValue={setAbout} onClick={saveAbout} />
+      <h3>UA</h3>
+      <RichText value={aboutUa} setValue={setAboutUa} />
+      <h3>EN</h3>
+      <RichText value={aboutEn} setValue={setAboutEn} />
+      <button
+        className={styles.btn_save}
+        onClick={() => savePage("about", aboutUa, aboutEn)}
+      >
+        Зберегти
+      </button>
     </div>
   );
 }

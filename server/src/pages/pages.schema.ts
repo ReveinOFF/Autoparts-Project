@@ -10,7 +10,10 @@ export class Pages {
   type: TYPEPAGE;
 
   @Prop()
-  content: string;
+  contentUa: string;
+
+  @Prop()
+  contentEn: string;
 }
 
 export const PagesSchema = SchemaFactory.createForClass(Pages);
