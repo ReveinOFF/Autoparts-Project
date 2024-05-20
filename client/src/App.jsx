@@ -27,6 +27,8 @@ import AddCategory from "./pages/admin/addCategory";
 import AddProduct from "./pages/admin/addProduct";
 import AddMark from "./pages/admin/addMark";
 import AddModel from "./pages/admin/addModel";
+import OrderInfo from "./pages/order-info";
+import Privacy from "./pages/privacy";
 
 export default function App() {
   return (
@@ -34,6 +36,8 @@ export default function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
+        <Route path="order-info" element={<OrderInfo />} />
+        <Route path="privacy" element={<Privacy />} />
         <Route path="favourites" element={<Favourites />} />
         <Route path="product" element={<Product />} />
 

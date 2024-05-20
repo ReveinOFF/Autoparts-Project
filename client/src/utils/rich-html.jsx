@@ -72,6 +72,6 @@ const serializeMarks = (node) => {
   return `<span style="${style}">${text}</span>`;
 };
 
-const ConvertJsonToHtml = ({ content }) => serialize(content);
+const ConvertJsonToHtml = (content) => serialize(content);
 
 export default ConvertJsonToHtml;

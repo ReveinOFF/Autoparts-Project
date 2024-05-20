@@ -198,3 +198,16 @@ button {
 :focus-visible {
   outline: none;
 }
+
+.h1_infoblock {
+  border-bottom: 3px solid #fdb819;
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 60px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.div_infoblock {
+  margin-bottom: 60px;
+}

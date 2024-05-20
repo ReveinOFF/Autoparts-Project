@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ConvertJsonToHtml from "../../utils/rich-html";
 
-export default function About() {
+export default function Privacy() {
   const [value, setValue] = useState([
     {
       type: "paragraph",
@@ -17,7 +17,7 @@ export default function About() {
     const getPages = async () => {
       try {
         const { data } = await axios.get(
-          `${process.env.REACT_APP_HOST}/pages/get-page/about`
+          `${process.env.REACT_APP_HOST}/pages/get-page/privacy`
         );
 
         if (!data) return;
@@ -37,7 +37,7 @@ export default function About() {
 
   return (
     <div className="container">
-      <h1 className="h1_infoblock">Про нас</h1>
+      <h1 className="h1_infoblock">Політика конфіденційності</h1>
       <div
         className="div_infoblock"
         dangerouslySetInnerHTML={{ __html: ConvertJsonToHtml(value) }}

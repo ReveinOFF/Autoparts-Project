@@ -1,10 +1,10 @@
-import axios from "axios";
-import { useEffect } from "react";
 import { useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ConvertJsonToHtml from "../../utils/rich-html";
+import axios from "axios";
 
-export default function About() {
+export default function OrderInfo() {
   const [value, setValue] = useState([
     {
       type: "paragraph",
@@ -17,10 +17,12 @@ export default function About() {
     const getPages = async () => {
       try {
         const { data } = await axios.get(
-          `${process.env.REACT_APP_HOST}/pages/get-page/about`
+          `${process.env.REACT_APP_HOST}/pages/get-page/order`
         );
 
         if (!data) return;
+
+        console.log(i18n.language);
 
         setValue(
           i18n.language === "ua"
@@ -37,7 +39,7 @@ export default function About() {
 
   return (
     <div className="container">
-      <h1 className="h1_infoblock">Про нас</h1>
+      <h1 className="h1_infoblock">Інформація про доставку</h1>
       <div
         className="div_infoblock"
         dangerouslySetInnerHTML={{ __html: ConvertJsonToHtml(value) }}

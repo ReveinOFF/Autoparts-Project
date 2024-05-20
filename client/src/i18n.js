@@ -3,6 +3,8 @@ import Backend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
+const ln = ["en", "ua"];
+
 i18n
   .use(Backend)
   .use(LanguageDetector)
@@ -10,7 +12,9 @@ i18n
   .init({
     lng:
       localStorage.getItem("lng") ||
-      navigator.language.split("-")[0].toLocaleLowerCase(),
+      ln.includes(navigator.language.split("-")[0].toLocaleLowerCase())
+        ? navigator.language.split("-")[0].toLocaleLowerCase()
+        : "en",
     fallbackLng: "en",
     saveMissing: false,
     detection: {
