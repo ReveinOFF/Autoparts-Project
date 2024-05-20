@@ -18,6 +18,7 @@ import image from "../../assets/images/admin/rich/image.svg";
 import linkimg from "../../assets/images/admin/rich/link.svg";
 import fsimg from "../../assets/images/admin/rich/font_size.svg";
 import marginimg from "../../assets/images/admin/rich/margin.svg";
+import margintwoimg from "../../assets/images/admin/rich/marginTwo.svg";
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
@@ -256,7 +257,7 @@ const ToolbarButton = ({
       if (url) {
         insertImage(url);
       }
-    } else if (["ml", "mr", "mt", "mb"].includes(format)) {
+    } else if (["ml", "mr", "mt", "mb", "my", "mx"].includes(format)) {
       const val = prompt("Отступити (наприклад: 10px або 50% або auto): ");
       toggleMarkVal(event, val);
     } else if (format === "fs") {
@@ -333,6 +334,7 @@ const Toolbar = ({ className }) => {
           />
           <ToolbarButton format="fs" icon={fsimg} altText="font_size" />
           <ToolbarButton format="mt" icon={marginimg} altText="mt" />
+          <ToolbarButton format="my" icon={margintwoimg} altText="my" />
         </div>
         <div>
           <ToolbarButton
@@ -387,6 +389,12 @@ const Toolbar = ({ className }) => {
             icon={marginimg}
             altText="mb"
             style={{ rotate: "180deg" }}
+          />
+          <ToolbarButton
+            format="mx"
+            icon={margintwoimg}
+            altText="mx"
+            style={{ rotate: "90deg" }}
           />
         </div>
       </div>

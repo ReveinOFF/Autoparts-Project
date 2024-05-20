@@ -22,3 +22,10 @@ export enum STATUS {
   CANCEL = 'cancel',
   PAID = 'paid',
 }
+
+export enum TYPEPAGE {
+  ABOUT = 'about',
+  PRIVACY = 'privacy',
+  CONTACT = 'contact',
+  ORDER = 'order',
+}

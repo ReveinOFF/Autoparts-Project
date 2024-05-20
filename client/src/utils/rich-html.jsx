@@ -1,25 +1,29 @@
 const serialize = (nodes) => {
   return nodes
     .map((node) => {
+      const style = `text-align: ${node.align};`;
+      const styleImg = `justify-content: ${node.align};`;
       switch (node.type) {
         case "paragraph":
-          return `<p>${serialize(node.children)}</p>`;
+          return `<p style="${style}">${serialize(node.children)}</p>`;
         case "heading-one":
-          return `<h1>${serialize(node.children)}</h1>`;
+          return `<h1 style="${style}">${serialize(node.children)}</h1>`;
         case "heading-two":
-          return `<h2>${serialize(node.children)}</h2>`;
+          return `<h2 style="${style}">${serialize(node.children)}</h2>`;
         case "heading-three":
-          return `<h3>${serialize(node.children)}</h3>`;
+          return `<h3 style="${style}">${serialize(node.children)}</h3>`;
         case "bulleted-list":
-          return `<ul>${serialize(node.children)}</ul>`;
+          return `<ul style="${style}">${serialize(node.children)}</ul>`;
         case "numbered-list":
-          return `<ol>${serialize(node.children)}</ol>`;
+          return `<ol style="${style}">${serialize(node.children)}</ol>`;
         case "list-item":
-          return `<li>${serialize(node.children)}</li>`;
+          return `<li style="${style}">${serialize(node.children)}</li>`;
         case "link":
-          return `<a href="${node.url}">${serialize(node.children)}</a>`;
+          return `<a style="color: blue; ${style}" href="${
+            node.url
+          }">${serialize(node.children)}</a>`;
         case "image":
-          return `<p><img src="${serialize(node.url)}}" alt="img" /></p>`;
+          return `<p style="display: flex; ${styleImg}"><img src="${node.url}" alt="img" /></p>`;
         default:
           return serializeMarks(node);
       }
@@ -43,7 +47,17 @@ const serializeMarks = (node) => {
     text = `<u>${text}</u>`;
   }
 
-  return `<span>${text}</span>`;
+  const style = `
+    color: ${node.color || "inherit"};
+    background-color: ${node.bgColor || "inherit"};
+    font-size: ${node.fs || "inherit"}px;
+    margin-left: ${node.ml || 0}px;
+    margin-right: ${node.mr || 0}px;
+    margin-top: ${node.mt || 0}px;
+    margin-bottom: ${node.mb || 0}px;
+  `;
+
+  return `<span style="${style}">${text}</span>`;
 };
 
 const ConvertJsonToHtml = ({ content }) => serialize(content);
