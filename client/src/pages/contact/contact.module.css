@@ -1,0 +1,109 @@
+.h2 {
+  font-size: 20px;
+}
+
+.form {
+  margin-right: 20px;
+  display: grid;
+}
+
+.form > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.form fieldset {
+  border: 0;
+  display: grid;
+}
+
+.form fieldset label {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 400;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.form fieldset input,
+.form fieldset textarea {
+  border-radius: 10px;
+  border: 1px solid #313131;
+  padding: 10px;
+}
+
+.form fieldset textarea {
+  resize: none;
+  height: 200px;
+}
+
+.form fieldset label img {
+  cursor: pointer;
+}
+
+.form button {
+  background: #fdb819;
+  width: 320px;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin-left: 14px;
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+
+.form button:hover {
+  background: #f7c042;
+}
+
+.h3 {
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+
+.info_contact {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-radius: 10px;
+  padding: 10px 15px;
+  border: 1px solid #000000;
+  width: 500px;
+}
+
+.info_contact:not(:last-of-type) {
+  margin-bottom: 15px;
+}
+
+@media screen and (max-width: 850px) {
+  .form > div {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(auto, 1fr);
+    gap: 10px;
+  }
+
+  .form button {
+    margin-inline: auto;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .info_contact {
+    width: 100%;
+  }
+
+  .info_contact span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .form button {
+    width: 100%;
+  }
+}

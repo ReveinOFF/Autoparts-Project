@@ -29,6 +29,8 @@ import AddMark from "./pages/admin/addMark";
 import AddModel from "./pages/admin/addModel";
 import OrderInfo from "./pages/order-info";
 import Privacy from "./pages/privacy";
+import Contact from "./pages/contact";
+import ReturnGoods from "./pages/return-goods";
 
 export default function App() {
   return (
@@ -40,6 +42,9 @@ export default function App() {
         <Route path="privacy" element={<Privacy />} />
         <Route path="favourites" element={<Favourites />} />
         <Route path="product" element={<Product />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="return-goods" element={<ReturnGoods />} />
+        {/* <Route path="map" element={<Contact />} /> */}
 
         <Route
           path="login"
