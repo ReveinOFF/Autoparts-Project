@@ -18,6 +18,9 @@ export class Product {
   modelIds: string[];
 
   @Prop()
+  recallIds: string[];
+
+  @Prop()
   price: string;
 
   @Prop()
@@ -25,6 +28,9 @@ export class Product {
 
   @Prop()
   description: string;
+
+  @Prop()
+  characteristics: string;
 
   @Prop()
   image: string[];

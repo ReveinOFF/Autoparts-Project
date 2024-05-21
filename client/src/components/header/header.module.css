@@ -214,6 +214,67 @@ header {
     brightness(108%) contrast(108%);
 }
 
+.modal_top {
+  position: absolute;
+  background: #d9d9d9;
+  border: 1px solid #929292;
+  top: 100%;
+  left: 0;
+  right: 0;
+
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-34px);
+  transition: 0.5s;
+}
+
+.modal_top:is(.active) {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modal_top > button {
+  color: #000000;
+  font-weight: 600;
+  padding: 5px 0;
+  justify-content: center;
+  font-size: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modal_top > button span {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modal_top > button span:last-of-type {
+  font-size: 15px;
+}
+
+.modal_top > button:not(:last-of-type) {
+  border-bottom: 1px solid #929292;
+}
+
+.modal_top > button:hover {
+  background-color: #fdb819;
+}
+
+.modal_top > button > img {
+  filter: none;
+}
+
+.modal_top > button:hover > img {
+  filter: none;
+}
+
+.modal_top > button:hover span {
+  color: #000000;
+}
+
 .cart {
   position: relative;
 }
@@ -247,7 +308,25 @@ header {
 
 .select_block {
   gap: 5px;
+  border-width: 1px 1px 0 1px;
+  border-style: solid;
+  border-color: transparent;
   cursor: pointer;
+  background-color: #000000;
+  position: relative;
+  z-index: 2;
+  transition: 0.5s;
+  padding: 5px;
+}
+
+.select_block:is(.active) {
+  background: #d9d9d9;
+  border-color: #929292;
+  color: #000000;
+}
+
+.show_m {
+  display: none;
 }
 
 @media screen and (max-width: 1000px) {
@@ -289,7 +368,20 @@ header {
     grid-column: 1/3;
     justify-self: flex-end;
   }
-  .h_top_r > div:first-of-type {
+  .p1 {
+    grid-row: 1;
+    grid-column: 1/3;
+    display: flex;
+    justify-content: space-between;
+  }
+  .p11 {
+    grid-row: 1;
+    grid-column: 1/3;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .p2,
+  .p3 {
     grid-row: 2;
   }
   .h_top_r > div:last-of-type > div:first-of-type {
@@ -301,6 +393,14 @@ header {
 @media screen and (max-width: 660px) {
   .header_bottom > nav {
     width: 100%;
+  }
+
+  .show_m {
+    display: block;
+  }
+
+  .show_k {
+    display: none;
   }
 
   .header_bottom > nav > a {
@@ -319,6 +419,7 @@ header {
 
   .header_bottom > nav > div > div:first-of-type {
     height: 100%;
+    padding-inline: 80px;
   }
 
   .header_bottom > nav > div > div:first-of-type > img:first-of-type {
@@ -327,7 +428,7 @@ header {
   }
 
   .header_bottom > nav > div > div:first-of-type > div {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
     line-height: 37.5px;
   }

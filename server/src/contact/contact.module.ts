@@ -8,11 +8,11 @@ import { MailerModule } from '@nestjs-modules/mailer';
     MailerModule.forRoot({
       transport: {
         host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
+        port: 465,
+        secure: true,
         auth: {
           user: 'autopartsinvolved@gmail.com',
-          pass: 'Autoparts_12',
+          pass: 'qttkzgwcknydrsnq',
         },
       },
     }),

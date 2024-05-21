@@ -9,7 +9,9 @@ import arrowImg from "../../assets/images/header/arrow.svg";
 import arrowTwoImg from "../../assets/images/header/arrowTwo.svg";
 import burgerImg from "../../assets/images/header/burger.svg";
 import uaImg from "../../assets/images/header/ua.png";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import enImg from "../../assets/images/header/en.png";
+import exitImg from "../../assets/images/header/exit.svg";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { AUTH_USER_ACTION } from "../../reducers/authReducer";
@@ -17,9 +19,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { DEFAULT_DATA_USER_ACTION } from "../../reducers/profileReducer";
 import axios from "axios";
 import { CategoriesHttp } from "../../http/CategoriesHttp";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 export default function Header() {
-  const [course, setCourse] = useState(localStorage.getItem("course") || "uah");
+  const [course, setCourse] = useState(localStorage.getItem("course") || "usd");
   const { i18n } = useTranslation();
   const location = useLocation();
   const { isAuth } = useSelector((s) => s.auth);
@@ -29,6 +32,11 @@ export default function Header() {
   const [categories, setCategories] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [products, setProducts] = useState([]);
+  const [showLng, setShowLng] = useState(false);
+  const [showCurr, setShowCurr] = useState(false);
+  const [lng, setLng] = useState({});
+  const [curr, setCurr] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     CategoriesHttp.getCategories()
@@ -36,6 +44,26 @@ export default function Header() {
         setCategories(res.data);
       })
       .catch((e) => alert(e));
+  }, []);
+
+  useEffect(() => {
+    const GetLng = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_HOST}/lang`);
+
+      setLng(res.data);
+    };
+
+    GetLng();
+  }, []);
+
+  useEffect(() => {
+    const GetCurr = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_HOST}/currency`);
+
+      setCurr(res.data);
+    };
+
+    GetCurr();
   }, []);
 
   useEffect(() => {
@@ -67,6 +95,7 @@ export default function Header() {
   const changeCourse = (course) => {
     localStorage.setItem("course", course);
     setCourse(course);
+    window.location.reload();
   };
 
   const logout = async () => {
@@ -98,33 +127,99 @@ export default function Header() {
           </div>
           <div className={styles.h_top_r}>
             {isAuth ? (
-              <button onClick={logout} className="flex-align">
-                <img src={clientImg} alt="client" width={20} height={20} />{" "}
-                Вийти
-              </button>
+              <div style={{ display: "flex" }} className={styles.p1}>
+                <button
+                  onClick={() => navigate("/profile")}
+                  className="flex-align"
+                  style={{ fontSize: 15 }}
+                >
+                  <img src={clientImg} alt="client" width={15} height={15} />{" "}
+                  Профіль
+                </button>
+                <button
+                  onClick={logout}
+                  className="flex-align"
+                  style={{ fontSize: 15 }}
+                >
+                  <img src={exitImg} alt="client" width={15} height={15} />{" "}
+                  Вийти
+                </button>
+              </div>
             ) : (
-              <Link to="/login" className="flex-align">
+              <Link to="/login" className={`flex-align ${styles.p11}`}>
                 <img src={clientImg} alt="client" width={20} height={20} />{" "}
                 Увійти/Створити кабінет
               </Link>
             )}
-            <div>
-              <div className={`flex-align ${styles.select_block}`}>
+            <div style={{ position: "relative" }} className={styles.p2}>
+              <div
+                className={`flex-align ${styles.select_block} ${
+                  showCurr ? styles.active : ""
+                }`}
+                onClick={() => setShowCurr(!showCurr)}
+              >
                 <div style={{ fontSize: 18 }}>
                   {course === "uah" ? "₴" : "$"}
                 </div>
-                <div>{course === "uah" ? "UAH" : "DOL"}</div>
+                <div>{course.toLocaleUpperCase()}</div>
                 <img src={arrowTwoImg} alt="arrow" width={12} height={12} />
               </div>
-              <div></div>
+              <div
+                className={`${styles.modal_top} ${
+                  showCurr ? styles.active : ""
+                }`}
+              >
+                {curr
+                  .filter((item) => item.key !== course)
+                  .map((item) => (
+                    <button
+                      key={item._id}
+                      onClick={() => changeCourse(item.key)}
+                    >
+                      <span>{getSymbolFromCurrency(item.key)}</span>{" "}
+                      <span>{item.key.toLocaleUpperCase()}</span>
+                    </button>
+                  ))}
+              </div>
             </div>
-            <div>
-              <div className={`flex-align ${styles.select_block}`}>
-                <img src={uaImg} alt="ukraine" width={20} height={15} />
+            <div style={{ position: "relative" }} className={styles.p3}>
+              <div
+                className={`flex-align ${styles.select_block} ${
+                  showLng ? styles.active : ""
+                }`}
+                onClick={() => setShowLng(!showLng)}
+              >
+                {i18n.language === "en" ? (
+                  <img src={enImg} alt="english" width={20} height={15} />
+                ) : (
+                  <img src={uaImg} alt="ukraine" width={20} height={15} />
+                )}
                 <div>Мова</div>
                 <img src={arrowTwoImg} alt="arrow" width={12} height={12} />
               </div>
-              <div></div>
+              {lng?.en && i18n.language === "ua" ? (
+                <div
+                  className={`${styles.modal_top} ${
+                    showLng ? styles.active : ""
+                  }`}
+                >
+                  <button onClick={() => changeLang("en")}>
+                    <img src={enImg} alt="english" width={20} height={15} />
+                    <span>EN</span>
+                  </button>
+                </div>
+              ) : lng?.ua && i18n.language === "en" ? (
+                <div
+                  className={`${styles.modal_top} ${
+                    showLng ? styles.active : ""
+                  }`}
+                >
+                  <button onClick={() => changeLang("ua")}>
+                    <img src={uaImg} alt="ukraine" width={20} height={15} />
+                    <span>UA</span>
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -185,7 +280,8 @@ export default function Header() {
                 onClick={() => setShowCategory(!showCategory)}
               >
                 <img src={burgerImg} alt="burger" width={15} height={15} />
-                <div>Категорії</div>
+                <div className={styles.show_k}>Категорії</div>
+                <div className={styles.show_m}>Меню</div>
                 <img src={arrowImg} alt="arrow" width={10} height={10} />
               </div>
               <div className={styles.cat_modal}>

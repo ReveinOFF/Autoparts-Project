@@ -1,0 +1,125 @@
+.product {
+  display: grid;
+  grid-template-columns: 1fr 0.6fr;
+  gap: 40px;
+  margin-block: 30px;
+}
+
+.product > div:first-of-type {
+  display: grid;
+  grid-template-columns: 0.2fr 1fr;
+  gap: 10px;
+}
+
+.product > div:first-of-type > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.product > div:first-of-type > div > img {
+  width: 100%;
+}
+
+.product > div:first-of-type > img {
+  width: 100%;
+}
+
+.product_d > h1 {
+  margin-bottom: 5px;
+}
+
+.recall {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recall > div:last-of-type {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.price {
+  font-size: 75px;
+  font-weight: 700;
+}
+
+.btns {
+  display: flex;
+  align-items: stretch;
+}
+
+.btns button {
+  background: #fdb819;
+  border: 1px solid #000000;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px 20px;
+}
+
+.btns button:first-of-type {
+  padding: 10px 20px;
+  gap: 20px;
+  font-size: 19px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 15px;
+}
+
+.btns button:last-of-type {
+  padding: 10px;
+}
+
+.card {
+  display: flex;
+  gap: 10px;
+}
+
+.card > div:last-of-type > div:first-of-type {
+  font-size: 19px;
+  font-weight: 700;
+  text-wrap: balance;
+  margin-bottom: 10px;
+}
+
+.card > div:last-of-type > div:last-of-type {
+  display: flex;
+  gap: 10px;
+}
+
+.information {
+  border-top: 1px solid #000000;
+  padding-top: 20px;
+}
+
+.information > div:first-of-type {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.information > div:first-of-type {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.information > div:first-of-type > div {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.information > div:first-of-type > div:is(.active) {
+  color: #fdb819;
+}
+
+.information > div:first-of-type > div:not(:last-of-type) {
+  padding-right: 10px;
+  border-right: 1px solid #000000;
+}
+
+.information > div:first-of-type > div:not(:first-of-type) {
+  padding-left: 10px;
+}
