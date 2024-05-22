@@ -1,0 +1,59 @@
+.nav {
+  display: grid;
+  border-right: 1px solid #000000;
+}
+
+.nav > a {
+  background-color: transparent;
+  border-bottom: 1px solid #000000;
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  gap: 15px;
+}
+
+.nav > a > div {
+  display: grid;
+  gap: 5px;
+}
+
+.nav > a > div > div:first-of-type {
+  color: #000000;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.nav > a > div > div:last-of-type {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.nav_list {
+  display: grid;
+  margin-top: 10px;
+}
+
+.nav_list > a {
+  padding-block: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-right: 15px;
+}
+
+.nav_list > a > span {
+  font-size: 19px;
+  font-weight: 400;
+  color: #000000;
+}
+
+.activeL {
+  filter: invert(89%) sepia(32%) saturate(7342%) hue-rotate(348deg)
+    brightness(114%) contrast(98%);
+}
+
+.profile {
+  margin-left: 20px;
+}

@@ -11,6 +11,7 @@ import {
   BlockAdminRoute,
   BlockRoute,
   PrivateAdminRoute,
+  PrivateRoute,
 } from "./components/private-route/privateRoute";
 import Product from "./pages/product";
 import LeftLayout from "./components/admin/left-layout";
@@ -31,6 +32,11 @@ import OrderInfo from "./pages/order-info";
 import Privacy from "./pages/privacy";
 import Contact from "./pages/contact";
 import ReturnGoods from "./pages/return-goods";
+import ProfileLayout from "./components/profile-layout";
+import Profile from "./pages/profile/main";
+import OrdersP from "./pages/profile/orders";
+import RecallP from "./pages/profile/recall";
+import FavoritesP from "./pages/profile/favorites";
 
 export default function App() {
   return (
@@ -41,10 +47,25 @@ export default function App() {
         <Route path="order-info" element={<OrderInfo />} />
         <Route path="privacy" element={<Privacy />} />
         <Route path="favourites" element={<Favourites />} />
+        <Route path="cart" element={<Favourites />} />
         <Route path="product" element={<Product />} />
         <Route path="contact" element={<Contact />} />
         <Route path="return-goods" element={<ReturnGoods />} />
         {/* <Route path="map" element={<Contact />} /> */}
+
+        <Route
+          path="profile"
+          element={
+            <PrivateRoute>
+              <ProfileLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<Profile />} />
+          <Route path="orders" element={<OrdersP />} />
+          <Route path="favorites" element={<FavoritesP />} />
+          <Route path="recall" element={<RecallP />} />
+        </Route>
 
         <Route
           path="login"

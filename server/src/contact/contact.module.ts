@@ -7,12 +7,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
+        host: 'smtp-mail.outlook.com',
+        port: 587,
+        secure: false,
         auth: {
-          user: 'autopartsinvolved@gmail.com',
-          pass: 'qttkzgwcknydrsnq',
+          user: 'autopartsinvolved@outlook.com',
+          pass: 'AutopartsHjkknjy389',
         },
       },
     }),

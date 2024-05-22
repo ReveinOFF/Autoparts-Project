@@ -7,9 +7,9 @@ export class ContactService {
 
   async sendMail(data) {
     return await this.mailService.sendMail({
-      from: 'autopartsinvolved@gmail.com',
-      to: data.email,
-      subject: 'Autoparts contact',
+      from: 'autopartsinvolved@outlook.com',
+      to: 'autopartsinvolved@gmail.com',
+      subject: `Autoparts ${data.name}`,
       html: `
       <div>
         <p>Name: ${data.name}</p>

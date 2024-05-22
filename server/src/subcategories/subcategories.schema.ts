@@ -13,6 +13,9 @@ export class Subcategories {
 
   @Prop()
   brandIds: string[];
+
+  @Prop()
+  subCategorieIds: string[];
 }
 
 export const SubcategoriesSchema = SchemaFactory.createForClass(Subcategories);

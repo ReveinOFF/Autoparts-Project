@@ -18,6 +18,7 @@ export default function Login() {
       );
       localStorage.setItem("token", data?.token);
       navigate("/");
+      window.location.reload();
     } catch (error) {
       alert(error?.response?.data?.message || "Error occurred login");
     }

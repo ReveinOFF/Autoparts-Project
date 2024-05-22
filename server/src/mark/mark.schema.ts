@@ -15,6 +15,9 @@ export class Mark {
   image: string;
 
   @Prop()
+  models: string[];
+
+  @Prop()
   categoryIds: string[];
 }
 

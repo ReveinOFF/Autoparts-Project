@@ -19,6 +19,8 @@ export class Modele {
 
   @Prop()
   subCategorieIds: string[];
+
+  productsIds: string[];
 }
 
 export const ModeleSchema = SchemaFactory.createForClass(Modele);

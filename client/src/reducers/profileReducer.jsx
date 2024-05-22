@@ -4,9 +4,7 @@ export const DEFAULT_DATA_USER_ACTION = "DATA_USER_ACTION";
 const initialState = {
   name: "User",
   surname: "",
-  role: "",
   _id: "",
-  login: "",
 };
 
 const ProfileReducer = (state = initialState, action) => {
