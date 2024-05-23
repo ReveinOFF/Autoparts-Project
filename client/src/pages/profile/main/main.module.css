@@ -1,0 +1,13 @@
+.p1 {
+  column-gap: 20%;
+  row-gap: 15px;
+}
+
+.p2 {
+  column-gap: 10px;
+}
+
+.p2 > div:nth-of-type(3) input,
+.p2 > div:nth-of-type(4) input {
+  width: 80px;
+}

@@ -21,7 +21,7 @@ export enum ROLE {
 export enum STATUS {
   ACTIVE = 'active',
   CANCEL = 'cancel',
-  PAID = 'paid',
+  READY = 'ready',
 }
 
 export enum TYPEPAGE {

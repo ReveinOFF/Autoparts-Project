@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ROLE } from 'src/enum/enum';
+import { ROLE, SEX } from 'src/enum/enum';
 
 export type AuthenticationType = HydratedDocument<Authentication>;
 
@@ -8,6 +8,9 @@ export type AuthenticationType = HydratedDocument<Authentication>;
 export class Authentication {
   @Prop()
   login: string;
+
+  @Prop()
+  email: string;
 
   @Prop()
   password: string;
@@ -25,13 +28,25 @@ export class Authentication {
   surname: string;
 
   @Prop()
-  address: string;
+  sex: SEX;
+
+  @Prop()
+  patronymic: string;
+
+  @Prop()
+  address: string[];
+
+  @Prop()
+  vin: string;
 
   @Prop()
   phone: string;
 
   @Prop()
   registrationDate: Date;
+
+  @Prop()
+  birthday: Date;
 
   @Prop()
   orderIds: string[];

@@ -36,7 +36,6 @@ export class AuthenticationController {
     if (!user.token) {
       throw new HttpException(TOKEN_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
     }
-    console.log(user);
 
     return user;
   }

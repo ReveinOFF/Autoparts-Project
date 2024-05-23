@@ -3,8 +3,6 @@ export const DEFAULT_DATA_USER_ACTION = "DATA_USER_ACTION";
 
 const initialState = {
   name: "User",
-  surname: "",
-  _id: "",
 };
 
 const ProfileReducer = (state = initialState, action) => {
@@ -14,7 +12,7 @@ const ProfileReducer = (state = initialState, action) => {
     case DATA_USER_ACTION:
       return {
         ...state,
-        payload,
+        ...payload,
       };
     case DEFAULT_DATA_USER_ACTION:
       return initialState;

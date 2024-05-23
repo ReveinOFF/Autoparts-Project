@@ -41,7 +41,7 @@ export default function AdminHome() {
     labels: [],
     datasets: [
       {
-        label: ["active", "cancel", "paid"],
+        label: ["active", "cancel", "ready"],
         data: [],
         fill: false,
         borderColor: "rgba(75, 192, 192, 0.2)",

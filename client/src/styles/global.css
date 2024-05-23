@@ -211,3 +211,135 @@ button {
 .div_infoblock {
   margin-bottom: 60px;
 }
+
+.profile-block {
+  background: #d9d9d9;
+  border: 1px solid #999999;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.1fr 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 500ms;
+}
+
+.profile-block > div:last-of-type {
+  overflow: hidden;
+}
+
+.profile-block:is(.active) {
+  grid-template-rows: 0.1fr 1fr;
+}
+
+.profile-block-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0px 40px;
+  padding-block: 10px;
+}
+
+.profile-block-btn > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-block-btn > div > h2 {
+  font-size: 20px;
+}
+
+.profile-block-btn > img {
+  rotate: 180deg;
+  transition: 500ms;
+}
+
+.profile-block:is(.active) > .profile-block-btn > img {
+  rotate: 0deg;
+}
+
+.profile-btn {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  background: #fdb819;
+  border-radius: 10px;
+  margin-left: 40px;
+  height: 40px;
+  width: 150px;
+  margin-block: 15px;
+}
+
+.profile-btn:hover {
+  background: #ffc640;
+}
+
+.profile-ins {
+  display: flex;
+  flex-wrap: wrap;
+  margin-inline: 40px;
+}
+
+.profile-info {
+  display: grid;
+  gap: 5px;
+}
+
+.profile-info > div:first-of-type {
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.profile-info > div:last-of-type {
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.pf-b {
+  display: grid;
+  gap: 10px;
+}
+
+.profile-inp1,
+.profile-inp2 {
+  border-radius: 10px;
+  border: 1px solid #313131;
+  padding: 10px 7px;
+  font-size: 18px;
+}
+
+.profile-inp1 {
+  background-color: transparent;
+}
+
+.profile-inp2 {
+  background-color: #b0b0b0;
+}
+
+.profile-show {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+  gap: 15px;
+}
+
+.profile-show2 {
+  margin-left: 40px;
+}
+
+.profile-show2 > div:last-of-type {
+  margin-top: 20px;
+  display: flex;
+  gap: 50px;
+  margin-bottom: 20px;
+}
+
+.profile-show > div:first-of-type {
+  font-weight: 400;
+}
+
+.profile-show > div:last-of-type {
+  display: flex;
+  gap: 80px;
+}

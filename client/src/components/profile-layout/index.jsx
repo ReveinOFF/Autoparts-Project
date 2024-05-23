@@ -5,9 +5,32 @@ import orderImg from "../../assets/images/profile/order.svg";
 import favImg from "../../assets/images/profile/favorite.svg";
 import recImg from "../../assets/images/profile/recall.svg";
 import styles from "./pl.module.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { DATA_USER_ACTION } from "../../reducers/profileReducer";
 
 export default function ProfileLayout() {
   const location = useLocation();
+  const profile = useSelector((s) => s.profile);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const token = localStorage.getItem("token");
+
+      const decode = jwtDecode(token);
+
+      const res = await axios.get(
+        `${process.env.REACT_APP_HOST}/authentication/user/${decode._id}`
+      );
+
+      dispatch({ type: DATA_USER_ACTION, payload: res.data });
+    };
+
+    getProfile();
+  }, []);
 
   return (
     <div className="container" style={{ display: "flex", marginBlock: 60 }}>
@@ -20,8 +43,8 @@ export default function ProfileLayout() {
             className={location.pathname === "/profile" ? styles.activeL : ""}
           />
           <div>
-            <div>John Doe</div>
-            <div>johndoe@gmail.com</div>
+            <div>{`${profile?.name} ${profile?.surname}`}</div>
+            <div>{profile?.login}</div>
           </div>
         </NavLink>
         <div className={styles.nav_list}>
@@ -60,6 +83,7 @@ export default function ProfileLayout() {
             <span>Мої відгуки</span>
           </NavLink>
         </div>
+        <div></div>
       </nav>
       <div className={styles.profile}>
         <Outlet />
