@@ -38,9 +38,9 @@ export class ProductController {
     return this.productService.findAll(filters);
   }
 
-  @Get('get-product/:id')
-  async findOne(@Param('id') id: string) {
-    return this.productService.findOne(id);
+  @Get('get-product/:id/:userId')
+  async findOne(@Param('id') id: string, @Param('userId') userId: string) {
+    return this.productService.findOne(id, userId);
   }
 
   @Post('search-product')

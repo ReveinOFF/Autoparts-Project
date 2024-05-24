@@ -9,6 +9,7 @@ import { BrandHttp } from "../../../http/BrandHttp";
 import closeImg from "../../../assets/images/admin/ha_exit.svg";
 import { FilesHttp } from "../../../http/FileHttp";
 import axios from "axios";
+import RichText from "../../../components/rich-text";
 
 export default function AddProduct() {
   const refInp = useRef();
@@ -33,17 +34,45 @@ export default function AddProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [desc, setDesc] = useState([
+    {
+      type: "paragraph",
+      children: [{ text: "" }],
+    },
+  ]);
+  const [charact, setCharact] = useState([
+    {
+      type: "paragraph",
+      children: [{ text: "" }],
+    },
+  ]);
+
   useEffect(() => {
     if (id === "add") {
       setType("add");
     } else {
       ProductHttp.getProduct(id).then((res) => {
+        const defaultValue = [
+          {
+            type: "paragraph",
+            children: [{ text: "" }],
+          },
+        ];
+
         setData(res.data);
         setModelSelected(res.data.modelIds || []);
         setMarkSelected(res.data.brandIds || []);
         setCategorySelected(res.data.categorieIds || []);
         setSubCatSelected(res.data.subCategorieIds || []);
         setOldImg(res.data.image || []);
+        setDesc(
+          res.data.description ? JSON.parse(res.data.description) : defaultValue
+        );
+        setCharact(
+          res.data.characteristics
+            ? JSON.parse(res.data.characteristics)
+            : defaultValue
+        );
         setType("id");
       });
     }
@@ -64,6 +93,8 @@ export default function AddProduct() {
     formDataObject["brandIds"] = markSelected;
     formDataObject["modelIds"] = modelSelected;
     formDataObject["subCategorieIds"] = subCatSelected;
+    formDataObject["description"] = desc;
+    formDataObject["characteristics"] = charact;
 
     if (files.length > 0) {
       const form = new FormData();
@@ -240,11 +271,11 @@ export default function AddProduct() {
         </fieldset>
         <fieldset>
           <label htmlFor="title">Опис</label>
-          <textarea
-            name="description"
-            placeholder="Опис"
-            defaultValue={data?.description}
-          ></textarea>
+          <RichText value={desc} setValue={setDesc} />
+        </fieldset>
+        <fieldset>
+          <label htmlFor="title">Характеристика</label>
+          <RichText value={charact} setValue={setCharact} />
         </fieldset>
         <fieldset>
           <label htmlFor="price">Ціна</label>

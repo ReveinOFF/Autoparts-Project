@@ -50,9 +50,16 @@ export default function App() {
           <Route path="about" element={<About />} />
           <Route path="order-info" element={<OrderInfo />} />
           <Route path="privacy" element={<Privacy />} />
-          <Route path="favourites" element={<Favourites />} />
+          <Route
+            path="favourites"
+            element={
+              <BlockRoute>
+                <Favourites />
+              </BlockRoute>
+            }
+          />
           <Route path="cart" element={<Favourites />} />
-          <Route path="product" element={<Product />} />
+          <Route path="product/:id" element={<Product />} />
           <Route path="contact" element={<Contact />} />
           <Route path="return-goods" element={<ReturnGoods />} />
 
@@ -67,14 +74,7 @@ export default function App() {
             <Route index element={<Profile />} />
             <Route path="orders" element={<OrdersP />} />
             <Route path="password" element={<Password />} />
-            <Route
-              path="favourites"
-              element={
-                <BlockRoute>
-                  <FavoritesP />
-                </BlockRoute>
-              }
-            />
+            <Route path="favourites" element={<FavoritesP />} />
             <Route path="recall" element={<RecallP />} />
           </Route>
 

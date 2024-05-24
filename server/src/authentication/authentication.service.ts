@@ -251,6 +251,16 @@ export class AuthenticationService {
     return await this.authModel.findByIdAndDelete(id).exec();
   }
 
+  async addFavourite(userId: string, saveProductId: string) {
+    const res = await this.authModel
+      .findById(new Types.ObjectId(userId))
+      .exec();
+    res.saveProductIds.push(saveProductId);
+    return await this.authModel
+      .findByIdAndUpdate(userId, { saveProductIds: res.saveProductIds })
+      .exec();
+  }
+
   async removeFavourite(userId: string, id: string) {
     const res = await this.authModel
       .findById(new Types.ObjectId(userId))

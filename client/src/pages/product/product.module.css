@@ -23,6 +23,9 @@
 
 .product > div:first-of-type > img {
   width: 100%;
+  max-height: 500px;
+  max-width: 500px;
+  object-fit: cover;
 }
 
 .product_d > h1 {
@@ -100,15 +103,10 @@
   margin-bottom: 10px;
 }
 
-.information > div:first-of-type {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
 .information > div:first-of-type > div {
   font-size: 26px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .information > div:first-of-type > div:is(.active) {

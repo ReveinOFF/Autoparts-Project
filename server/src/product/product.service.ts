@@ -72,8 +72,39 @@ export class ProductService {
     }
   }
 
-  async findOne(id: string) {
-    return await this.productsModel.findById(id).exec();
+  async findOne(id: string, userId: string) {
+    const product = await this.productsModel.db
+      .collection('products')
+      .findOne({ _id: new Types.ObjectId(id) });
+
+    const user = await this.productsModel.db
+      .collection('authentications')
+      .findOne({ _id: new Types.ObjectId(userId) });
+
+    const recalls = await this.productsModel.db
+      .collection('recalls')
+      .find({ productId: product._id.toString() })
+      .toArray();
+
+    if (user?.saveProductIds?.includes(id)) product.isFav = true;
+    else product.isFav = false;
+
+    product.reviews = recalls;
+    product.reviewsCount = product.reviews.length;
+    if (product.reviewsCount === 0) {
+      product.rating = 5;
+    } else {
+      const validReviews = recalls.filter(
+        (review) => review.star !== null && review.star !== undefined,
+      );
+      const sumStars = validReviews.reduce(
+        (acc, review) => acc + review.star,
+        0,
+      );
+      product.rating = sumStars / validReviews.length;
+    }
+
+    return product;
   }
 
   async findOneWithCat(id: string) {

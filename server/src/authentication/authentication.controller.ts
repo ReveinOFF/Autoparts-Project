@@ -81,6 +81,11 @@ export class AuthenticationController {
     return await this.authService.changeUser(data);
   }
 
+  @Post('fav/add')
+  async AddFavourite(@Body() data) {
+    return await this.authService.addFavourite(data._id, data.saveProductId);
+  }
+
   @Delete('fav/del/:userId/:id')
   async RemoveFavourite(
     @Param('userId') userId: string,
