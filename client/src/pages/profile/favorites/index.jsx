@@ -5,7 +5,6 @@ import recallImg from "../../../assets/images/profile/recall.svg";
 import starImg from "../../../assets/images/profile/star.svg";
 import starAImg from "../../../assets/images/profile/star_a.svg";
 import favAImg from "../../../assets/images/profile/fav_a.svg";
-import circleImg from "../../../assets/images/profile/circle.svg";
 import emptyImg from "../../../assets/images/profile/empty.png";
 import styles from "./favorites.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,12 +18,13 @@ export default function FavoritesP() {
 
   const removeFav = async (id) => {
     await axios.delete(
-      `${process.env.REACT_APP_HOST}/authentication/fav/del/${id}`
+      `${process.env.REACT_APP_HOST}/authentication/fav/del/${state._id}/${id}`
     );
+
     dispatch({
       type: DATA_USER_ACTION,
-      payloda: {
-        saveProductIds: state?.saveProductIds.filter((f) => f !== id) || [],
+      payload: {
+        savedProducts: state.savedProducts.filter((f) => f._id !== id),
       },
     });
   };
@@ -37,8 +37,11 @@ export default function FavoritesP() {
           state.savedProducts.map((item) => (
             <div className={styles.product}>
               <div className={styles.sect}>
-                <img src={favAImg} alt="favorite" />
-                <img src={circleImg} alt="circle" />
+                <img
+                  src={favAImg}
+                  alt="favorite"
+                  onClick={() => removeFav(item._id)}
+                />
               </div>
               <Image
                 src={
@@ -75,11 +78,7 @@ export default function FavoritesP() {
                     </div>
                     <div className={styles.price}>{item.price} $</div>
                   </div>
-                  <img
-                    src={cartImg}
-                    alt="cart"
-                    onClick={() => removeFav(item._id)}
-                  />
+                  <img src={cartImg} alt="cart" />
                 </div>
                 <div className={styles.delivery}>
                   <span>Готовий до відправки</span>

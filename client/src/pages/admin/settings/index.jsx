@@ -198,18 +198,6 @@ export default function AdminSetting() {
             />
           </div>
           {errors1.phone && <p>{errors1.phone}</p>}
-          <div>
-            <label htmlFor="address">Адресса</label>
-            <input
-              type="text"
-              name="address"
-              placeholder="Адресса"
-              value={values1.address}
-              onChange={handleChange1}
-              onBlur={handleBlur1}
-            />
-          </div>
-          {errors1.address && <p>{errors1.address}</p>}
           <button
             type="submit"
             disabled={formik.isSubmitting || !formik.dirty || !formik.isValid}

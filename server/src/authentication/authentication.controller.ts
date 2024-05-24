@@ -81,9 +81,17 @@ export class AuthenticationController {
     return await this.authService.changeUser(data);
   }
 
-  @Delete('fav/del/:id')
-  async RemoveFavourite(@Param('id') id: string) {
-    return await this.authService.removeFavourite(id);
+  @Delete('fav/del/:userId/:id')
+  async RemoveFavourite(
+    @Param('userId') userId: string,
+    @Param('id') id: string,
+  ) {
+    return await this.authService.removeFavourite(userId, id);
+  }
+
+  @Delete('remove/:id')
+  async RemoveAcc(@Param('id') id: string) {
+    return await this.authService.removeAcc(id);
   }
 
   @Put('pass/edit')

@@ -7,6 +7,10 @@
   column-gap: 10px;
 }
 
+.p2:not(:first-of-type) {
+  margin-top: 25px;
+}
+
 .p2 > div:nth-of-type(3) input,
 .p2 > div:nth-of-type(4) input {
   width: 80px;
@@ -20,4 +24,38 @@
   width: 100px;
   text-align: center;
   cursor: pointer;
+}
+
+.pe {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.pe,
+.pl {
+  font-weight: 500;
+}
+
+.pe > div,
+.pe > a,
+.pl {
+  cursor: pointer;
+}
+
+.pe > a {
+  color: black;
+}
+
+.pl {
+  margin-top: 10px;
+}
+
+.add {
+  display: flex;
+  align-items: center;
+  margin-inline: 40px;
+  margin-top: 15px;
+  cursor: pointer;
+  gap: 10px;
 }

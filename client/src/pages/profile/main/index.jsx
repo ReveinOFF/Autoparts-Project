@@ -5,11 +5,17 @@ import deliveryImg from "../../../assets/images/profile/delivery.svg";
 import logImg from "../../../assets/images/profile/login.svg";
 import delImg from "../../../assets/images/profile/del.svg";
 import vinImg from "../../../assets/images/profile/vin.svg";
+import addImg from "../../../assets/images/profile/add.svg";
 import styles from "./main.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { DATA_USER_ACTION } from "../../../reducers/profileReducer";
+import {
+  DATA_USER_ACTION,
+  DEFAULT_DATA_USER_ACTION,
+} from "../../../reducers/profileReducer";
+import { AUTH_USER_ACTION } from "../../../reducers/authReducer";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const state = useSelector((s) => s.profile);
@@ -41,6 +47,60 @@ export default function Profile() {
       sendData
     );
     window.location.reload();
+  };
+
+  const removeLogin = () => {
+    dispatch({ type: AUTH_USER_ACTION, payload: { isAuth: false } });
+    dispatch({ type: DEFAULT_DATA_USER_ACTION });
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
+  const logout = async () => {
+    try {
+      await axios.post(`${process.env.REACT_APP_HOST}/authentication/logout`);
+      removeLogin();
+    } catch (error) {}
+  };
+
+  const remAcc = async () => {
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_HOST}/authentication/remove/${state._id}`
+      );
+      removeLogin();
+    } catch (error) {}
+  };
+
+  const addAddress = () => {
+    const newAddressItem = {
+      city: "",
+      street: "",
+      house: "",
+      apartment: "",
+    };
+
+    const updatedAddress = [...state.address, newAddressItem];
+    dispatch({
+      type: DATA_USER_ACTION,
+      payload: { address: updatedAddress },
+    });
+    setData((prev) => ({ ...prev, address: updatedAddress }));
+  };
+
+  const deleteAddress = async (index) => {
+    const updatedAddress = state.address.filter((_, i) => i !== index);
+    dispatch({
+      type: DATA_USER_ACTION,
+      payload: { address: updatedAddress },
+    });
+    setData((prev) => ({ ...prev, address: updatedAddress }));
+
+    const sendData = { userId: state._id, address: updatedAddress };
+    await axios.put(
+      `${process.env.REACT_APP_HOST}/authentication/user/edit`,
+      sendData
+    );
   };
 
   return (
@@ -158,14 +218,14 @@ export default function Profile() {
                         setData((prev) => ({ ...prev, sex: "female" }));
                         dispatch({
                           type: DATA_USER_ACTION,
-                          payloda: { sex: "female" },
+                          payload: { sex: "female" },
                         });
                       } else {
                         setSex("Male");
                         setData((prev) => ({ ...prev, sex: "male" }));
                         dispatch({
                           type: DATA_USER_ACTION,
-                          payloda: { sex: "Female" },
+                          payload: { sex: "Female" },
                         });
                       }
                     }}
@@ -182,7 +242,7 @@ export default function Profile() {
                   if (state.sex !== "male" || state.sex !== "female") {
                     dispatch({
                       type: DATA_USER_ACTION,
-                      payloda: { sex: "male" },
+                      payload: { sex: "male" },
                     });
                     setData({ sex: "male" });
                   }
@@ -287,37 +347,123 @@ export default function Profile() {
           <div className="profile-block-btn" onClick={() => setShowB3(!showB3)}>
             <div>
               <img src={deliveryImg} alt="profile" width={18} />
-              <h2>Контакти</h2>
+              <h2>Адреса доставки</h2>
             </div>
             <img src={arrowImg} alt="arrow" width={17} />
           </div>
           <div>
-            <div className={`profile-ins ${styles.p2}`}>
-              <div className="profile-info">
-                <div>Місто</div>
-                <div>
-                  <input type="text" className="profile-inp1" />
+            {state.address?.map((item, index) => (
+              <div className={`profile-ins ${styles.p2}`}>
+                <div className="profile-info">
+                  <div>Місто</div>
+                  <div>
+                    <input
+                      type="text"
+                      className="profile-inp1"
+                      value={item.city}
+                      onChange={(e) => {
+                        const newAddress = state.address.map((addr, i) =>
+                          i === index ? { ...addr, city: e.target.value } : addr
+                        );
+                        dispatch({
+                          type: DATA_USER_ACTION,
+                          payload: {
+                            address: newAddress,
+                          },
+                        });
+                        setData((prev) => ({ ...prev, address: newAddress }));
+                      }}
+                      disabled={!editB3}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="profile-info">
-                <div>Вулиця</div>
-                <div>
-                  <input type="text" className="profile-inp2" />
+                <div className="profile-info">
+                  <div>Вулиця</div>
+                  <div>
+                    <input
+                      type="text"
+                      className="profile-inp2"
+                      value={item.street}
+                      onChange={(e) => {
+                        const newAddress = state.address.map((addr, i) =>
+                          i === index
+                            ? { ...addr, street: e.target.value }
+                            : addr
+                        );
+                        dispatch({
+                          type: DATA_USER_ACTION,
+                          payload: {
+                            address: newAddress,
+                          },
+                        });
+                        setData((prev) => ({ ...prev, address: newAddress }));
+                      }}
+                      disabled={!editB3}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="profile-info">
-                <div>Будинок</div>
-                <div>
-                  <input type="text" className="profile-inp2" />
+                <div className="profile-info">
+                  <div>Будинок</div>
+                  <div>
+                    <input
+                      type="text"
+                      className="profile-inp2"
+                      value={item.house}
+                      onChange={(e) => {
+                        const newAddress = state.address.map((addr, i) =>
+                          i === index
+                            ? { ...addr, house: e.target.value }
+                            : addr
+                        );
+                        dispatch({
+                          type: DATA_USER_ACTION,
+                          payload: {
+                            address: newAddress,
+                          },
+                        });
+                        setData((prev) => ({ ...prev, address: newAddress }));
+                      }}
+                      disabled={!editB3}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="profile-info">
-                <div>Квартира</div>
-                <div>
-                  <input type="text" className="profile-inp2" />
+                <div className="profile-info">
+                  <div>Квартира</div>
+                  <div>
+                    <input
+                      type="text"
+                      className="profile-inp2"
+                      value={item.apartment}
+                      onChange={(e) => {
+                        const newAddress = state.address.map((addr, i) =>
+                          i === index
+                            ? { ...addr, apartment: e.target.value }
+                            : addr
+                        );
+                        dispatch({
+                          type: DATA_USER_ACTION,
+                          payload: {
+                            address: newAddress,
+                          },
+                        });
+                        setData((prev) => ({ ...prev, address: newAddress }));
+                      }}
+                      disabled={!editB3}
+                    />
+                  </div>
                 </div>
+                <img
+                  src={delImg}
+                  alt="delete"
+                  width={25}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => deleteAddress(index)}
+                />
               </div>
-              <img src={delImg} alt="delete" width={25} />
+            ))}
+            <div className={styles.add} onClick={addAddress}>
+              <img src={addImg} alt="add" width={20} />
+              <span>Адреса доставки</span>
             </div>
             {!editB3 ? (
               <button
@@ -475,6 +621,13 @@ export default function Profile() {
               </>
             )}
           </div>
+        </div>
+        <div className={styles.pe}>
+          <Link to="password">Змінити пароль</Link>
+          <div onClick={remAcc}>Видалити акаунт</div>
+        </div>
+        <div className={styles.pl} onClick={logout}>
+          Вихід
         </div>
       </div>
     </>

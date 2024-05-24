@@ -1,0 +1,79 @@
+.back {
+  color: black;
+  font-size: 18;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
+.back > img {
+  rotate: -90deg;
+}
+
+.form {
+  margin-top: 30px;
+  background-color: gainsboro;
+  border-radius: 10px;
+  padding: 15px;
+  display: grid;
+  justify-content: center;
+  margin-inline: auto;
+  width: 500px;
+}
+
+.form > div {
+  display: grid;
+}
+
+.form > div:not(:first-of-type) {
+  margin-top: 15px;
+}
+
+.form > div > label {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.form > div > input {
+  font-size: 15px;
+  font-weight: 400;
+  margin-top: 5px;
+  padding: 10px;
+  width: 400px;
+  border-radius: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.563);
+}
+
+.form > p {
+  margin-top: 5px;
+  margin-bottom: 0;
+  color: red;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form > button {
+  margin-top: 15px;
+  background-color: rgb(30, 184, 30);
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.form > button:hover {
+  background-color: rgb(44, 221, 44);
+}
+
+.form > button:disabled {
+  background-color: rgb(24, 110, 24);
+}
+
+.form:last-of-type {
+  margin-bottom: 20px;
+}

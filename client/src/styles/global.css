@@ -365,3 +365,7 @@ button {
   font-size: 20px;
   font-weight: 300;
 }
+
+*:disabled {
+  cursor: not-allowed;
+}

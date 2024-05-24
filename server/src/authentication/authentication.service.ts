@@ -247,10 +247,18 @@ export class AuthenticationService {
     return await this.authModel.findByIdAndUpdate(id, data).exec();
   }
 
-  async removeFavourite(id: string) {
-    const res = await this.authModel.findById(id).exec();
-    const data = res.saveProductIds.filter((f) => f !== id);
-    return await this.authModel.findByIdAndUpdate(id, data).exec();
+  async removeAcc(id) {
+    return await this.authModel.findByIdAndDelete(id).exec();
+  }
+
+  async removeFavourite(userId: string, id: string) {
+    const res = await this.authModel
+      .findById(new Types.ObjectId(userId))
+      .exec();
+    const data = res.saveProductIds?.filter((f) => f !== id);
+    return await this.authModel
+      .findByIdAndUpdate(userId, { saveProductIds: data })
+      .exec();
   }
 
   async getUserStatistic() {

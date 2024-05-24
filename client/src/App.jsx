@@ -37,86 +37,92 @@ import Profile from "./pages/profile/main";
 import OrdersP from "./pages/profile/orders";
 import RecallP from "./pages/profile/recall";
 import FavoritesP from "./pages/profile/favorites";
+import Password from "./pages/profile/password";
+import ScrollToTop from "./components/scrollTop";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="order-info" element={<OrderInfo />} />
-        <Route path="privacy" element={<Privacy />} />
-        <Route path="favourites" element={<Favourites />} />
-        <Route path="cart" element={<Favourites />} />
-        <Route path="product" element={<Product />} />
-        <Route path="contact" element={<Contact />} />
-        <Route path="return-goods" element={<ReturnGoods />} />
-        {/* <Route path="map" element={<Contact />} /> */}
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="order-info" element={<OrderInfo />} />
+          <Route path="privacy" element={<Privacy />} />
+          <Route path="favourites" element={<Favourites />} />
+          <Route path="cart" element={<Favourites />} />
+          <Route path="product" element={<Product />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="return-goods" element={<ReturnGoods />} />
+          {/* <Route path="map" element={<Contact />} /> */}
 
-        <Route
-          path="profile"
-          element={
-            <PrivateRoute>
-              <ProfileLayout />
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<Profile />} />
-          <Route path="orders" element={<OrdersP />} />
-          <Route path="favourites" element={<FavoritesP />} />
-          <Route path="recall" element={<RecallP />} />
+          <Route
+            path="profile"
+            element={
+              <PrivateRoute>
+                <ProfileLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Profile />} />
+            <Route path="orders" element={<OrdersP />} />
+            <Route path="password" element={<Password />} />
+            <Route path="favourites" element={<FavoritesP />} />
+            <Route path="recall" element={<RecallP />} />
+          </Route>
+
+          <Route
+            path="login"
+            element={
+              <BlockRoute>
+                <Login />
+              </BlockRoute>
+            }
+          />
+          <Route
+            path="registration"
+            element={
+              <BlockRoute>
+                <Registration />
+              </BlockRoute>
+            }
+          />
         </Route>
 
-        <Route
-          path="login"
-          element={
-            <BlockRoute>
-              <Login />
-            </BlockRoute>
-          }
-        />
-        <Route
-          path="registration"
-          element={
-            <BlockRoute>
-              <Registration />
-            </BlockRoute>
-          }
-        />
-      </Route>
-
-      <Route path="admin" element={<AdminLayout />}>
-        <Route
-          path="login"
-          element={
-            <BlockAdminRoute>
-              <AdminLogin />
-            </BlockAdminRoute>
-          }
-        />
-        <Route
-          path="edit"
-          element={
-            <PrivateAdminRoute>
-              <LeftLayout />
-            </PrivateAdminRoute>
-          }
-        >
-          <Route path="home" element={<AdminHome />} />
-          <Route path="category" element={<AdminCategory />} />
-          <Route path="category/:id" element={<AddCategory />} />
-          <Route path="exp" element={<ExportImport />} />
-          <Route path="products" element={<AdminProduct />} />
-          <Route path="products/:id" element={<AddProduct />} />
-          <Route path="lang" element={<LangAdmin />} />
-          <Route path="curr" element={<AdminCourse />} />
-          <Route path="setting" element={<AdminSetting />} />
-          <Route path="mark" element={<AdminMark />} />
-          <Route path="mark/mk/:id" element={<AddMark />} />
-          <Route path="mark/ml/:id" element={<AddModel />} />
-          <Route path="pages" element={<AdminPages />} />
+        <Route path="admin" element={<AdminLayout />}>
+          <Route
+            path="login"
+            element={
+              <BlockAdminRoute>
+                <AdminLogin />
+              </BlockAdminRoute>
+            }
+          />
+          <Route
+            path="edit"
+            element={
+              <PrivateAdminRoute>
+                <LeftLayout />
+              </PrivateAdminRoute>
+            }
+          >
+            <Route path="home" element={<AdminHome />} />
+            <Route path="category" element={<AdminCategory />} />
+            <Route path="category/:id" element={<AddCategory />} />
+            <Route path="exp" element={<ExportImport />} />
+            <Route path="products" element={<AdminProduct />} />
+            <Route path="products/:id" element={<AddProduct />} />
+            <Route path="lang" element={<LangAdmin />} />
+            <Route path="curr" element={<AdminCourse />} />
+            <Route path="setting" element={<AdminSetting />} />
+            <Route path="mark" element={<AdminMark />} />
+            <Route path="mark/mk/:id" element={<AddMark />} />
+            <Route path="mark/ml/:id" element={<AddModel />} />
+            <Route path="pages" element={<AdminPages />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </>
   );
 }
