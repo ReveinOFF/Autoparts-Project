@@ -26,7 +26,6 @@ export default function Footer() {
             <div className={styles.f_nav}>
               <Link to="/contact">Контакти</Link>
               <Link to="/return-goods">Повернення товару</Link>
-              <Link to="/map">Карта сайту</Link>
             </div>
           </div>
           <div>

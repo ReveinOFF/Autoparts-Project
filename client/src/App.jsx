@@ -55,7 +55,6 @@ export default function App() {
           <Route path="product" element={<Product />} />
           <Route path="contact" element={<Contact />} />
           <Route path="return-goods" element={<ReturnGoods />} />
-          {/* <Route path="map" element={<Contact />} /> */}
 
           <Route
             path="profile"
@@ -68,7 +67,14 @@ export default function App() {
             <Route index element={<Profile />} />
             <Route path="orders" element={<OrdersP />} />
             <Route path="password" element={<Password />} />
-            <Route path="favourites" element={<FavoritesP />} />
+            <Route
+              path="favourites"
+              element={
+                <BlockRoute>
+                  <FavoritesP />
+                </BlockRoute>
+              }
+            />
             <Route path="recall" element={<RecallP />} />
           </Route>
 
