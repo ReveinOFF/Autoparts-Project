@@ -9,10 +9,10 @@ export class Subcategories {
   title: string[];
 
   @Prop()
-  categorieIds: string[];
+  brandIds: string[];
 
   @Prop()
-  brandIds: string[];
+  productIds: string[];
 
   @Prop()
   subCategorieIds: string[];

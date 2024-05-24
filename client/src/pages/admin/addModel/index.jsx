@@ -6,6 +6,7 @@ import arrowImg from "../../../assets/images/header/arrow.svg";
 import MultiSelect from "../../../components/admin/multi-select";
 import closeImg from "../../../assets/images/admin/ha_exit.svg";
 import { FilesHttp } from "../../../http/FileHttp";
+import axios from "axios";
 
 export default function AddModel() {
   const [type, setType] = useState("");
@@ -14,9 +15,9 @@ export default function AddModel() {
   const [file, setFile] = useState();
   const [urlImg, setUrlImg] = useState();
   const [img, setImg] = useState();
+  const [subcategory, setSubCategory] = useState([]);
+  const [catShow, setCatShow] = useState(false);
   const [imgDel, setImgDel] = useState(false);
-  const [brand, setBrand] = useState([]);
-  const [brandShow, setBrandShow] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -58,13 +59,15 @@ export default function AddModel() {
     }
   };
 
-  const getBrand = async () => {
-    const res = await BrandHttp.getBrands();
-    setBrand(res.data);
+  const getSubCategory = async () => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_HOST}/subcategories/get-all`
+    );
+    setSubCategory(res.data);
   };
 
   useEffect(() => {
-    getBrand();
+    getSubCategory();
   }, []);
 
   const deleteImg = () => {
@@ -76,15 +79,15 @@ export default function AddModel() {
 
   return (
     <div className="container_a">
-      {brandShow && (
+      {catShow && (
         <MultiSelect
-          data={brand || []}
+          data={subcategory || []}
           changeSelected={(list) => {
-            setData((prev) => ({ ...prev, markIds: list || [] }));
-            setBrandShow(!brandShow);
+            setData((prev) => ({ ...prev, subCategorieIds: list || [] }));
+            setCatShow(!catShow);
           }}
-          selected={data?.markIds}
-          onClose={() => setBrandShow(false)}
+          selected={data?.subCategorieIds}
+          onClose={() => setCatShow(false)}
         />
       )}
       <h1 className={styles.h1}>
@@ -167,11 +170,11 @@ export default function AddModel() {
           ></textarea>
         </fieldset>
         <fieldset>
-          <label htmlFor="price">Бренд</label>
-          <div className={styles.sl} onClick={() => setBrandShow(true)}>
+          <label htmlFor="price">Суб-Категорія</label>
+          <div className={styles.sl} onClick={() => setCatShow(true)}>
             <span>
-              {brand
-                ?.filter((item) => data?.markIds?.includes(item._id))
+              {subcategory
+                ?.filter((item) => data?.subCategorieIds?.includes(item._id))
                 ?.map((item) => item.title)
                 ?.join(", ") || "Не вибрано"}
             </span>

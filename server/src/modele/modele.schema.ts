@@ -15,9 +15,6 @@ export class Modele {
   image: string;
 
   @Prop()
-  markIds: string[];
-
-  @Prop()
   subCategorieIds: string[];
 
   productsIds: string[];

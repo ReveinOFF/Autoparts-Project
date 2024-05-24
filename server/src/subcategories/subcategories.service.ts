@@ -18,4 +18,22 @@ export class SubcategoriesService {
       throw error;
     }
   }
+
+  async getAll() {
+    try {
+      return this.subcategoriesModel.find().exec();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getOne(id) {
+    try {
+      return this.subcategoriesModel.findById(id).exec();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }

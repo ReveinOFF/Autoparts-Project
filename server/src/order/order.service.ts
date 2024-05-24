@@ -27,14 +27,13 @@ export class OrderService {
 
   async getOrderStatistic() {
     try {
-      // Инициализация объекта для хранения статистики по статусам
-      const result: Record<STATUS, { date: Date; count: number }[]> =
-        {} as Record<STATUS, { date: Date; count: number }[]>;
+      // Initialize the object to store statistics by status
+      const result: Record<string, { date: Date; count: number }[]> = {};
 
-      // Получаем все возможные статусы
+      // Get all possible statuses
       const statuses = Object.values(STATUS);
 
-      // Инициализация массивов для каждого статуса
+      // Initialize arrays for each status
       statuses.forEach((status) => {
         result[status] = [];
       });
@@ -78,13 +77,18 @@ export class OrderService {
         ]);
 
         aggregationResult.forEach((agg) => {
+          // Safeguard to ensure the status is initialized in result
+          if (!result[agg._id]) {
+            console.warn(`Status ${agg._id} not initialized in result`);
+            result[agg._id] = [];
+          }
           result[agg._id].push({
-            date: new Date(startOfDay), // Используем startOfDay для фиксированной даты
+            date: new Date(startOfDay),
             count: agg.count,
           });
         });
 
-        // Если для какого-то статуса нет заказов за этот день, добавим запись с count: 0
+        // If there are no orders for a status on this day, add a record with count: 0
         statuses.forEach((status) => {
           if (
             !result[status].some(
@@ -99,13 +103,14 @@ export class OrderService {
         });
       }
 
-      // Обратный порядок для каждой записи по статусам
+      // Reverse the order for each status's records
       statuses.forEach((status) => {
         result[status].reverse();
       });
 
       return result;
     } catch (error) {
+      console.error('Error in getOrderStatistic:', error);
       throw error;
     }
   }

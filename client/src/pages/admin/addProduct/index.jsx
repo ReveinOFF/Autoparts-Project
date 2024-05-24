@@ -8,6 +8,7 @@ import { CategoriesHttp } from "../../../http/CategoriesHttp";
 import { BrandHttp } from "../../../http/BrandHttp";
 import closeImg from "../../../assets/images/admin/ha_exit.svg";
 import { FilesHttp } from "../../../http/FileHttp";
+import axios from "axios";
 
 export default function AddProduct() {
   const refInp = useRef();
@@ -18,12 +19,15 @@ export default function AddProduct() {
   const [oldImg, setOldImg] = useState([]);
   const [delImg, setDelImg] = useState([]);
   const [model, setModel] = useState([]);
+  const [subCat, setSubCat] = useState([]);
   const [mark, setMark] = useState([]);
   const [category, setCategory] = useState([]);
   const [showCategory, setShowCategory] = useState(false);
   const [showMark, setShowMark] = useState(false);
+  const [showSubCat, setShowSubCat] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const [modelSelected, setModelSelected] = useState([]);
+  const [subCatSelected, setSubCatSelected] = useState([]);
   const [markSelected, setMarkSelected] = useState([]);
   const [categorySelected, setCategorySelected] = useState([]);
   const { id } = useParams();
@@ -38,6 +42,7 @@ export default function AddProduct() {
         setModelSelected(res.data.modelIds || []);
         setMarkSelected(res.data.brandIds || []);
         setCategorySelected(res.data.categorieIds || []);
+        setSubCatSelected(res.data.subCategorieIds || []);
         setOldImg(res.data.image || []);
         setType("id");
       });
@@ -58,6 +63,7 @@ export default function AddProduct() {
     formDataObject["categorieIds"] = categorySelected;
     formDataObject["brandIds"] = markSelected;
     formDataObject["modelIds"] = modelSelected;
+    formDataObject["subCategorieIds"] = subCatSelected;
 
     if (files.length > 0) {
       const form = new FormData();
@@ -87,13 +93,20 @@ export default function AddProduct() {
   };
 
   const getMark = async () => {
-    const res = await BrandHttp.getBrandByCat(categorySelected);
+    const res = await BrandHttp.getBrands();
     setMark(res?.data || []);
   };
 
   const getModel = async () => {
-    const res = await BrandHttp.getModelByMark(markSelected);
+    const res = await BrandHttp.getModels();
     setModel(res?.data || []);
+  };
+
+  const getSubCat = async () => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_HOST}/subcategories/get-all`
+    );
+    setSubCat(res?.data || []);
   };
 
   const deleteImg = (i) => {
@@ -107,16 +120,11 @@ export default function AddProduct() {
   };
 
   useEffect(() => {
+    getMark();
+    getModel();
+    getSubCat();
     getCategory();
   }, []);
-
-  useEffect(() => {
-    if (categorySelected.length > 0) getMark();
-  }, [categorySelected]);
-
-  useEffect(() => {
-    if (markSelected.length > 0) getModel();
-  }, [markSelected]);
 
   return (
     <div className="container_a">
@@ -151,6 +159,17 @@ export default function AddProduct() {
           }}
           selected={modelSelected}
           onClose={() => setShowModel(false)}
+        />
+      )}
+      {showSubCat && (
+        <MultiSelect
+          data={subCat || []}
+          changeSelected={(list) => {
+            setSubCatSelected(list);
+            setShowSubCat(!showModel);
+          }}
+          selected={subCatSelected}
+          onClose={() => setShowSubCat(false)}
         />
       )}
       <h1 className={styles.h1}>
@@ -250,14 +269,7 @@ export default function AddProduct() {
         </fieldset>
         <fieldset>
           <label htmlFor="price">Марка</label>
-          <div
-            className={`${styles.sl} ${
-              categorySelected.length < 1 ? styles.disable : ""
-            }`}
-            onClick={() => {
-              if (categorySelected.length > 0) setShowMark(true);
-            }}
-          >
+          <div className={`${styles.sl}`} onClick={() => setShowMark(true)}>
             <span>
               {mark
                 ?.filter((item) => markSelected.includes(item._id))
@@ -268,18 +280,23 @@ export default function AddProduct() {
           </div>
         </fieldset>
         <fieldset>
-          <label htmlFor="price">Модель</label>
-          <div
-            className={`${styles.sl} ${
-              markSelected.length < 1 ? styles.disable : ""
-            }`}
-            onClick={() => {
-              if (categorySelected.length > 0) setShowModel(true);
-            }}
-          >
+          <label htmlFor="model">Модель</label>
+          <div className={`${styles.sl}`} onClick={() => setShowModel(true)}>
             <span>
               {model
                 ?.filter((item) => modelSelected.includes(item._id))
+                .map((item) => item.title)
+                .join(", ") || "Не вибрано"}
+            </span>
+            <img src={arrowImg} alt="arrow" width={10} />
+          </div>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="subCat">Суб-Категорія</label>
+          <div className={`${styles.sl}`} onClick={() => setShowModel(true)}>
+            <span>
+              {subCat
+                ?.filter((item) => subCatSelected.includes(item._id))
                 .map((item) => item.title)
                 .join(", ") || "Не вибрано"}
             </span>

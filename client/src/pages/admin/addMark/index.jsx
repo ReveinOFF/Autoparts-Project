@@ -16,8 +16,9 @@ export default function AddMark() {
   const [urlImg, setUrlImg] = useState();
   const [img, setImg] = useState();
   const [imgDel, setImgDel] = useState(false);
-  const [category, setCategory] = useState([]);
-  const [catShow, setCatShow] = useState(false);
+  const [showModel, setShowModel] = useState(false);
+  const [model, setModel] = useState([]);
+  const [modelSelected, setModelSelected] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -36,6 +37,8 @@ export default function AddMark() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const sendData = {};
+
     let image = "";
 
     if (file) {
@@ -45,8 +48,11 @@ export default function AddMark() {
       image = res.data;
     }
 
+    sendData = data;
+    sendData.modelIds = modelSelected;
+
     if (type === "add") {
-      data.image = image;
+      sendData.image = image;
       await BrandHttp.addBrand(data);
       navigate("/admin/edit/mark");
     } else {
@@ -54,18 +60,18 @@ export default function AddMark() {
         await FilesHttp.deleteFile(data.image);
         setImgDel(false);
       }
-      await BrandHttp.putBrand({ _id: id, ...data, image: image });
+      await BrandHttp.putBrand({ _id: id, ...sendData, image: image });
       window.location.reload();
     }
   };
 
-  const getCategory = async () => {
-    const res = await CategoriesHttp.getCategories();
-    setCategory(res.data);
+  const getModel = async () => {
+    const res = await BrandHttp.getModels();
+    setModel(res.data);
   };
 
   useEffect(() => {
-    getCategory();
+    getModel();
   }, []);
 
   const deleteImg = () => {
@@ -77,15 +83,15 @@ export default function AddMark() {
 
   return (
     <div className="container_a">
-      {catShow && (
+      {showModel && (
         <MultiSelect
-          data={category || []}
+          data={model || []}
           changeSelected={(list) => {
-            setData((prev) => ({ ...prev, categoryIds: list || [] }));
-            setCatShow(!catShow);
+            setModelSelected(list);
+            setShowModel(!showModel);
           }}
-          selected={data?.categoryIds}
-          onClose={() => setCatShow(false)}
+          selected={modelSelected}
+          onClose={() => setShowModel(false)}
         />
       )}
       <h1 className={styles.h1}>
@@ -168,13 +174,13 @@ export default function AddMark() {
           ></textarea>
         </fieldset>
         <fieldset>
-          <label htmlFor="price">Категорія</label>
-          <div className={styles.sl} onClick={() => setCatShow(true)}>
+          <label htmlFor="model">Модель</label>
+          <div className={`${styles.sl}`} onClick={() => setShowModel(true)}>
             <span>
-              {category
-                ?.filter((item) => data?.categoryIds?.includes(item._id))
-                ?.map((item) => item.title)
-                ?.join(", ") || "Не вибрано"}
+              {model
+                ?.filter((item) => modelSelected.includes(item._id))
+                .map((item) => item.title)
+                .join(", ") || "Не вибрано"}
             </span>
             <img src={arrowImg} alt="arrow" width={10} />
           </div>

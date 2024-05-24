@@ -1,16 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateCatogoriesDto, UpdateCatogoriesDto } from './categories.dto';
 import { Categories } from './categories.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { FilesService } from 'src/files/files.service';
 
 @Injectable()
 export class CategoriesService {
   constructor(
     @InjectModel(Categories.name) private categoriesModel: Model<Categories>,
+    private readonly filesService: FilesService,
   ) {}
 
-  async create(createCategoriesDto: CreateCatogoriesDto) {
+  async create(createCategoriesDto) {
     try {
       const { title } = createCategoriesDto;
 
@@ -28,7 +29,7 @@ export class CategoriesService {
     }
   }
 
-  async update(data: UpdateCatogoriesDto) {
+  async update(data) {
     try {
       return await this.categoriesModel.findByIdAndUpdate(data._id, data);
     } catch (error) {
@@ -48,6 +49,9 @@ export class CategoriesService {
           .collection('marks')
           .updateOne({ _id: doc._id }, { $pull: { categoryIds: id } });
       }
+
+      const res = await this.categoriesModel.findById(id);
+      await this.filesService.deleteFile(res.image, 'upload');
 
       return await this.categoriesModel.findByIdAndDelete(id);
     } catch (error) {

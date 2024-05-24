@@ -9,19 +9,17 @@ import {
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 
-import { CreateCatogoriesDto, UpdateCatogoriesDto } from './categories.dto';
-
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post('add-categories')
-  async create(@Body() createBrandDto: CreateCatogoriesDto) {
+  async create(@Body() createBrandDto) {
     return await this.categoriesService.create(createBrandDto);
   }
 
   @Put('update-categories')
-  async update(@Body() updateBrandDto: UpdateCatogoriesDto) {
+  async update(@Body() updateBrandDto) {
     return await this.categoriesService.update(updateBrandDto);
   }
 
