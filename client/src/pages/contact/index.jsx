@@ -1,15 +1,21 @@
 import infoImg from "../../assets/images/contact/info.svg";
 import phoneImg from "../../assets/images/contact/phone.svg";
 import mailImg from "../../assets/images/contact/mail.svg";
+import closeImg from "../../assets/images/admin/ha_exit.svg";
 import styles from "./contact.module.css";
 import axios from "axios";
 import { FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
+import contactImg from "../../assets/images/contact/contact.svg";
+import { useState } from "react";
 
 export default function Contact() {
+  const [show, setShow] = useState(false);
+
   const onHandleSubmit = async (formData) => {
     await axios.post(`${process.env.REACT_APP_HOST}/contact`, formData);
-    window.location.reload();
+    resetForm();
+    setShow(true);
   };
 
   const UpdateSchema = Yup.object().shape({
@@ -42,6 +48,7 @@ export default function Contact() {
     handleSubmit,
     isSubmitting,
     isValid,
+    resetForm,
     errors,
     dirty,
     handleBlur,
@@ -49,6 +56,16 @@ export default function Contact() {
 
   return (
     <div className="container" style={{ marginBottom: 60 }}>
+      {show && (
+        <div className="succ">
+          <div>
+            <img src={closeImg} alt="close" onClick={() => setShow(false)} />
+            <img src={contactImg} alt="contact" />
+            <h1>Дякуємо !</h1>
+            <p>Ми зв`яжемось з вами найближчим часом</p>
+          </div>
+        </div>
+      )}
       <h1 className="h1_infoblock">Контакти</h1>
       <h2 className={styles.h2}>Напишіть нам</h2>
       <FormikProvider value={formik}>

@@ -369,3 +369,51 @@ button {
 *:disabled {
   cursor: not-allowed;
 }
+
+.succ {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0000004d;
+}
+
+.succ > div {
+  background: #ffffff;
+  padding: 50px;
+  width: 80%;
+  display: grid;
+  justify-content: center;
+  position: relative;
+}
+
+.succ > div > img:first-of-type {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.succ > div > img:last-of-type {
+  width: 80%;
+  margin-inline: auto;
+}
+
+.succ > div > h1,
+.succ > div > p {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.succ > div > h1 {
+  font-size: 50px;
+}
+
+.succ > div > p {
+  font-size: 20px;
+  font-weight: 400;
+}
