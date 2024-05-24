@@ -7,14 +7,10 @@ import {
   Get,
   Put,
   Param,
+  Delete,
 } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
-import {
-  AuthDto,
-  ChangePasswordDto,
-  ChangeUserDto,
-  LogouthDto,
-} from './authentication.dto';
+import { AuthDto, ChangePasswordDto, LogouthDto } from './authentication.dto';
 import { LOGOUT_SUCCESS, TOKEN_NOT_FOUND_MESSAGE } from 'src/utils/AppMessage';
 
 @Controller('authentication')
@@ -75,9 +71,19 @@ export class AuthenticationController {
     return await this.authService.getUser(id);
   }
 
+  @Get('profile/:id')
+  async getProfile(@Param('id') id: string) {
+    return await this.authService.getProfile(id);
+  }
+
   @Put('user/edit')
-  async UpdateUser(@Body() data: ChangeUserDto) {
+  async UpdateUser(@Body() data) {
     return await this.authService.changeUser(data);
+  }
+
+  @Delete('fav/del/:id')
+  async RemoveFavourite(@Param('id') id: string) {
+    return await this.authService.removeFavourite(id);
   }
 
   @Put('pass/edit')

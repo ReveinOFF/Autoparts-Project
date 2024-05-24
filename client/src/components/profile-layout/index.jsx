@@ -23,7 +23,7 @@ export default function ProfileLayout() {
       const decode = jwtDecode(token);
 
       const res = await axios.get(
-        `${process.env.REACT_APP_HOST}/authentication/user/${decode._id}`
+        `${process.env.REACT_APP_HOST}/authentication/profile/${decode._id}`
       );
 
       dispatch({ type: DATA_USER_ACTION, payload: res.data });
@@ -63,10 +63,10 @@ export default function ProfileLayout() {
             <span>Корзина</span>
           </NavLink>
           <NavLink
-            to="/profile/favorites"
+            to="/profile/favourites"
             style={{ backgroundColor: "transparent" }}
             className={
-              location.pathname === "/profile/favorites" ? styles.activeL : ""
+              location.pathname === "/profile/favourites" ? styles.activeL : ""
             }
           >
             <img src={favImg} alt="favourites" width={30} />

@@ -113,7 +113,10 @@ export default function Header() {
       <div className={`flex-between ${styles.header_top}`}>
         <div className="container flex-between">
           <div className={styles.h_top_l}>
-            <Link to="/favourites" className="flex-align">
+            <Link
+              to={isAuth ? "/profile/favourites" : "/favourites"}
+              className="flex-align"
+            >
               <img src={heartImg} alt="heart" width={20} height={20} />
               Обрані
             </Link>

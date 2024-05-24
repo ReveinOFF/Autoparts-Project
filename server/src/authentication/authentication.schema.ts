@@ -4,6 +4,11 @@ import { ROLE, SEX } from 'src/enum/enum';
 
 export type AuthenticationType = HydratedDocument<Authentication>;
 
+export interface AddressItem {
+  index: number;
+  data: string;
+}
+
 @Schema()
 export class Authentication {
   @Prop()
@@ -33,8 +38,8 @@ export class Authentication {
   @Prop()
   patronymic: string;
 
-  @Prop()
-  address: string[];
+  @Prop({ type: [{ index: Number, data: String }] })
+  address: AddressItem[];
 
   @Prop()
   vin: string;
@@ -46,7 +51,7 @@ export class Authentication {
   registrationDate: Date;
 
   @Prop()
-  birthday: Date;
+  birthDay: Date;
 
   @Prop()
   orderIds: string[];

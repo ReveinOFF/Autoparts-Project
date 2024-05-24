@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Authentication } from './authentication.schema';
 import {
@@ -175,8 +175,82 @@ export class AuthenticationService {
     return await this.authModel.findById(id).exec();
   }
 
-  async changeUser(data: ChangeUserDto) {
-    return await this.authModel.findByIdAndUpdate(data.userId, data).exec();
+  async getProfile(id: string) {
+    const user = await this.authModel.findOne({ _id: new Types.ObjectId(id) });
+
+    const orderIds = user.orderIds.map((id) => new Types.ObjectId(id));
+
+    const productIds = user.saveProductIds.map((id) => new Types.ObjectId(id));
+
+    const orders = await this.authModel.db
+      .collection('orders')
+      .find({ _id: { $in: orderIds } })
+      .toArray();
+
+    const products = await this.authModel.db
+      .collection('products')
+      .find({ _id: { $in: productIds } })
+      .toArray();
+
+    for (const order of orders) {
+      for (const item of order.productIds) {
+        const product = await this.authModel.db
+          .collection('products')
+          .findOne({ _id: new Types.ObjectId(item.productId) });
+        if (product) {
+          item.name = product.title;
+          item.price = product.price;
+        }
+      }
+    }
+
+    for (const product of products) {
+      const recalls = await this.authModel.db
+        .collection('recalls')
+        .find({ productId: product._id.toString() })
+        .toArray();
+      product.reviews = recalls;
+      product.reviewsCount = product.reviews.length;
+      if (product.reviewsCount === 0) {
+        product.rating = 5;
+      } else {
+        const validReviews = recalls.filter(
+          (review) => review.star !== null && review.star !== undefined,
+        );
+        const sumStars = validReviews.reduce(
+          (acc, review) => acc + review.star,
+          0,
+        );
+        product.rating = sumStars / validReviews.length;
+      }
+    }
+
+    return {
+      _id: user._id,
+      name: user.name,
+      surname: user.surname,
+      patronymic: user.patronymic,
+      sex: user.sex,
+      birthDay: user.birthDay,
+      email: user.email,
+      address: user.address,
+      vin: user.vin,
+      login: user.login,
+      orders: orders,
+      savedProducts: products,
+    };
+  }
+
+  async changeUser(data) {
+    const id = data.userId;
+    delete data.userId;
+    return await this.authModel.findByIdAndUpdate(id, data).exec();
+  }
+
+  async removeFavourite(id: string) {
+    const res = await this.authModel.findById(id).exec();
+    const data = res.saveProductIds.filter((f) => f !== id);
+    return await this.authModel.findByIdAndUpdate(id, data).exec();
   }
 
   async getUserStatistic() {

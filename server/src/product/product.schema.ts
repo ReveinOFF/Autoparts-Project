@@ -18,9 +18,6 @@ export class Product {
   modelIds: string[];
 
   @Prop()
-  recallIds: string[];
-
-  @Prop()
   price: string;
 
   @Prop()

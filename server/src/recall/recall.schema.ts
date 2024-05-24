@@ -13,6 +13,12 @@ export class Recall {
 
   @Prop()
   dataCreate: Date;
+
+  @Prop()
+  productId: string;
+
+  @Prop()
+  userId: string;
 }
 
 export const RecallSchema = SchemaFactory.createForClass(Recall);

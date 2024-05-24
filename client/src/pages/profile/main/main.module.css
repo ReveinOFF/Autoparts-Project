@@ -11,3 +11,13 @@
 .p2 > div:nth-of-type(4) input {
   width: 80px;
 }
+
+.select_sex {
+  border-radius: 10px;
+  border: 1px solid #313131;
+  padding: 10px 7px;
+  font-size: 18px;
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+}

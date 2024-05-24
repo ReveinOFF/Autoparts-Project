@@ -63,7 +63,7 @@ export default function App() {
         >
           <Route index element={<Profile />} />
           <Route path="orders" element={<OrdersP />} />
-          <Route path="favorites" element={<FavoritesP />} />
+          <Route path="favourites" element={<FavoritesP />} />
           <Route path="recall" element={<RecallP />} />
         </Route>
 
