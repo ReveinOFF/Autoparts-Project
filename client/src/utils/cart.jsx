@@ -8,10 +8,15 @@ export const updateCartData = (newData) => {
 
 export const removeCartItem = (itemId) => {
   const existingData = getCartData();
-  const updatedData = existingData.filter((item) => item.id !== itemId);
-  localStorage.setItem("cart", JSON.stringify(updatedData));
+  const index = existingData.findIndex((item) => item.id === itemId);
 
-  return updatedData;
+  if (index !== -1) {
+    existingData.splice(index, 1);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(existingData));
+
+  return existingData;
 };
 
 export const isCartEmpty = () => {
@@ -31,4 +36,15 @@ export const getCartStorage = () => {
 export const getCartData = () => {
   const cartData = localStorage.getItem("cart");
   return cartData ? JSON.parse(cartData) : [];
+};
+
+export const getCartDataWithTP = () => {
+  const cartData = getCartData();
+  return cartData
+    ? {
+        data: cartData,
+        totalPrice:
+          cartData?.reduce((sum, item) => sum + parseInt(item.price), 0) || 0,
+      }
+    : [];
 };

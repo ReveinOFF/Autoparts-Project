@@ -20,6 +20,7 @@ import { DEFAULT_DATA_USER_ACTION } from "../../reducers/profileReducer";
 import axios from "axios";
 import { CategoriesHttp } from "../../http/CategoriesHttp";
 import getSymbolFromCurrency from "currency-symbol-map";
+import Cart from "../cart";
 
 export default function Header() {
   const [course, setCourse] = useState(localStorage.getItem("course") || "usd");
@@ -32,6 +33,7 @@ export default function Header() {
   const [categories, setCategories] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [products, setProducts] = useState([]);
+  const [showCart, setShowCart] = useState(false);
   const [showLng, setShowLng] = useState(false);
   const [showCurr, setShowCurr] = useState(false);
   const [lng, setLng] = useState({});
@@ -110,6 +112,11 @@ export default function Header() {
 
   return (
     <header>
+      {showCart && (
+        <div className="cart_modal">
+          <Cart onClose={() => setShowCart(false)} />
+        </div>
+      )}
       <div className={`flex-between ${styles.header_top}`}>
         <div className="container flex-between">
           <div className={styles.h_top_l}>
@@ -257,7 +264,10 @@ export default function Header() {
               ))}
             </div>
           </div>
-          <div className={`flex-full ${styles.cart_block}`}>
+          <div
+            className={`flex-full ${styles.cart_block}`}
+            onClick={() => setShowCart(true)}
+          >
             <div className={styles.cart}>
               <img src={cartImg} alt="cart" width={30} height={30} />
               <div>{state.count}</div>

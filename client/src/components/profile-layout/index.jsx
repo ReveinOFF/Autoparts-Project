@@ -58,7 +58,10 @@ export default function ProfileLayout() {
             <img src={orderImg} alt="order" width={30} />
             <span>Мої замовлення</span>
           </NavLink>
-          <NavLink to="/cart" style={{ backgroundColor: "transparent" }}>
+          <NavLink
+            to="/profile/cart"
+            style={{ backgroundColor: "transparent" }}
+          >
             <img src={cartImg} alt="cart" width={30} />
             <span>Корзина</span>
           </NavLink>

@@ -39,6 +39,7 @@ import RecallP from "./pages/profile/recall";
 import FavoritesP from "./pages/profile/favorites";
 import Password from "./pages/profile/password";
 import ScrollToTop from "./components/scrollTop";
+import CartP from "./pages/profile/cart";
 
 export default function App() {
   return (
@@ -58,7 +59,6 @@ export default function App() {
               </BlockRoute>
             }
           />
-          <Route path="cart" element={<Favourites />} />
           <Route path="product/:id" element={<Product />} />
           <Route path="contact" element={<Contact />} />
           <Route path="return-goods" element={<ReturnGoods />} />
@@ -75,6 +75,7 @@ export default function App() {
             <Route path="orders" element={<OrdersP />} />
             <Route path="password" element={<Password />} />
             <Route path="favourites" element={<FavoritesP />} />
+            <Route path="cart" element={<CartP />} />
             <Route path="recall" element={<RecallP />} />
           </Route>
 

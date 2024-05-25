@@ -16,12 +16,16 @@ import { jwtDecode } from "jwt-decode";
 import ConvertJsonToHtml from "../../utils/rich-html";
 import { updateCartData } from "../../utils/cart";
 import { removeFavItem, updateFavData } from "../../utils/fovourite";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Cart from "../../components/cart";
+import { SET_CART } from "../../reducers/cartReducer";
 
 export default function Product() {
   const { isAuth } = useSelector((s) => s.auth);
   const [data, setData] = useState();
+  const dispatch = useDispatch();
   const [imgSelected, setImgSelected] = useState();
+  const [showCart, setShowCart] = useState(false);
   const [type, setType] = useState(1);
   const { id } = useParams();
 
@@ -47,9 +51,12 @@ export default function Product() {
       id: data?._id,
       image: data?.image[0],
       title: data?.title,
-      count: data?.count,
+      count: 1,
       price: data?.price,
+      mainPrice: data?.price,
     });
+    setShowCart(true);
+    dispatch({ type: SET_CART });
   };
 
   const addToFav = async () => {
@@ -86,6 +93,11 @@ export default function Product() {
 
   return (
     <div className="container" style={{ marginBottom: 60 }}>
+      {showCart && (
+        <div className="cart_modal">
+          <Cart onClose={() => setShowCart(false)} />
+        </div>
+      )}
       <div className="pages">
         <a href="/">Audi</a>
         <img src={arrowPage} alt="arrow page" width={10} />
@@ -126,10 +138,14 @@ export default function Product() {
             <div className={styles.recall}>
               <div>
                 {Array.from({ length: 5 }, (_, index) => {
-                  if (index < data?.title || index < 5) {
-                    return <img key={index} src={starAImg} alt="star" />;
+                  if (index < data?.rating) {
+                    return (
+                      <img key={index} src={starAImg} alt="star" width={20} />
+                    );
                   } else {
-                    return <img key={index} src={starImg} alt="star" />;
+                    return (
+                      <img key={index} src={starImg} alt="star" width={20} />
+                    );
                   }
                 })}
               </div>
@@ -193,9 +209,9 @@ export default function Product() {
             {type === 1 ? (
               data?.description ? (
                 <div
-                  dangerouslySetInnerHTML={{
-                    __html: ConvertJsonToHtml(JSON.parse(data?.description)),
-                  }}
+                // dangerouslySetInnerHTML={{
+                //   __html: ConvertJsonToHtml(JSON.parse(data?.description)),
+                // }}
                 ></div>
               ) : (
                 ""
@@ -203,11 +219,11 @@ export default function Product() {
             ) : type === 2 ? (
               data?.characteristics ? (
                 <div
-                  dangerouslySetInnerHTML={{
-                    __html: ConvertJsonToHtml(
-                      JSON.parse(data?.characteristics)
-                    ),
-                  }}
+                // dangerouslySetInnerHTML={{
+                //   __html: ConvertJsonToHtml(
+                //     JSON.parse(data?.characteristics)
+                //   ),
+                // }}
                 ></div>
               ) : (
                 ""

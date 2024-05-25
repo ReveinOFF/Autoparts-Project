@@ -11,9 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { DATA_USER_ACTION } from "../../../reducers/profileReducer";
+import { useState } from "react";
+import Cart from "../../../components/cart";
+import { updateCartData } from "../../../utils/cart";
+import { SET_CART } from "../../../reducers/cartReducer";
 
 export default function FavoritesP() {
   const state = useSelector((s) => s.profile);
+  const [showCart, setShowCart] = useState(false);
   const dispatch = useDispatch();
 
   const removeFav = async (id) => {
@@ -29,8 +34,26 @@ export default function FavoritesP() {
     });
   };
 
+  const addToCart = (data) => {
+    updateCartData({
+      id: data?._id,
+      image: data?.image,
+      title: data?.title,
+      count: 1,
+      price: data?.price,
+      mainPrice: data?.price,
+    });
+    setShowCart(true);
+    dispatch({ type: SET_CART });
+  };
+
   return (
     <>
+      {showCart && (
+        <div className="cart_modal">
+          <Cart onClose={() => setShowCart(false)} />
+        </div>
+      )}
       <h1>Список бажань</h1>
       <div className={styles.block}>
         {state?.savedProducts?.length > 0 ? (
@@ -53,10 +76,7 @@ export default function FavoritesP() {
               <div className={styles.info}>
                 <div className={styles.inf_b}>
                   <div>
-                    <Link
-                      to={`/product/id=${item._id}`}
-                      className={styles.name}
-                    >
+                    <Link to={`/product/${item._id}`} className={styles.name}>
                       {item.title}
                     </Link>
                     <div className={styles.raiting}>
@@ -78,7 +98,18 @@ export default function FavoritesP() {
                     </div>
                     <div className={styles.price}>{item.price} $</div>
                   </div>
-                  <img src={cartImg} alt="cart" />
+                  <img
+                    src={cartImg}
+                    alt="cart"
+                    onClick={() =>
+                      addToCart({
+                        _id: item._id,
+                        image: item.image[0],
+                        title: item.title,
+                        price: item.price,
+                      })
+                    }
+                  />
                 </div>
                 <div className={styles.delivery}>
                   <span>Готовий до відправки</span>
