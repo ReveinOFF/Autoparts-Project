@@ -241,7 +241,45 @@ export default function Product() {
                 ""
               )
             ) : (
-              <div></div>
+              <div className={styles.reviews}>
+                {data?.reviews?.map((item) => (
+                  <div className={styles.review}>
+                    <div className={styles.rev_inf}>
+                      <Image />
+                      <div className={styles.rev_usr}>
+                        <div>{item.user?.name}</div>
+                        <div>{item.message}</div>
+                      </div>
+                    </div>
+                    <div className={styles.star}>
+                      <div>
+                        {Array.from({ length: 5 }, (_, index) => {
+                          if (index < item?.star) {
+                            return (
+                              <img
+                                key={index}
+                                src={starAImg}
+                                alt="star"
+                                width={20}
+                              />
+                            );
+                          } else {
+                            return (
+                              <img
+                                key={index}
+                                src={starImg}
+                                alt="star"
+                                width={20}
+                              />
+                            );
+                          }
+                        })}
+                      </div>
+                      <div>Дуже гарно</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>

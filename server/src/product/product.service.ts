@@ -107,6 +107,53 @@ export class ProductService {
     return product;
   }
 
+  async findOneWU(id: string) {
+    const product = await this.productsModel.db
+      .collection('products')
+      .findOne({ _id: new Types.ObjectId(id) });
+
+    const recalls = await this.productsModel.db
+      .collection('recalls')
+      .find({ productId: product._id.toString() })
+      .toArray();
+
+    const objectIds = recalls.map((item) => new Types.ObjectId(item.userId));
+
+    const usersRec = await this.productsModel.db
+      .collection('authentications')
+      .find({ _id: { $in: objectIds } })
+      .toArray();
+
+    const usersMap = usersRec.reduce((map, user) => {
+      map[user._id.toString()] = user;
+      return map;
+    }, {});
+
+    const recallsWithUserData = recalls.map((recall) => {
+      return {
+        ...recall,
+        user: usersMap[recall.userId],
+      };
+    });
+
+    product.reviews = recallsWithUserData;
+    product.reviewsCount = product.reviews.length;
+    if (product.reviewsCount === 0) {
+      product.rating = 5;
+    } else {
+      const validReviews = recalls.filter(
+        (review) => review.star !== null && review.star !== undefined,
+      );
+      const sumStars = validReviews.reduce(
+        (acc, review) => acc + review.star,
+        0,
+      );
+      product.rating = sumStars / validReviews.length;
+    }
+
+    return product;
+  }
+
   async findByIds(ids: string[]) {
     const objectIds = ids.map((id) => new Types.ObjectId(id));
 

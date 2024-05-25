@@ -121,3 +121,60 @@
 .information > div:first-of-type > div:not(:first-of-type) {
   padding-left: 10px;
 }
+
+.reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.review {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.star {
+  display: grid;
+  gap: 5px;
+  margin-left: 40px;
+}
+
+.star > div:first-of-type {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.star > div:last-of-type {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.rev_inf {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rev_inf > img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.rev_usr {
+  display: grid;
+  gap: 5px;
+}
+
+.rev_usr > div:first-of-type {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.rev_usr > div:last-of-type {
+  font-size: 16px;
+  font-weight: 400;
+}
