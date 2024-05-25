@@ -41,7 +41,8 @@ export default function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    CategoriesHttp.getCategories()
+    axios
+      .get(`${process.env.REACT_APP_HOST}/categories/header-cat`)
       .then((res) => {
         setCategories(res.data);
       })

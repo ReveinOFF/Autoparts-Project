@@ -28,6 +28,11 @@ export class CategoriesController {
     return await this.categoriesService.getAll();
   }
 
+  @Get('header-cat')
+  async getCategoriesWithSubcategories() {
+    return await this.categoriesService.getCategoriesWithSubcategories();
+  }
+
   @Get('one-category/:id')
   async getOne(@Param('id') id: string) {
     return await this.categoriesService.getOne(id);

@@ -15,10 +15,7 @@ export class Mark {
   image: string;
 
   @Prop()
-  modelIds: string[];
-
-  @Prop()
-  categoryIds: string[];
+  subCategorieIds: string[];
 }
 
 export const MarkSchema = SchemaFactory.createForClass(Mark);

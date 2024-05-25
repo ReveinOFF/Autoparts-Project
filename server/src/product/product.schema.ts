@@ -6,13 +6,7 @@ export type ProductType = HydratedDocument<Product>;
 @Schema()
 export class Product {
   @Prop()
-  categorieIds: string[];
-
-  @Prop()
   subCategorieIds: string[];
-
-  @Prop()
-  brandIds: string[];
 
   @Prop()
   modelIds: string[];

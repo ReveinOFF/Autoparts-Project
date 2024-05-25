@@ -12,7 +12,7 @@ export class Categories {
   description: string;
 
   @Prop()
-  subCategorieIds: string[];
+  modelIds: string[];
 
   @Prop()
   image: string;

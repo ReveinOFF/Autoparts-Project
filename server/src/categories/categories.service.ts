@@ -37,6 +37,73 @@ export class CategoriesService {
     }
   }
 
+  async getCategoriesWithSubcategories() {
+    return await this.categoriesModel
+      .aggregate([
+        {
+          $addFields: {
+            subCategorieIds: {
+              $map: {
+                input: '$subCategorieIds',
+                as: 'id',
+                in: { $toObjectId: '$$id' },
+              },
+            },
+          },
+        },
+        {
+          $unwind: {
+            path: '$subCategorieIds',
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $lookup: {
+            from: 'subcategories',
+            localField: 'subCategorieIds',
+            foreignField: '_id',
+            as: 'subCategories',
+          },
+        },
+        {
+          $unwind: {
+            path: '$subCategories',
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $addFields: {
+            'subCategories.subCategorieIds': {
+              $map: {
+                input: '$subCategories.subCategorieIds',
+                as: 'id',
+                in: { $toObjectId: '$$id' },
+              },
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'subcategories',
+            localField: 'subCategories.subCategorieIds',
+            foreignField: '_id',
+            as: 'subCategories.subCategories',
+          },
+        },
+        {
+          $group: {
+            _id: '$_id',
+            title: { $first: '$title' },
+            image: { $first: '$image' },
+            description: { $first: '$description' },
+            subCategorieIds: { $first: '$subCategorieIds' },
+            subCategories: { $push: '$subCategories' },
+          },
+        },
+      ])
+      .exec();
+  }
+
   async Delete(id: string) {
     try {
       const documents = await this.categoriesModel.db

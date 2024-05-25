@@ -274,9 +274,8 @@ export class ProductService {
           description: item.description,
           price: item.price,
           image: item.image.join(', '),
-          categorieIds: item.categorieIds.join(', '),
-          brandIds: item.brandIds.join(', '),
           modelIds: item.modelIds.join(', '),
+          subCategorieIds: item.subCategorieIds.join(', '),
         };
       });
       return prod;
