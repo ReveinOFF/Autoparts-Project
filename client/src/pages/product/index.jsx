@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import ConvertJsonToHtml from "../../utils/rich-html";
 import { updateCartData } from "../../utils/cart";
-import { removeFavItem, updateFavData } from "../../utils/fovourite";
+import { isSaved, removeFavItem, updateFavData } from "../../utils/fovourite";
 import { useDispatch, useSelector } from "react-redux";
 import Cart from "../../components/cart";
 import { SET_CART } from "../../reducers/cartReducer";
@@ -30,16 +30,29 @@ export default function Product() {
   const { id } = useParams();
 
   const getProduct = async () => {
-    const token = localStorage.getItem("token");
+    if (isAuth) {
+      const token = localStorage.getItem("token");
 
-    const data = jwtDecode(token);
+      const data = jwtDecode(token);
 
-    const res = await axios.get(
-      `${process.env.REACT_APP_HOST}/product/get-product/${id}/${data._id}`
-    );
+      const res = await axios.get(
+        `${process.env.REACT_APP_HOST}/product/get-product/${id}/${data._id}`
+      );
 
-    setData(res.data);
-    setImgSelected(res.data.image[0]);
+      setData(res.data);
+      setImgSelected(res.data.image[0]);
+    } else {
+      const res = await axios.get(
+        `${process.env.REACT_APP_HOST}/product/get-product/${id}`
+      );
+      let tempData = res.data;
+
+      if (isSaved(res?.data?.id)) tempData.isFav = true;
+      else tempData.isFav = false;
+
+      setData(tempData);
+      setImgSelected(tempData.image[0]);
+    }
   };
 
   useEffect(() => {
@@ -60,9 +73,7 @@ export default function Product() {
   };
 
   const addToFav = async () => {
-    updateFavData({
-      id: data?._id,
-    });
+    updateFavData(data?._id);
     setData((prev) => ({ ...prev, isFav: true }));
 
     if (isAuth) {
@@ -80,6 +91,7 @@ export default function Product() {
   const remToFav = async () => {
     removeFavItem(data?._id);
     setData((prev) => ({ ...prev, isFav: false }));
+
     if (isAuth) {
       const token = localStorage.getItem("token");
 

@@ -107,6 +107,39 @@ export class ProductService {
     return product;
   }
 
+  async findByIds(ids: string[]) {
+    const objectIds = ids.map((id) => new Types.ObjectId(id));
+
+    const products = await this.productsModel.db
+      .collection('products')
+      .find({ _id: { $in: objectIds } })
+      .toArray();
+
+    for (let product of products) {
+      const recalls = await this.productsModel.db
+        .collection('recalls')
+        .find({ productId: product._id.toString() })
+        .toArray();
+
+      product.reviews = recalls;
+      product.reviewsCount = product.reviews.length;
+      if (product.reviewsCount === 0) {
+        product.rating = 5;
+      } else {
+        const validReviews = recalls.filter(
+          (review) => review.star !== null && review.star !== undefined,
+        );
+        const sumStars = validReviews.reduce(
+          (acc, review) => acc + review.star,
+          0,
+        );
+        product.rating = sumStars / validReviews.length;
+      }
+    }
+
+    return products;
+  }
+
   async findOneWithCat(id: string) {
     return await this.productsModel
       .aggregate([

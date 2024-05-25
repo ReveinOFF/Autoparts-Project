@@ -43,6 +43,11 @@ export class ProductController {
     return this.productService.findOne(id, userId);
   }
 
+  @Post('get-product-ids')
+  async findByIds(@Body() ids: string[]) {
+    return this.productService.findByIds(ids);
+  }
+
   @Post('search-product')
   async searchProd(@Body('text') text: string) {
     return this.productService.searchProd(text);

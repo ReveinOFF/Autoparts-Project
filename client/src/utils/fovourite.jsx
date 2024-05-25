@@ -8,18 +8,23 @@ export const updateFavData = (newData) => {
 
 export const removeFavItem = (itemId) => {
   const existingData = getFavData();
-  const updatedData = existingData.filter((item) => item.id !== itemId);
+  const updatedData = existingData.filter((item) => item !== itemId);
   localStorage.setItem("fav", JSON.stringify(updatedData));
 
   return updatedData;
 };
 
 export const isFavEmpty = () => {
-  const cartData = getFavData();
-  return cartData.length === 0;
+  const favData = getFavData();
+  return favData.length === 0;
+};
+
+export const isSaved = (id) => {
+  const favData = getFavData();
+  return favData.includes(id);
 };
 
 export const getFavData = () => {
-  const cartData = localStorage.getItem("fav");
-  return cartData ? JSON.parse(cartData) : [];
+  const favData = localStorage.getItem("fav");
+  return favData ? JSON.parse(favData) : [];
 };
