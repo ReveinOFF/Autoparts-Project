@@ -38,6 +38,11 @@ export class ProductController {
     return this.productService.findAll(filters);
   }
 
+  @Post('get-product-sc')
+  async findAllSC(@Body() filter) {
+    return this.productService.findAllSC(filter);
+  }
+
   @Get('get-product/:id/:userId')
   async findOne(@Param('id') id: string, @Param('userId') userId: string) {
     return this.productService.findOne(id, userId);

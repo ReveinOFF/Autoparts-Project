@@ -72,6 +72,10 @@ export class ProductService {
     }
   }
 
+  async findAllSC(filter) {
+    return this.productsModel.find().exec();
+  }
+
   async findOne(id: string, userId: string) {
     const product = await this.productsModel.db
       .collection('products')

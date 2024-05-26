@@ -8,7 +8,7 @@ import delImg from "../../assets/images/product/del.svg";
 import circleImg from "../../assets/images/circle.svg";
 import circleAImg from "../../assets/images/circleA.svg";
 import axios from "axios";
-import { useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { getCartDataWithTP, removeCartItem } from "../../utils/cart";
 import { useDispatch } from "react-redux";
 import { SET_CART } from "../../reducers/cartReducer";
@@ -28,14 +28,34 @@ export default function Checkout() {
     surname: "",
     name: "",
     mobOrEml: "",
-    city: "",
+    city: {},
     cart: [],
+    nova: {},
     showPoshta: "nova",
     showPay: "receiving",
     comment: "",
   });
-  const [branches, setBranches] = useState([]);
+
   const [cart, setCart] = useState({});
+
+  const [cities, setCities] = useState([]);
+  const [visibleCities, setVisibleCities] = useState([]);
+  const [page, setPage] = useState(1);
+  const [showCity, setShowCity] = useState(false);
+  const [citySelected, setCitySelected] = useState(null);
+  const [search, setSearch] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(search);
+
+  const [branches, setBranches] = useState([]);
+  const [visibleBranches, setVisibleBranches] = useState([]);
+  const [visibleUkr, setVisibleUkr] = useState([]);
+  const [ukr, setUkr] = useState([]);
+  const [showNova, setShowNova] = useState(false);
+  const [showUkr, setShowUkr] = useState(false);
+  const [searchNova, setSearchNova] = useState("");
+  const [searchUkr, setSearchUkr] = useState("");
+  const [novaSelected, setNovaSelected] = useState(null);
+  const [ukrSelected, setUkrSelected] = useState(null);
 
   const onOrder = () => {};
 
@@ -46,7 +66,21 @@ export default function Checkout() {
   }, []);
 
   useEffect(() => {
+    const getJson = async () => {
+      const allCities = await require("../../json/cities.json");
+      setCities(allCities);
+      setVisibleCities(allCities.slice(0, 50));
+    };
+
+    getJson();
+  }, []);
+
+  useEffect(() => {
     const fetchBranches = async () => {
+      if (!citySelected) return;
+
+      const object_name = cityNameConvert(citySelected?.object_name);
+
       const response = await axios.post(
         "https://api.novaposhta.ua/v2.0/json/",
         {
@@ -54,16 +88,17 @@ export default function Checkout() {
           modelName: "AddressGeneral",
           calledMethod: "getWarehouses",
           methodProperties: {
-            CityName: "Рівне",
+            CityName: object_name,
           },
         }
       );
 
       setBranches(response.data.data);
+      setVisibleBranches(response.data.data);
     };
 
     fetchBranches();
-  }, []);
+  }, [citySelected]);
 
   const removeCart = (id) => {
     removeCartItem(id);
@@ -88,6 +123,73 @@ export default function Checkout() {
     });
     dispatchM({ type: SET_CART });
   };
+
+  const loadMoreCities = () => {
+    const newPage = page + 1;
+    const newVisibleCities = cities.slice(0, newPage * 50);
+    setVisibleCities(newVisibleCities);
+    setPage(newPage);
+  };
+
+  const cityNameConvert = useCallback((text) => {
+    let newText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    newText = newText.replace("район", "р-н").replace("область", "обл.");
+    return newText;
+  }, []);
+
+  const handleScroll = (e) => {
+    if (search.length > 0) return;
+
+    const tolerance = 5;
+    if (
+      e.target.scrollTop + e.target.clientHeight >=
+      e.target.scrollHeight - tolerance
+    ) {
+      if (visibleCities.length < cities.length) {
+        loadMoreCities();
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(search);
+    }, 1000);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      if (search.length > 0) {
+        setVisibleCities(
+          cities.filter(
+            (item) =>
+              item.object_name.toLocaleLowerCase() ===
+              search.toLocaleLowerCase()
+          )
+        );
+      } else {
+        setVisibleCities(cities.slice(0, 50));
+      }
+    }
+  }, [debouncedSearchTerm]);
+
+  useEffect(() => {
+    if (search.length > 0) {
+      setVisibleBranches(
+        branches.filter((item) =>
+          item.Description.toLocaleLowerCase().includes(
+            searchNova.toLocaleLowerCase()
+          )
+        )
+      );
+    } else {
+      setVisibleBranches(branches);
+    }
+  }, [searchNova]);
 
   return (
     <div
@@ -159,18 +261,61 @@ export default function Checkout() {
               <label htmlFor="city">
                 Місто <img src={infoImg} alt="info" />
               </label>
-              <div className={styles.map_sel}>
-                <button>
+              <div
+                className={styles.map_sel}
+                style={{
+                  borderBottomLeftRadius: showCity ? "0px" : "10px",
+                  borderBottomRightRadius: showCity ? "0px" : "10px",
+                }}
+              >
+                <button onClick={() => setShowCity(!showCity)}>
                   <div>
                     <img src={mapImg} alt="map" />
-                    <div>
-                      <div>Київ</div>
-                      <div>Київ обл., Київ р-н</div>
-                    </div>
+                    {citySelected ? (
+                      <div>
+                        <div>{cityNameConvert(citySelected.object_name)}</div>
+                        <div>
+                          {cityNameConvert(citySelected.region)},{" "}
+                          {cityNameConvert(citySelected.community)}
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <div>Пусто</div>
+                        <div>Вибрати місто</div>
+                      </div>
+                    )}
                   </div>
                   <img src={arrImg} alt="arrow" width={15} />
                 </button>
-                <div></div>
+                <div
+                  className={`${styles.selector} ${
+                    showCity ? styles.active : ""
+                  }`}
+                >
+                  <input
+                    type="text"
+                    placeholder="Шукати..."
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                  <div onScroll={handleScroll}>
+                    {visibleCities?.map((item) => (
+                      <button
+                        onClick={() => {
+                          setCitySelected(item);
+                          setShowCity(false);
+                          dispatch({ type: "update", payload: { city: item } });
+                        }}
+                      >
+                        <div>{cityNameConvert(item.object_name)}</div>
+                        <div>
+                          {cityNameConvert(item.region)},{" "}
+                          {cityNameConvert(item.community)}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </fieldset>
           </div>
@@ -215,12 +360,57 @@ export default function Checkout() {
                       <div>Самовивіз з Нової Пошти</div>
                       <div>Середній термін доставки 2 дні</div>
                     </div>
-                    <div>
-                      <button>
-                        <div>виберіть відповідне відділення</div>
+                    <div
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      <button
+                        onClick={() => {
+                          if (branches?.length > 0) setShowNova(!showNova);
+                        }}
+                        style={{
+                          borderBottomLeftRadius: showNova ? "0px" : "10px",
+                          borderBottomRightRadius: showNova ? "0px" : "10px",
+                          cursor:
+                            branches?.length > 0 ? "pointer" : "not-allowed",
+                        }}
+                      >
+                        {novaSelected ? (
+                          <div>{novaSelected.Description}</div>
+                        ) : (
+                          <div>виберіть відповідне відділення</div>
+                        )}
+
                         <img src={arrImg} alt="arrow" width={15} />
                       </button>
-                      <div></div>
+                      <div
+                        className={`${styles.selector2} ${
+                          showNova ? styles.active : ""
+                        }`}
+                      >
+                        <input
+                          type="text"
+                          placeholder="Шукати..."
+                          onChange={(e) => setSearchNova(e.target.value)}
+                        />
+                        <div>
+                          {visibleBranches?.map((item) => (
+                            <button
+                              onClick={() => {
+                                setNovaSelected(item);
+                                setShowNova(false);
+                                dispatch({
+                                  type: "update",
+                                  payload: { nova: item },
+                                });
+                              }}
+                            >
+                              {item.Description}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div className={styles.tarif}>

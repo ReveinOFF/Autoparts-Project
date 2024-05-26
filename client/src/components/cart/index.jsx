@@ -7,7 +7,7 @@ import Image from "../image/image";
 import {
   getCartDataWithTP,
   removeCartItem,
-  updateCartData,
+  setCartData,
 } from "../../utils/cart";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -92,8 +92,9 @@ export default function Cart({ onClose, ...params }) {
   };
 
   const checkout = () => {
-    updateCartData(data.data);
+    setCartData(data.data);
     navigate("/checkout");
+    onClose();
   };
 
   const removeCart = (id) => {

@@ -192,6 +192,24 @@ header {
   z-index: 5;
 }
 
+.cat_modal > * {
+  overflow-x: visible;
+}
+
+.cat_modal::-webkit-scrollbar {
+  width: 8px;
+}
+.cat_modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+.cat_modal::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: #313131;
+}
+.cat_modal::-webkit-scrollbar-thumb:hover {
+  background: #5b5b5b;
+}
+
 .cat_modal > div {
   color: #000000;
   white-space: nowrap;

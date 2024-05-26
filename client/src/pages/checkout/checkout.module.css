@@ -38,6 +38,10 @@
   padding: 5px 10px;
 }
 
+.map_sel {
+  position: relative;
+}
+
 .map_sel > button {
   display: flex;
   width: 100%;
@@ -340,4 +344,119 @@
   border: 1px solid #535353;
   border-radius: 10px;
   padding: 10px 20px;
+}
+
+.selector {
+  display: grid;
+  position: absolute;
+  background-color: #ffffff;
+  width: 100%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 15px 10px;
+  border: 1px solid #000;
+  opacity: 0;
+  z-index: 4;
+  transform: translateY(50px);
+  visibility: hidden;
+  transition: 500ms;
+}
+
+.selector:is(.active) {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.selector > input {
+  border: 1px solid #000;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.selector > div {
+  display: grid;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.selector > div > button {
+  color: #000;
+  text-align: start;
+  padding: 15px;
+  border: 1px solid gray;
+  border-bottom: 0;
+}
+
+.selector > div > button > div:first-of-type {
+  font-size: 20px;
+}
+
+.selector > div > button > div:last-of-type {
+  font-size: 17px;
+}
+
+.selector > div > button:last-of-type {
+  border-bottom: 1px solid gray;
+}
+
+.selector > div > button:hover {
+  background-color: #eaeaea;
+}
+
+.selector2 {
+  display: grid;
+  position: absolute;
+  background-color: #ffffff;
+  width: 100%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 15px 10px;
+  border: 1px solid #000;
+  opacity: 0;
+  transform: translateY(50px);
+  z-index: 4;
+  visibility: hidden;
+  transition: 500ms;
+}
+
+.selector2:is(.active) {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.selector2 > input {
+  border: 1px solid #000;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.selector2 > div {
+  display: grid;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.selector2 > div > button {
+  color: #000;
+  text-align: start;
+  padding: 15px;
+  font-size: 17px;
+  border: 1px solid gray;
+  border-bottom: 0;
+}
+
+.selector2 > div > button:last-of-type {
+  border-bottom: 1px solid gray;
+}
+
+.selector2 > div > button:hover {
+  background-color: #eaeaea;
 }

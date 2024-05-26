@@ -318,7 +318,7 @@ export default function Header() {
                               <div className={styles.subchildcat}>
                                 {item2.subChildCategories?.map((item3) => (
                                   <Link
-                                    to={`/sc/products/${item3._id}`}
+                                    to={`/sc/products/${item3._id}?t1=${item2.title}&t2=${item3.title}`}
                                     onClick={() => setShowCategory(false)}
                                   >
                                     <span>{item3.title}</span>
