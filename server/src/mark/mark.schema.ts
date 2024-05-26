@@ -13,9 +13,6 @@ export class Mark {
 
   @Prop()
   image: string;
-
-  @Prop()
-  subCategorieIds: string[];
 }
 
 export const MarkSchema = SchemaFactory.createForClass(Mark);

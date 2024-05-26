@@ -50,7 +50,7 @@ export default function Checkout() {
       const response = await axios.post(
         "https://api.novaposhta.ua/v2.0/json/",
         {
-          apiKey: "cc5cf298d27bfb66d02112973a9fa11e",
+          apiKey: process.env.REACT_APP_NOVA_KEY,
           modelName: "AddressGeneral",
           calledMethod: "getWarehouses",
           methodProperties: {

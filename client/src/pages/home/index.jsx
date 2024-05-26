@@ -12,8 +12,51 @@ import cat5 from "../../assets/images/main/cat5.png";
 import cat6 from "../../assets/images/main/cat6.png";
 import cat_arrow from "../../assets/images/main/cat_arrow.svg";
 import styles from "./home.module.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const [showMark, setShowMark] = useState();
+  const [showModel, setShowModel] = useState();
+  const [dataMark, setDataMark] = useState([]);
+  const [selectMark, setSelectMark] = useState({});
+  const [selectModel, setSelectModel] = useState({});
+  const [dataModel, setDataModel] = useState([]);
+  const [sDataModel, setSDataModel] = useState([]);
+  const navigate = useNavigate();
+
+  const getMark = async () => {
+    const res = await axios.get(`${process.env.REACT_APP_HOST}/mark/all-mark`);
+
+    setDataMark(res.data);
+  };
+
+  const getModel = async () => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_HOST}/modele/all-modele`
+    );
+
+    setDataModel(res.data);
+    setSDataModel(res.data);
+  };
+
+  useEffect(() => {
+    getMark();
+    getModel();
+  }, []);
+
+  useEffect(() => {
+    setSDataModel(
+      dataModel?.filter((item) => item?.markIds?.includes(selectMark?._id))
+    );
+  }, [selectMark]);
+
+  const findCat = () => {
+    if (selectMark.title && selectMark.title)
+      navigate(`/categories/${selectModel._id}`);
+  };
+
   return (
     <>
       <div className={styles.top}>
@@ -21,17 +64,67 @@ export default function Home() {
         <hgroup>Маємо більше ніж 100 000 запчастин</hgroup>
         <div className="flex-center">
           <div className={styles.category}>
-            <span>Виберіть марку</span>
-            <img src={arrowSVG} alt="" />
+            <button
+              onClick={() => setShowMark(!showMark)}
+              className={showMark ? styles.active : ""}
+            >
+              <span>
+                {selectMark.title ? selectMark.title : "Виберіть марку"}
+              </span>
+              <img src={arrowSVG} alt="arrow" />
+            </button>
+            <div
+              className={`${styles.top_select} ${
+                showMark ? styles.active : ""
+              }`}
+            >
+              {dataMark?.map((item) => (
+                <button
+                  onClick={() => {
+                    setSelectMark(item);
+                    setShowMark(false);
+                  }}
+                >
+                  {item.title}
+                </button>
+              ))}
+            </div>
           </div>
           <div className={styles.category}>
-            <span>Виберіть модель</span>
-            <img src={arrowSVG} alt="" />
+            <button
+              onClick={() => {
+                if (selectMark?.title) setShowModel(!showModel);
+              }}
+              className={showModel ? styles.active : ""}
+              style={{
+                cursor: selectMark?.title ? "pointer" : "not-allowed",
+              }}
+            >
+              <span>
+                {selectModel.title ? selectModel.title : "Виберіть модель"}
+              </span>
+              <img src={arrowSVG} alt="arrow" />
+            </button>
+            <div
+              className={`${styles.top_select} ${
+                showModel ? styles.active : ""
+              }`}
+            >
+              {sDataModel?.map((item) => (
+                <button
+                  onClick={() => {
+                    setSelectModel(item);
+                    setShowModel(false);
+                  }}
+                >
+                  {item.title}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className={styles.category}>
-            <span>Виберіть категорію</span>
-            <img src={arrowSVG} alt="" />
-          </div>
+          <button className={styles.cat_btn} onClick={findCat}>
+            Пошук
+          </button>
         </div>
       </div>
       <div className={`${styles.slider} container`}>

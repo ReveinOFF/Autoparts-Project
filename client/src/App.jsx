@@ -41,6 +41,10 @@ import Password from "./pages/profile/password";
 import ScrollToTop from "./components/scrollTop";
 import CartP from "./pages/profile/cart";
 import Checkout from "./pages/checkout";
+import Categories from "./pages/categories";
+import SCProducts from "./pages/SCProducts";
+import SProducts from "./pages/SProducts";
+import SubCategories from "./pages/subcategories";
 
 export default function App() {
   return (
@@ -60,10 +64,15 @@ export default function App() {
               </BlockRoute>
             }
           />
-          <Route path="product/:id" element={<Product />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="checkout" element={<Checkout />} />
           <Route path="return-goods" element={<ReturnGoods />} />
+
+          <Route path="s/products/:id" element={<SProducts />} />
+          <Route path="sc/products/:id" element={<SCProducts />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="product/:id" element={<Product />} />
+          <Route path="categories/:id" element={<Categories />} />
+          <Route path="subcategories/:id" element={<SubCategories />} />
 
           <Route
             path="profile"

@@ -31,28 +31,55 @@
 }
 
 .category {
+  position: relative;
+  width: 300px;
+}
+
+.category > button {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
   padding: 15px 38px;
   font-size: 20px;
   font-weight: 400;
+  background: white;
+  color: #999999;
+  cursor: pointer;
+  width: 100%;
 }
 
-.category:first-of-type {
+.category > button:is(.active) {
   background: #fdb819;
   color: #000000;
 }
 
+.category > button:is(.active) > img {
+  filter: unset;
+}
+
 .category:not(:first-of-type) {
-  background: white;
-  color: #999999;
   border-left: 1px solid #535353;
 }
 
-.category:not(:first-of-type) > img {
+.category > button > img {
   filter: invert(62%) sepia(5%) saturate(9%) hue-rotate(348deg) brightness(98%)
     contrast(85%);
+}
+
+.cat_btn {
+  color: #000000;
+  font-size: 22px;
+  font-weight: 400;
+  background: #ffffff;
+  border: 5px solid #fdb819;
+  padding: 10px 50px;
+  margin-left: 30px;
+  border-radius: 10px;
+}
+
+.cat_btn:hover {
+  background: #fcf5b6;
 }
 
 .slider {
@@ -200,4 +227,56 @@
   font-weight: 700;
   grid-column: 2;
   gap: 5px;
+}
+
+.top_select {
+  background: #d9d9d9;
+  border: 1px solid #929292;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: grid;
+  position: absolute;
+  z-index: 4;
+  max-height: 350px;
+  width: 100%;
+  transform: translateY(50px);
+  opacity: 0;
+  visibility: hidden;
+  transition: 500ms;
+}
+
+.top_select:is(.active) {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.top_select::-webkit-scrollbar {
+  width: 8px;
+}
+.top_select::-webkit-scrollbar-track {
+  background: transparent;
+}
+.top_select::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: #313131;
+}
+.top_select::-webkit-scrollbar-thumb:hover {
+  background: #5b5b5b;
+}
+
+.top_select > button {
+  padding: 10px 20px;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 400;
+  text-align: start;
+}
+
+.top_select > button:hover {
+  background: #efefef;
+}
+
+.top_select > button:not(:last-of-type) {
+  border-bottom: 1px solid #929292;
 }

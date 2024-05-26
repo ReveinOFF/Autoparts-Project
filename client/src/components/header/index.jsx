@@ -317,7 +317,10 @@ export default function Header() {
                             {item2.subChildCategorieIds && (
                               <div className={styles.subchildcat}>
                                 {item2.subChildCategories?.map((item3) => (
-                                  <Link>
+                                  <Link
+                                    to={`/sc/products/${item3._id}`}
+                                    onClick={() => setShowCategory(false)}
+                                  >
                                     <span>{item3.title}</span>
                                     <img
                                       src={arrowImg}
