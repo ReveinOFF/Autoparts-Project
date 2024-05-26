@@ -10,9 +10,11 @@ export default function Layout() {
       <Header />
       <main
         style={{
-          backgroundColor: location.pathname.includes("profile")
-            ? "#DFDFDF"
-            : "#FFFFFF",
+          backgroundColor:
+            location.pathname.includes("profile") ||
+            location.pathname.includes("checkout")
+              ? "#DFDFDF"
+              : "#FFFFFF",
         }}
       >
         <Outlet />

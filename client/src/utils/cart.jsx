@@ -6,6 +6,13 @@ export const updateCartData = (newData) => {
   return updatedData;
 };
 
+export const setCartData = (newData) => {
+  const updatedData = newData;
+  localStorage.setItem("cart", JSON.stringify(updatedData));
+
+  return updatedData;
+};
+
 export const removeCartItem = (itemId) => {
   const existingData = getCartData();
   const index = existingData.findIndex((item) => item.id === itemId);

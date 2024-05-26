@@ -12,10 +12,10 @@ export class Categories {
   description: string;
 
   @Prop()
-  modelIds: string[];
+  image: string;
 
   @Prop()
-  image: string;
+  subCategorieIds: string[];
 }
 
 export const CategoriesSchema = SchemaFactory.createForClass(Categories);

@@ -37,73 +37,6 @@ export class CategoriesService {
     }
   }
 
-  async getCategoriesWithSubcategories() {
-    return await this.categoriesModel
-      .aggregate([
-        {
-          $addFields: {
-            subCategorieIds: {
-              $map: {
-                input: '$subCategorieIds',
-                as: 'id',
-                in: { $toObjectId: '$$id' },
-              },
-            },
-          },
-        },
-        {
-          $unwind: {
-            path: '$subCategorieIds',
-            preserveNullAndEmptyArrays: true,
-          },
-        },
-        {
-          $lookup: {
-            from: 'subcategories',
-            localField: 'subCategorieIds',
-            foreignField: '_id',
-            as: 'subCategories',
-          },
-        },
-        {
-          $unwind: {
-            path: '$subCategories',
-            preserveNullAndEmptyArrays: true,
-          },
-        },
-        {
-          $addFields: {
-            'subCategories.subCategorieIds': {
-              $map: {
-                input: '$subCategories.subCategorieIds',
-                as: 'id',
-                in: { $toObjectId: '$$id' },
-              },
-            },
-          },
-        },
-        {
-          $lookup: {
-            from: 'subcategories',
-            localField: 'subCategories.subCategorieIds',
-            foreignField: '_id',
-            as: 'subCategories.subCategories',
-          },
-        },
-        {
-          $group: {
-            _id: '$_id',
-            title: { $first: '$title' },
-            image: { $first: '$image' },
-            description: { $first: '$description' },
-            subCategorieIds: { $first: '$subCategorieIds' },
-            subCategories: { $push: '$subCategories' },
-          },
-        },
-      ])
-      .exec();
-  }
-
   async Delete(id: string) {
     try {
       const documents = await this.categoriesModel.db
@@ -125,6 +58,74 @@ export class CategoriesService {
       console.error(error);
       throw error;
     }
+  }
+
+  async getCategoriesWithSubcategories() {
+    const categories = await this.categoriesModel.aggregate([
+      {
+        $addFields: {
+          subCategorieIds: {
+            $map: {
+              input: '$subCategorieIds',
+              as: 'id',
+              in: { $toObjectId: '$$id' },
+            },
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'subcategories',
+          localField: 'subCategorieIds',
+          foreignField: '_id',
+          as: 'subCategories',
+        },
+      },
+      { $unwind: { path: '$subCategories', preserveNullAndEmptyArrays: true } },
+      {
+        $addFields: {
+          'subCategories.subChildCategorieIds': {
+            $map: {
+              input: '$subCategories.subChildCategorieIds',
+              as: 'id',
+              in: { $toObjectId: '$$id' },
+            },
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'subcategories',
+          localField: 'subCategories.subChildCategorieIds',
+          foreignField: '_id',
+          as: 'subCategories.subChildCategories',
+        },
+      },
+      {
+        $group: {
+          _id: '$_id',
+          title: { $first: '$title' },
+          description: { $first: '$description' },
+          image: { $first: '$image' },
+          modelIds: { $first: '$modelIds' },
+          subCategorieIds: { $first: '$subCategorieIds' },
+          subCategories: { $push: '$subCategories' },
+        },
+      },
+      {
+        $addFields: {
+          subCategories: {
+            $filter: {
+              input: '$subCategories',
+              as: 'subCategory',
+              cond: { $ne: ['$$subCategory', {}] },
+            },
+          },
+        },
+      },
+    ]);
+
+    return categories;
   }
 
   async getAll() {

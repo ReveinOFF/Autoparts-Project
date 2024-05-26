@@ -40,6 +40,7 @@ import FavoritesP from "./pages/profile/favorites";
 import Password from "./pages/profile/password";
 import ScrollToTop from "./components/scrollTop";
 import CartP from "./pages/profile/cart";
+import Checkout from "./pages/checkout";
 
 export default function App() {
   return (
@@ -61,6 +62,7 @@ export default function App() {
           />
           <Route path="product/:id" element={<Product />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="checkout" element={<Checkout />} />
           <Route path="return-goods" element={<ReturnGoods />} />
 
           <Route

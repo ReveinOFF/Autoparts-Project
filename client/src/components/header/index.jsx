@@ -300,9 +300,40 @@ export default function Header() {
               </div>
               <div className={styles.cat_modal}>
                 {categories?.map((item) => (
-                  <Link to={`/category?id=${item._id}`} key={item._id}>
-                    {item.title}
-                  </Link>
+                  <div>
+                    <span>{item.title}</span>
+                    <img src={arrowImg} alt="arrow" width={10} height={10} />
+                    {item.subCategorieIds && (
+                      <div className={styles.subcat}>
+                        {item.subCategories?.map((item2) => (
+                          <div>
+                            <span>{item2.title}</span>
+                            <img
+                              src={arrowImg}
+                              alt="arrow"
+                              width={10}
+                              height={10}
+                            />
+                            {item2.subChildCategorieIds && (
+                              <div className={styles.subchildcat}>
+                                {item2.subChildCategories?.map((item3) => (
+                                  <Link>
+                                    <span>{item3.title}</span>
+                                    <img
+                                      src={arrowImg}
+                                      alt="arrow"
+                                      width={10}
+                                      height={10}
+                                    />
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>

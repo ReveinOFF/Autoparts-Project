@@ -134,12 +134,30 @@ header {
 
 .category {
   background-color: #fdb819;
+  width: 35%;
   position: relative;
 }
 
+.category > div:first-of-type {
+  justify-content: center;
+}
+
 .category > div:first-of-type > img:last-of-type {
-  rotate: -90deg;
+  rotate: 0;
   transition: rotate 500ms;
+}
+
+.active_cat {
+  background: #000000;
+}
+
+.active_cat > div:first-of-type {
+  color: #fdb819;
+}
+
+.active_cat > div:first-of-type > img:last-of-type {
+  filter: invert(67%) sepia(68%) saturate(548%) hue-rotate(356deg)
+    brightness(101%) contrast(99%);
 }
 
 .active_cat > .cat_modal {
@@ -149,7 +167,7 @@ header {
 }
 
 .active_cat > div:first-of-type > img:last-of-type {
-  rotate: 0deg;
+  rotate: -180deg;
 }
 
 .category > div:first-child {
@@ -159,28 +177,111 @@ header {
 }
 
 .cat_modal {
-  background-color: #fdb819;
+  background-color: #d9d9d9;
   display: grid;
   position: absolute;
-  gap: 10px;
-  padding: 10px 15px;
   top: 100%;
   font-size: 18px;
+  width: 100%;
   font-weight: 500;
-  border: 1px solid #000000;
   opacity: 0;
   visibility: hidden;
   transform: translateY(50px);
   transition: all 500ms;
+  border: 1px solid #929292;
+  z-index: 5;
 }
 
-.cat_modal > a {
+.cat_modal > div {
   color: #000000;
   white-space: nowrap;
+  padding: 15px 10px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
 }
 
-.cat_modal > a:hover {
-  color: #ffffff;
+.subcat,
+.subchildcat {
+  position: absolute;
+  left: 100%;
+  background-color: #d9d9d9;
+  display: grid;
+  font-size: 18px;
+  width: 100%;
+  font-weight: 500;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(50px);
+  transition: all 100ms;
+  border: 1px solid #929292;
+  z-index: 5;
+}
+
+.subcat > div,
+.subchildcat > a {
+  color: #000000;
+  white-space: nowrap;
+  padding: 15px 10px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+}
+
+.subcat > div:hover .subchildcat {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.subcat > div > img,
+.subchildcat > a > img {
+  rotate: -90deg;
+}
+
+.subcat > div:not(:last-of-type),
+.subchildcat > a:not(:last-of-type) {
+  border-bottom: 1px solid #929292;
+}
+
+.subcat > div:hover > span,
+.subchildcat > a:hover > span {
+  color: #fdb819;
+}
+
+.subcat > div:hover > img,
+.subchildcat > a:hover > img {
+  filter: invert(67%) sepia(68%) saturate(548%) hue-rotate(356deg)
+    brightness(101%) contrast(99%);
+}
+
+.cat_modal > div:hover > .subcat {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.cat_modal > div > img {
+  rotate: -90deg;
+}
+
+.cat_modal > div:not(:last-of-type) {
+  border-bottom: 1px solid #929292;
+}
+
+.cat_modal > div:hover > span {
+  color: #fdb819;
+}
+
+.cat_modal > div:hover > img {
+  filter: invert(67%) sepia(68%) saturate(548%) hue-rotate(356deg)
+    brightness(101%) contrast(99%);
 }
 
 .search_block {

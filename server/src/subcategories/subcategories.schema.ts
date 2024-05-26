@@ -9,13 +9,13 @@ export class Subcategories {
   title: string[];
 
   @Prop()
-  brandIds: string[];
+  productIds: string[];
 
   @Prop()
-  categorieIds: string[];
+  markIds: string[];
 
   @Prop()
-  subCategorieIds: string[];
+  subChildCategorieIds: string[];
 }
 
 export const SubcategoriesSchema = SchemaFactory.createForClass(Subcategories);
