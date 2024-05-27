@@ -216,6 +216,10 @@
   color: #929292;
 }
 
+.cat_info {
+  align-self: flex-start;
+}
+
 .block_category > img {
   width: 100%;
   margin-right: 5px;

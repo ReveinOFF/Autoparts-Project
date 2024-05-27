@@ -4,10 +4,16 @@ import { useEffect, useState } from "react";
 import arrowSVG from "../../assets/images/header/arrowTwo.svg";
 import axios from "axios";
 import ProductsComponent from "../../components/products";
+import { isSaved, removeFavItem, updateFavData } from "../../utils/fovourite";
+import { useDispatch, useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
+import Cart from "../../components/cart";
+import { SET_CART } from "../../reducers/cartReducer";
+import { updateCartData } from "../../utils/cart";
 
 export default function SCProducts() {
   const { id } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [showMark, setShowMark] = useState();
   const [showModel, setShowModel] = useState();
   const [dataMark, setDataMark] = useState([]);
@@ -15,40 +21,153 @@ export default function SCProducts() {
   const [selectModel, setSelectModel] = useState({});
   const [dataModel, setDataModel] = useState([]);
   const [sDataModel, setSDataModel] = useState([]);
-  const [data, setData] = useState();
-
-  const getMark = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_HOST}/mark/all-mark`);
-
-    setDataMark(res.data);
-  };
+  const [showCart, setShowCart] = useState(false);
+  const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
+  const [productsVis, setProductsVis] = useState([]);
+  const { isAuth } = useSelector((s) => s.auth);
 
   const getModel = async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_HOST}/modele/all-modele`
     );
 
-    setDataModel(res.data);
-    setSDataModel(res.data);
+    setDataModel(res?.data);
+    setSDataModel(res?.data);
   };
 
   useEffect(() => {
-    getMark();
     getModel();
   }, []);
 
   useEffect(() => {
+    setSelectModel({});
     setSDataModel(
       dataModel?.filter((item) => item?.markIds?.includes(selectMark?._id))
     );
   }, [selectMark]);
 
-  const findProd = () => {
-    // if (selectMark.title && selectMark.title)
+  const addToFav = async (item) => {
+    updateFavData(item);
+    setProducts((prev) => {
+      return prev.map((product) => {
+        if (product._id === item) {
+          return { ...product, isFav: true };
+        }
+        return product;
+      });
+    });
+    setProductsVis((prev) => {
+      return prev.map((product) => {
+        if (product._id === item) {
+          return { ...product, isFav: true };
+        }
+        return product;
+      });
+    });
+
+    if (isAuth) {
+      const token = localStorage.getItem("token");
+
+      const { _id } = jwtDecode(token);
+
+      await axios.post(`${process.env.REACT_APP_HOST}/authentication/fav/add`, {
+        _id: _id,
+        saveProductId: item,
+      });
+    }
+  };
+
+  const remToFav = async (item) => {
+    removeFavItem(item);
+    setProducts((prev) => {
+      return prev.map((product) => {
+        if (product._id === item) {
+          return { ...product, isFav: false };
+        }
+        return product;
+      });
+    });
+    setProductsVis((prev) => {
+      return prev.map((product) => {
+        if (product._id === item) {
+          return { ...product, isFav: false };
+        }
+        return product;
+      });
+    });
+
+    if (isAuth) {
+      const token = localStorage.getItem("token");
+
+      const { _id } = jwtDecode(token);
+
+      await axios.delete(
+        `${process.env.REACT_APP_HOST}/authentication/fav/del/${_id}/${item}`
+      );
+    }
+  };
+
+  const addToCart = (item) => {
+    updateCartData({
+      id: item?._id,
+      image: item?.image[0],
+      title: item?.title,
+      count: 1,
+      price: item?.price,
+      mainPrice: item?.price,
+    });
+    setShowCart(true);
+    dispatch({ type: SET_CART });
+  };
+
+  const findProd = async () => {
+    if (isAuth) {
+      const token = localStorage.getItem("token");
+
+      const jwt = jwtDecode(token);
+
+      const res = await axios.get(
+        `${process.env.REACT_APP_HOST}/subcategories/get-one/${id}/${jwt._id}`
+      );
+
+      setDataMark(res.data?.marks);
+      setProducts(res.data?.products);
+      setProductsVis(res.data?.products);
+    } else {
+      const res = await axios.get(
+        `${process.env.REACT_APP_HOST}/subcategories/get-one/${id}`
+      );
+      let tempData = res.data;
+
+      if (isSaved(res?.data?.id)) tempData.isFav = true;
+      else tempData.isFav = false;
+
+      setDataMark(res.data?.marks);
+      setProducts(res.data?.products);
+      setProductsVis(res.data?.products);
+    }
+  };
+
+  useEffect(() => {
+    findProd();
+  }, []);
+
+  const findProdModel = async () => {
+    if (selectMark?.title && selectModel?.title) {
+      setProductsVis(
+        products.filter((f) => f.modelIds.includes(selectModel._id))
+      );
+    }
   };
 
   return (
     <div className="container" style={{ marginBlock: 40 }}>
+      {showCart && (
+        <div className="cart_modal">
+          <Cart onClose={() => setShowCart(false)} />
+        </div>
+      )}
       <div className={styles.info}>
         <hgroup>{searchParams.get("t1")}</hgroup>
         <h1>{searchParams.get("t2")}</h1>
@@ -109,11 +228,17 @@ export default function SCProducts() {
             ))}
           </div>
         </div>
-        <button className={styles.cat_btn} onClick={findProd}>
+        <button className={styles.cat_btn} onClick={findProdModel}>
           Пошук
         </button>
       </div>
-      <ProductsComponent />
+      <ProductsComponent
+        data={productsVis}
+        removeFav={remToFav}
+        addFav={addToFav}
+        addToCart={addToCart}
+      />
+      {productsVis.length < 1 && <u>Пусто</u>}
     </div>
   );
 }

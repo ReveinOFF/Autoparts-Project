@@ -19,4 +19,9 @@ export class SubcategoriesController {
   async getOne(@Param('id') id: string) {
     return await this.subcategoriesService.getOne(id);
   }
+
+  @Get('get-one/:id/:userId')
+  async getOneFV(@Param('id') id: string, @Param('userId') userId: string) {
+    return await this.subcategoriesService.getOneFV(id, userId);
+  }
 }

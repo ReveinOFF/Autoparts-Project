@@ -66,10 +66,10 @@ export default function App() {
           />
           <Route path="contact" element={<Contact />} />
           <Route path="return-goods" element={<ReturnGoods />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="sc/products/:id" element={<SCProducts />} />
 
           <Route path="s/products/:id" element={<SProducts />} />
-          <Route path="sc/products/:id" element={<SCProducts />} />
-          <Route path="checkout" element={<Checkout />} />
           <Route path="product/:id" element={<Product />} />
           <Route path="categories/:id" element={<Categories />} />
           <Route path="subcategories/:id" element={<SubCategories />} />

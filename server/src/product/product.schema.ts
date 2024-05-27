@@ -6,9 +6,6 @@ export type ProductType = HydratedDocument<Product>;
 @Schema()
 export class Product {
   @Prop()
-  subCategorieIds: string[];
-
-  @Prop()
   modelIds: string[];
 
   @Prop()

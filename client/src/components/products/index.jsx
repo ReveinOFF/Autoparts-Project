@@ -1,5 +1,6 @@
 import styles from "./products.module.css";
 import favAImg from "../../assets/images/profile/fav_a.svg";
+import favImg from "../../assets/images/profile/fav.svg";
 import recallImg from "../../assets/images/profile/recall.svg";
 import cartImg from "../../assets/images/profile/prod_cart.svg";
 import { Link } from "react-router-dom";
@@ -8,22 +9,35 @@ import starImg from "../../assets/images/profile/star.svg";
 import starAImg from "../../assets/images/profile/star_a.svg";
 import Image from "../image/image";
 
-export default function ProductsComponent({ data, removeFav, addToCart }) {
+export default function ProductsComponent({
+  data,
+  removeFav,
+  addFav,
+  addToCart,
+}) {
   return (
     <div className={styles.block}>
       {data?.length > 0 &&
         data?.map((item) => (
           <div className={styles.product}>
             <div className={styles.sect}>
-              <img
-                src={favAImg}
-                alt="favorite"
-                onClick={() => removeFav(item._id)}
-              />
+              {item.isFav ? (
+                <img
+                  src={favAImg}
+                  alt="favorite"
+                  onClick={() => removeFav(item._id)}
+                />
+              ) : (
+                <img
+                  src={favImg}
+                  alt="favorite"
+                  onClick={() => addFav(item._id)}
+                />
+              )}
             </div>
             <Image
               src={
-                item.image[0]?.length > 3
+                item?.image[0]?.length > 3
                   ? `${process.env.REACT_APP_IMG}${item.image[0]}`
                   : ""
               }

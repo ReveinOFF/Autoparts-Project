@@ -14,8 +14,8 @@ export class Mark {
   @Prop()
   image: string;
 
-  @Prop()
-  modelIds: string[];
+  // @Prop()
+  // modelIds: string[];
 }
 
 export const MarkSchema = SchemaFactory.createForClass(Mark);

@@ -72,10 +72,6 @@ export class ProductService {
     }
   }
 
-  async findAllSC(filter) {
-    return this.productsModel.find().exec();
-  }
-
   async findOne(id: string, userId: string) {
     const product = await this.productsModel.db
       .collection('products')
@@ -279,7 +275,6 @@ export class ProductService {
           price: item.price,
           image: item.image.join(', '),
           modelIds: item.modelIds.join(', '),
-          subCategorieIds: item.subCategorieIds.join(', '),
         };
       });
       return prod;

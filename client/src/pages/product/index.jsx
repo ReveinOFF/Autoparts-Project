@@ -221,9 +221,9 @@ export default function Product() {
             {type === 1 ? (
               data?.description ? (
                 <div
-                // dangerouslySetInnerHTML={{
-                //   __html: ConvertJsonToHtml(JSON.parse(data?.description)),
-                // }}
+                  dangerouslySetInnerHTML={{
+                    __html: ConvertJsonToHtml(JSON.parse(data?.description)),
+                  }}
                 ></div>
               ) : (
                 ""
@@ -231,11 +231,11 @@ export default function Product() {
             ) : type === 2 ? (
               data?.characteristics ? (
                 <div
-                // dangerouslySetInnerHTML={{
-                //   __html: ConvertJsonToHtml(
-                //     JSON.parse(data?.characteristics)
-                //   ),
-                // }}
+                  dangerouslySetInnerHTML={{
+                    __html: ConvertJsonToHtml(
+                      JSON.parse(data?.characteristics)
+                    ),
+                  }}
                 ></div>
               ) : (
                 ""

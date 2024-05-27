@@ -12,7 +12,8 @@ export default function Layout() {
         style={{
           backgroundColor:
             location.pathname.includes("profile") ||
-            location.pathname.includes("checkout")
+            location.pathname.includes("checkout") ||
+            location.pathname === "/"
               ? "#DFDFDF"
               : "#FFFFFF",
         }}
