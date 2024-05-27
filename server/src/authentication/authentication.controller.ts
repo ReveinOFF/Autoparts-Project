@@ -81,6 +81,11 @@ export class AuthenticationController {
     return await this.authService.changeUser(data);
   }
 
+  @Put('user/order')
+  async UpdateOrder(@Body() data) {
+    return await this.authService.updateOrder(data);
+  }
+
   @Post('fav/add')
   async AddFavourite(@Body() data) {
     return await this.authService.addFavourite(data._id, data.saveProductId);

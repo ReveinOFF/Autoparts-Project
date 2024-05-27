@@ -9,9 +9,14 @@ import circleImg from "../../assets/images/circle.svg";
 import circleAImg from "../../assets/images/circleA.svg";
 import axios from "axios";
 import { useCallback, useEffect, useReducer, useState } from "react";
-import { getCartDataWithTP, removeCartItem } from "../../utils/cart";
+import {
+  getCartDataWithTP,
+  removeCartAll,
+  removeCartItem,
+} from "../../utils/cart";
 import { useDispatch } from "react-redux";
 import { SET_CART } from "../../reducers/cartReducer";
+import { jwtDecode } from "jwt-decode";
 
 function reducer(state, action) {
   if (action.type === "update") {
@@ -31,6 +36,7 @@ export default function Checkout() {
     city: {},
     cart: [],
     nova: {},
+    ukr: "",
     showPoshta: "nova",
     showPay: "receiving",
     comment: "",
@@ -48,16 +54,34 @@ export default function Checkout() {
 
   const [branches, setBranches] = useState([]);
   const [visibleBranches, setVisibleBranches] = useState([]);
-  const [visibleUkr, setVisibleUkr] = useState([]);
-  const [ukr, setUkr] = useState([]);
   const [showNova, setShowNova] = useState(false);
   const [showUkr, setShowUkr] = useState(false);
   const [searchNova, setSearchNova] = useState("");
-  const [searchUkr, setSearchUkr] = useState("");
   const [novaSelected, setNovaSelected] = useState(null);
   const [ukrSelected, setUkrSelected] = useState(null);
 
-  const onOrder = () => {};
+  const onOrder = async () => {
+    await removeCartAll();
+
+    const res = await axios.post(
+      `${process.env.REACT_APP_HOST}/order/add-order`,
+      { ...state }
+    );
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      const dat = jwtDecode(token);
+      await axios.put(
+        `${process.env.REACT_APP_HOST}/authentication/user/order`,
+        {
+          userId: dat._id,
+          orderIds: res.data._id,
+        }
+      );
+    }
+
+    window.location.reload();
+  };
 
   useEffect(() => {
     const res = getCartDataWithTP();
@@ -381,7 +405,6 @@ export default function Checkout() {
                         ) : (
                           <div>виберіть відповідне відділення</div>
                         )}
-
                         <img src={arrImg} alt="arrow" width={15} />
                       </button>
                       <div
@@ -458,20 +481,44 @@ export default function Checkout() {
                       <div>Самовивіз з Укр. Пошти</div>
                       <div>Середній термін доставки 2 дні</div>
                     </div>
-                    <div>
-                      <button>
-                        <div>виберіть відповідне відділення</div>
+                    <div style={{ position: "relative" }}>
+                      <button
+                        onClick={() => {
+                          setShowUkr(!showUkr);
+                        }}
+                        style={{
+                          borderBottomLeftRadius: showUkr ? "0px" : "10px",
+                          borderBottomRightRadius: showUkr ? "0px" : "10px",
+                        }}
+                      >
+                        {ukrSelected ? (
+                          <div>{ukrSelected}</div>
+                        ) : (
+                          <div>виберіть відповідне відділення</div>
+                        )}
                         <img src={arrImg} alt="arrow" width={15} />
                       </button>
-                      <div></div>
+                      <div
+                        className={`${styles.selector2} ${
+                          showUkr ? styles.active : ""
+                        }`}
+                      >
+                        <input
+                          type="text"
+                          placeholder="Відділення..."
+                          onChange={(e) => {
+                            setUkrSelected(e.target.value);
+                            dispatch({
+                              type: "update",
+                              payload: { ukr: e.target.value },
+                            });
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className={styles.tarif}>
                     <div>за тарифами перевізника</div>
-                    <div>
-                      <img src={mapImg} alt="map" />
-                      <span>Обрати на мапі</span>
-                    </div>
                   </div>
                 </div>
               </>
@@ -559,7 +606,11 @@ export default function Checkout() {
               {cart?.totalPrice} $
             </div>
           </div>
-          <button className={styles.send_order} onClick={onOrder}>
+          <button
+            className={styles.send_order}
+            onClick={onOrder}
+            disabled={cart?.data?.length < 1}
+          >
             Підтверджую замовлення
           </button>
         </div>

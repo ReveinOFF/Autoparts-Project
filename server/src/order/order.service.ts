@@ -10,7 +10,27 @@ export class OrderService {
 
   async create(dto) {
     try {
-      return await this.orderModel.create(dto);
+      const data: Order = {
+        status: STATUS.ACTIVE,
+        dataCreate: new Date(),
+        surname: dto.surname,
+        name: dto.name,
+        mobOrEml: dto.mobOrEml,
+        city: dto.city.object_name,
+        post: dto.showPoshta,
+        postData: dto.showPoshta === 'nova' ? dto.nova.Description : dto.ukr,
+        pay: dto.showPay,
+        comment: dto.comment,
+        totalPrice: dto.cart.totalPrice,
+        products: dto.cart.data.map((item) => {
+          return {
+            productId: item.id,
+            quantity: item.count,
+          };
+        }),
+      };
+
+      return await this.orderModel.create(data);
     } catch (error) {
       console.error(error);
       throw error;

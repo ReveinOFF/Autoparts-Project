@@ -247,6 +247,14 @@ export class AuthenticationService {
     return await this.authModel.findByIdAndUpdate(id, data).exec();
   }
 
+  async updateOrder(data) {
+    return await this.authModel.findByIdAndUpdate(
+      data.userId,
+      { $push: { orderIds: data.orderIds } },
+      { new: true },
+    );
+  }
+
   async removeAcc(id) {
     return await this.authModel.findByIdAndDelete(id).exec();
   }

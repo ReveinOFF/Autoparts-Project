@@ -26,6 +26,10 @@ export const removeCartItem = (itemId) => {
   return existingData;
 };
 
+export const removeCartAll = () => {
+  localStorage.removeItem("cart");
+};
+
 export const isCartEmpty = () => {
   const cartData = getCartData();
   return cartData.length === 0;

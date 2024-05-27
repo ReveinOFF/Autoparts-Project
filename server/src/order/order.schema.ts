@@ -17,6 +17,33 @@ export class Order {
   @Prop()
   dataCreate: Date;
 
+  @Prop()
+  surname: string;
+
+  @Prop()
+  name: string;
+
+  @Prop()
+  mobOrEml: string;
+
+  @Prop()
+  city: string;
+
+  @Prop()
+  post: string;
+
+  @Prop()
+  postData: string;
+
+  @Prop()
+  pay: string;
+
+  @Prop()
+  totalPrice: string;
+
+  @Prop()
+  comment: string;
+
   @Prop({ type: [{ productId: String, quantity: Number }] })
   products: ProductItem[];
 }
