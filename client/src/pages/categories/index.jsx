@@ -60,7 +60,7 @@ export default function Categories() {
                 <div>{item.count}</div>
               </div>
               <div className={styles.mid}>
-                {item.subcategories?.map((sc) => (
+                {item.subchildcategories?.slice(0, 7)?.map((sc) => (
                   <Link
                     to={`/s/products/${sc._id}?pages=${searchParams.get(
                       "pages"
@@ -70,7 +70,7 @@ export default function Categories() {
                   </Link>
                 ))}
               </div>
-              {item.subcategories?.length > 7 && (
+              {item.subchildcategories?.length > 7 && (
                 <Link
                   to={`/subcategories/${item._id}?pages=${searchParams.get(
                     "pages"

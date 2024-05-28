@@ -163,12 +163,39 @@ export class CategoriesService {
           $unwind: '$subcategories',
         },
         {
+          $addFields: {
+            subChildCategoryIds: {
+              $map: {
+                input: '$subcategories.subChildCategorieIds',
+                as: 'subChildCategoryId',
+                in: { $toObjectId: '$$subChildCategoryId' },
+              },
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'subcategories',
+            localField: 'subChildCategoryIds',
+            foreignField: '_id',
+            as: 'subchildcategories',
+          },
+        },
+        {
+          $unwind: '$subchildcategories',
+        },
+        {
           $group: {
             _id: '$_id',
             title: { $first: '$title' },
             image: { $first: '$image' },
-            subcategories: { $addToSet: '$subcategories' },
-            productIds: { $addToSet: '$subcategories.productIds' },
+            subchildcategories: {
+              $push: {
+                _id: '$subchildcategories._id',
+                title: '$subchildcategories.title',
+              },
+            },
+            productIds: { $addToSet: '$subchildcategories.productIds' },
           },
         },
         {

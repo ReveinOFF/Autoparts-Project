@@ -69,10 +69,10 @@ export default function App() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="sc/products/:id" element={<SCProducts />} />
           <Route path="categories/:id" element={<Categories />} />
+          <Route path="subcategories/:id" element={<SubCategories />} />
+          <Route path="product/:id" element={<Product />} />
 
           <Route path="s/products/:id" element={<SProducts />} />
-          <Route path="product/:id" element={<Product />} />
-          <Route path="subcategories/:id" element={<SubCategories />} />
 
           <Route
             path="profile"

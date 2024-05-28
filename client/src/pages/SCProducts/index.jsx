@@ -248,7 +248,9 @@ export default function SCProducts() {
       </div>
       <ProductsComponent
         data={productsVis}
-        pages={`${data?.title}${
+        pages={`?pages=${searchParams.get("t0")}/${searchParams.get(
+          "t1"
+        )}/${searchParams.get("t2")}${
           findMod ? "/" + selectMark.title + "/" + selectModel.title : ""
         }`}
         removeFav={remToFav}

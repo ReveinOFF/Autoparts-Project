@@ -113,7 +113,7 @@ export default function Product() {
       )}
       <div className="pages">
         {searchParams
-          .get("pages")
+          ?.get("pages")
           ?.split("/")
           ?.map((item, index, array) => (
             <>
@@ -128,6 +128,8 @@ export default function Product() {
               )}
             </>
           ))}
+        <img key={`arrow`} src={arrowPage} alt="arrow page" width={10} />
+        <div>{data?.title}</div>
       </div>
       <div>
         <div className={styles.product}>
@@ -228,23 +230,37 @@ export default function Product() {
           <div>
             {type === 1 ? (
               data?.description ? (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: ConvertJsonToHtml(JSON.parse(data?.description)),
-                  }}
-                ></div>
+                <>
+                  {typeof data?.description !== "string" ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: ConvertJsonToHtml(
+                          JSON.parse(data?.description)
+                        ),
+                      }}
+                    ></div>
+                  ) : (
+                    <div>{data?.description}</div>
+                  )}
+                </>
               ) : (
                 ""
               )
             ) : type === 2 ? (
               data?.characteristics ? (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: ConvertJsonToHtml(
-                      JSON.parse(data?.characteristics)
-                    ),
-                  }}
-                ></div>
+                <>
+                  {typeof data?.characteristics !== "string" ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: ConvertJsonToHtml(
+                          JSON.parse(data?.characteristics)
+                        ),
+                      }}
+                    ></div>
+                  ) : (
+                    <div>{data?.characteristics}</div>
+                  )}
+                </>
               ) : (
                 ""
               )
