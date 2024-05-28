@@ -264,6 +264,11 @@ export default function Header() {
                 </Link>
               ))}
             </div>
+            {products?.length < 1 && (
+              <div className={styles.prod_nf}>
+                Такого товару немає в нашому магазині
+              </div>
+            )}
           </div>
           <div
             className={`flex-full ${styles.cart_block}`}
