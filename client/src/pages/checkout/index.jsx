@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./checkout.module.css";
 import infoImg from "../../assets/images/contact/info.svg";
 import mapImg from "../../assets/images/map.svg";
@@ -17,6 +17,8 @@ import {
 import { useDispatch } from "react-redux";
 import { SET_CART } from "../../reducers/cartReducer";
 import { jwtDecode } from "jwt-decode";
+import contactImg from "../../assets/images/contact/contact.svg";
+import closeImg from "../../assets/images/admin/ha_exit.svg";
 
 function reducer(state, action) {
   if (action.type === "update") {
@@ -29,6 +31,7 @@ function reducer(state, action) {
 
 export default function Checkout() {
   const dispatchM = useDispatch();
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, {
     surname: "",
     name: "",
@@ -60,6 +63,8 @@ export default function Checkout() {
   const [novaSelected, setNovaSelected] = useState(null);
   const [ukrSelected, setUkrSelected] = useState(null);
 
+  const [show, setShow] = useState(false);
+
   const onOrder = async () => {
     await removeCartAll();
 
@@ -80,7 +85,7 @@ export default function Checkout() {
       );
     }
 
-    window.location.reload();
+    setShow(true);
   };
 
   useEffect(() => {
@@ -227,6 +232,23 @@ export default function Checkout() {
       }}
     >
       <div className={styles.checkout}>
+        {show && (
+          <div className="succ">
+            <div>
+              <img
+                src={closeImg}
+                alt="close"
+                onClick={() => {
+                  setShow(false);
+                  navigate("/");
+                }}
+              />
+              <img src={contactImg} alt="contact" />
+              <h1>Дякуємо за замовлення</h1>
+              <p>Замовлення знаходиться в обробці</p>
+            </div>
+          </div>
+        )}
         <h1>Оформлення замовлення</h1>
         <div>
           <h2>Ваші контактні дані</h2>
