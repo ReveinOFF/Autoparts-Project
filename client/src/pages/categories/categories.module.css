@@ -17,7 +17,8 @@
 
 .category {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr 0.2fr;
+  height: 100%;
   border-bottom: 5px solid #e1e1e1;
   background: #f0f0f0;
   transition: 500ms;

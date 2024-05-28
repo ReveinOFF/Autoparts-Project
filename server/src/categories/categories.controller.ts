@@ -47,4 +47,9 @@ export class CategoriesController {
   async delete(@Param('id') id: string) {
     return await this.categoriesService.Delete(id);
   }
+
+  @Get('get-sub-cat/:id')
+  async getSubCategoriesByCat(@Param('id') id: string) {
+    return await this.categoriesService.getSubCategoriesByCat(id);
+  }
 }

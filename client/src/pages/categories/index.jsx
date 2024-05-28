@@ -26,9 +26,9 @@ export default function Categories() {
     <div className="container" style={{ marginBottom: 60 }}>
       <div className="pages">
         {searchParams
-          .get("pages")
-          .split("/")
-          .map((item, index, array) => (
+          ?.get("pages")
+          ?.split("/")
+          ?.map((item, index, array) => (
             <>
               <div key={index}>{item}</div>
               {index !== array.length - 1 && (
@@ -61,12 +61,20 @@ export default function Categories() {
               </div>
               <div className={styles.mid}>
                 {item.subcategories?.map((sc) => (
-                  <Link to={`/subcategories/${sc._id}`}>{sc.title}</Link>
+                  <Link
+                    to={`/s/products/${sc._id}?pages=${searchParams.get(
+                      "pages"
+                    )}/${item.title}/${sc.title}`}
+                  >
+                    {sc.title}
+                  </Link>
                 ))}
               </div>
               {item.subcategories?.length > 7 && (
                 <Link
-                  to={`/subcategories/a/${item._id}`}
+                  to={`/subcategories/${item._id}?pages=${searchParams.get(
+                    "pages"
+                  )}/${item.title}`}
                   className={styles.bot}
                 >
                   <div>Показати все</div>

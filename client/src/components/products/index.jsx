@@ -11,6 +11,7 @@ import Image from "../image/image";
 
 export default function ProductsComponent({
   data,
+  pages,
   removeFav,
   addFav,
   addToCart,
@@ -45,7 +46,10 @@ export default function ProductsComponent({
             <div className={styles.info}>
               <div className={styles.inf_b}>
                 <div>
-                  <Link to={`/product/${item._id}`} className={styles.name}>
+                  <Link
+                    to={`/product/${item._id}${pages}`}
+                    className={styles.name}
+                  >
                     {item.title}
                   </Link>
                   <div className={styles.raiting}>

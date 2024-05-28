@@ -11,7 +11,7 @@ import mcImg from "../../assets/images/product/mc.png";
 import vcImg from "../../assets/images/product/vc.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import ConvertJsonToHtml from "../../utils/rich-html";
 import { updateCartData } from "../../utils/cart";
@@ -22,6 +22,7 @@ import { SET_CART } from "../../reducers/cartReducer";
 
 export default function Product() {
   const { isAuth } = useSelector((s) => s.auth);
+  const [searchParams] = useSearchParams();
   const [data, setData] = useState();
   const dispatch = useDispatch();
   const [imgSelected, setImgSelected] = useState();
@@ -111,15 +112,22 @@ export default function Product() {
         </div>
       )}
       <div className="pages">
-        <div>Audi</div>
-        <img src={arrowPage} alt="arrow page" width={10} />
-        <div>A6</div>
-        <img src={arrowPage} alt="arrow page" width={10} />
-        <div>Зовнішні елементи</div>
-        <img src={arrowPage} alt="arrow page" width={10} />
-        <div>Капот</div>
-        <img src={arrowPage} alt="arrow page" width={10} />
-        <div>Капот Audi A6</div>
+        {searchParams
+          .get("pages")
+          ?.split("/")
+          ?.map((item, index, array) => (
+            <>
+              <div key={index}>{item}</div>
+              {index !== array.length - 1 && (
+                <img
+                  key={`arrow-${index}`}
+                  src={arrowPage}
+                  alt="arrow page"
+                  width={10}
+                />
+              )}
+            </>
+          ))}
       </div>
       <div>
         <div className={styles.product}>

@@ -185,6 +185,90 @@ export class CategoriesService {
     }
   }
 
+  async getSubCategoriesByCat(id) {
+    try {
+      const subCatByCat = await this.categoriesModel.aggregate([
+        {
+          $match: {
+            _id: new Types.ObjectId(id),
+          },
+        },
+        {
+          $addFields: {
+            subCategorieIds: {
+              $map: {
+                input: '$subCategorieIds',
+                as: 'id',
+                in: { $toObjectId: '$$id' },
+              },
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'subcategories',
+            localField: 'subCategorieIds',
+            foreignField: '_id',
+            as: 'subCategories',
+          },
+        },
+        {
+          $unwind: { path: '$subCategories', preserveNullAndEmptyArrays: true },
+        },
+        {
+          $addFields: {
+            'subCategories.subChildCategorieIds': {
+              $map: {
+                input: '$subCategories.subChildCategorieIds',
+                as: 'id',
+                in: { $toObjectId: '$$id' },
+              },
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'subcategories',
+            localField: 'subCategories.subChildCategorieIds',
+            foreignField: '_id',
+            as: 'subCategories.subChildCategories',
+          },
+        },
+        {
+          $addFields: {
+            'subCategories.subChildCategories.count': {
+              $size: '$subCategories.subChildCategories.productIds',
+            },
+          },
+        },
+        {
+          $group: {
+            _id: '$_id',
+            title: { $first: '$title' },
+            subCategorieIds: { $first: '$subCategorieIds' },
+            subCategories: { $push: '$subCategories' },
+          },
+        },
+        {
+          $addFields: {
+            subCategories: {
+              $filter: {
+                input: '$subCategories',
+                as: 'subCategory',
+                cond: { $ne: ['$$subCategory', {}] },
+              },
+            },
+          },
+        },
+      ]);
+
+      return subCatByCat[0];
+    } catch (error) {
+      console.error('Error in getSubCategoriesByCat:', error);
+      throw error;
+    }
+  }
+
   async getOne(id: string) {
     try {
       return await this.categoriesModel.findById(id).exec();

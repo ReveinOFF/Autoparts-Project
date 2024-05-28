@@ -20,6 +20,7 @@ export default function SCProducts() {
   const [dataMark, setDataMark] = useState([]);
   const [selectMark, setSelectMark] = useState({});
   const [selectModel, setSelectModel] = useState({});
+  const [findMod, setFindMod] = useState(false);
   const [dataModel, setDataModel] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [currPage, setCurrPage] = useState(
@@ -169,6 +170,8 @@ export default function SCProducts() {
         setData(res.data);
         setProductsVis(res.data?.products);
       }
+
+      setFindMod(true);
     }
   };
 
@@ -245,6 +248,9 @@ export default function SCProducts() {
       </div>
       <ProductsComponent
         data={productsVis}
+        pages={`${data?.title}${
+          findMod ? "/" + selectMark.title + "/" + selectModel.title : ""
+        }`}
         removeFav={remToFav}
         addFav={addToFav}
         addToCart={addToCart}

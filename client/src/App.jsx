@@ -73,7 +73,6 @@ export default function App() {
           <Route path="s/products/:id" element={<SProducts />} />
           <Route path="product/:id" element={<Product />} />
           <Route path="subcategories/:id" element={<SubCategories />} />
-          <Route path="subcategories/a/:id" element={<SubCategories />} />
 
           <Route
             path="profile"

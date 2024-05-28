@@ -1,0 +1,40 @@
+.h1 {
+  margin-top: 5px;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.subcategories {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.subcategory {
+  display: grid;
+}
+
+.subcategory > h2 {
+  margin-bottom: 20px;
+  font-size: 27px;
+  font-weight: 400;
+}
+
+.list {
+  display: grid;
+  gap: 15px;
+}
+
+.list > a,
+.list > div {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.list > a {
+  color: #000;
+}
+
+.list > div {
+  color: #929292;
+}
