@@ -56,6 +56,14 @@ export class ModeleService {
     }
   }
 
+  async findModelsByMark(id: string) {
+    try {
+      return this.modeleModel.find({ markIds: id }).exec();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async findByMark(id: string[]) {
     try {
       return this.modeleModel

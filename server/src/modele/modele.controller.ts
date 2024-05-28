@@ -47,4 +47,9 @@ export class ModeleController {
   async findWithMark() {
     return this.modeleService.findWithMark();
   }
+
+  @Get('m-modele-mark/:id')
+  async findModelsByMark(@Param('id') id: string) {
+    return this.modeleService.findModelsByMark(id);
+  }
 }

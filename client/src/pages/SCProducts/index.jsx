@@ -10,53 +10,28 @@ import { jwtDecode } from "jwt-decode";
 import Cart from "../../components/cart";
 import { SET_CART } from "../../reducers/cartReducer";
 import { updateCartData } from "../../utils/cart";
+import Pagination from "../../components/pagination";
 
 export default function SCProducts() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
-  const [showMark, setShowMark] = useState();
-  const [showModel, setShowModel] = useState();
+  const [showMark, setShowMark] = useState(false);
+  const [showModel, setShowModel] = useState(false);
   const [dataMark, setDataMark] = useState([]);
   const [selectMark, setSelectMark] = useState({});
   const [selectModel, setSelectModel] = useState({});
   const [dataModel, setDataModel] = useState([]);
-  const [sDataModel, setSDataModel] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [currPage, setCurrPage] = useState(
+    parseInt(searchParams.get("page")) || 1
+  );
+  const [data, setData] = useState({});
   const dispatch = useDispatch();
-  const [products, setProducts] = useState([]);
   const [productsVis, setProductsVis] = useState([]);
   const { isAuth } = useSelector((s) => s.auth);
 
-  const getModel = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_HOST}/modele/all-modele`
-    );
-
-    setDataModel(res?.data);
-    setSDataModel(res?.data);
-  };
-
-  useEffect(() => {
-    getModel();
-  }, []);
-
-  useEffect(() => {
-    setSelectModel({});
-    setSDataModel(
-      dataModel?.filter((item) => item?.markIds?.includes(selectMark?._id))
-    );
-  }, [selectMark]);
-
   const addToFav = async (item) => {
     updateFavData(item);
-    setProducts((prev) => {
-      return prev.map((product) => {
-        if (product._id === item) {
-          return { ...product, isFav: true };
-        }
-        return product;
-      });
-    });
     setProductsVis((prev) => {
       return prev.map((product) => {
         if (product._id === item) {
@@ -80,14 +55,6 @@ export default function SCProducts() {
 
   const remToFav = async (item) => {
     removeFavItem(item);
-    setProducts((prev) => {
-      return prev.map((product) => {
-        if (product._id === item) {
-          return { ...product, isFav: false };
-        }
-        return product;
-      });
-    });
     setProductsVis((prev) => {
       return prev.map((product) => {
         if (product._id === item) {
@@ -128,15 +95,19 @@ export default function SCProducts() {
       const jwt = jwtDecode(token);
 
       const res = await axios.get(
-        `${process.env.REACT_APP_HOST}/subcategories/get-one/${id}/${jwt._id}`
+        `${process.env.REACT_APP_HOST}/subcategories/get-one/${id}/${
+          jwt._id
+        }?page=${currPage || parseInt(searchParams.get("page")) || 1}`
       );
 
       setDataMark(res.data?.marks);
-      setProducts(res.data?.products);
+      setData(res.data);
       setProductsVis(res.data?.products);
     } else {
       const res = await axios.get(
-        `${process.env.REACT_APP_HOST}/subcategories/get-one/${id}`
+        `${process.env.REACT_APP_HOST}/subcategories/get-one/${id}?page=${
+          currPage || parseInt(searchParams.get("page")) || 1
+        }`
       );
       let tempData = res.data;
 
@@ -144,20 +115,60 @@ export default function SCProducts() {
       else tempData.isFav = false;
 
       setDataMark(res.data?.marks);
-      setProducts(res.data?.products);
+      setData(res.data);
       setProductsVis(res.data?.products);
     }
   };
 
   useEffect(() => {
     findProd();
-  }, []);
+  }, [currPage]);
+
+  const findModal = async () => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_HOST}/modele/m-modele-mark/${selectMark._id}`
+    );
+
+    setDataModel(res.data);
+  };
+
+  useEffect(() => {
+    if (selectMark?._id) findModal();
+  }, [selectMark]);
 
   const findProdModel = async () => {
     if (selectMark?.title && selectModel?.title) {
-      setProductsVis(
-        products.filter((f) => f.modelIds.includes(selectModel._id))
-      );
+      if (isAuth) {
+        const token = localStorage.getItem("token");
+
+        const jwt = jwtDecode(token);
+
+        const res = await axios.get(
+          `${process.env.REACT_APP_HOST}/subcategories/get-one/${id}/${
+            selectModel._id
+          }/${jwt._id}?page=${
+            currPage || parseInt(searchParams.get("page")) || 1
+          }`
+        );
+
+        setDataMark(res.data?.marks);
+        setData(res.data);
+        setProductsVis(res.data?.products);
+      } else {
+        const res = await axios.get(
+          `${process.env.REACT_APP_HOST}/subcategories/get-one-mod/${id}/:${
+            selectModel._id
+          }?page=${currPage || parseInt(searchParams.get("page")) || 1}`
+        );
+        let tempData = res.data;
+
+        if (isSaved(res?.data?.id)) tempData.isFav = true;
+        else tempData.isFav = false;
+
+        setDataMark(res.data?.marks);
+        setData(res.data);
+        setProductsVis(res.data?.products);
+      }
     }
   };
 
@@ -216,7 +227,7 @@ export default function SCProducts() {
           <div
             className={`${styles.top_select} ${showModel ? styles.active : ""}`}
           >
-            {sDataModel?.map((item) => (
+            {dataModel?.map((item) => (
               <button
                 onClick={() => {
                   setSelectModel(item);
@@ -238,6 +249,13 @@ export default function SCProducts() {
         addFav={addToFav}
         addToCart={addToCart}
       />
+      {data.totalPages > 1 && (
+        <Pagination
+          currPage={currPage}
+          totalPage={data.totalPages}
+          onChangePage={(page) => setCurrPage(page)}
+        />
+      )}
       {productsVis.length < 1 && <u>Пусто</u>}
     </div>
   );
