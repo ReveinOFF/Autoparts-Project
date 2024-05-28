@@ -80,13 +80,9 @@ button {
 }
 
 .pages > * {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 300;
   color: #535353;
-}
-
-.pages > div {
-  cursor: default;
 }
 
 .container_a > a {

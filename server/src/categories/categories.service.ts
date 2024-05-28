@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Categories } from './categories.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { FilesService } from 'src/files/files.service';
 
 @Injectable()
@@ -132,6 +132,55 @@ export class CategoriesService {
     try {
       return await this.categoriesModel.find();
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async getCategoriesByModel(id) {
+    try {
+      const categoriesWithSubcategories = await this.categoriesModel.aggregate([
+        { $match: { modelIds: { $in: [id] } } },
+        {
+          $addFields: {
+            subCategorieIds: {
+              $map: {
+                input: '$subCategorieIds',
+                as: 'subCategoryId',
+                in: { $toObjectId: '$$subCategoryId' },
+              },
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'subcategories',
+            localField: 'subCategorieIds',
+            foreignField: '_id',
+            as: 'subcategories',
+          },
+        },
+        {
+          $unwind: '$subcategories',
+        },
+        {
+          $group: {
+            _id: '$_id',
+            title: { $first: '$title' },
+            image: { $first: '$image' },
+            subcategories: { $addToSet: '$subcategories' },
+            productIds: { $addToSet: '$subcategories.productIds' },
+          },
+        },
+        {
+          $addFields: {
+            count: { $size: '$productIds' },
+          },
+        },
+      ]);
+
+      return categoriesWithSubcategories;
+    } catch (error) {
+      console.error('Error in getCategoriesWithSubcategories:', error);
       throw error;
     }
   }

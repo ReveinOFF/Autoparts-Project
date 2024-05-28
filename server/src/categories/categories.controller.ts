@@ -38,6 +38,11 @@ export class CategoriesController {
     return await this.categoriesService.getOne(id);
   }
 
+  @Get('cat-mod/:id')
+  async getCategoriesByModel(@Param('id') id: string) {
+    return await this.categoriesService.getCategoriesByModel(id);
+  }
+
   @Delete('delete-category/:id')
   async delete(@Param('id') id: string) {
     return await this.categoriesService.Delete(id);

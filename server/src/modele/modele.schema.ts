@@ -15,9 +15,6 @@ export class Modele {
   image: string;
 
   @Prop()
-  categoryIds: string[];
-
-  @Prop()
   markIds: string[];
 }
 

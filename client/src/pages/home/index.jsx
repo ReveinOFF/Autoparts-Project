@@ -53,8 +53,10 @@ export default function Home() {
   }, [selectMark]);
 
   const findCat = () => {
-    if (selectMark.title && selectMark.title)
-      navigate(`/categories/${selectModel._id}`);
+    if (selectMark.title && selectModel.title)
+      navigate(
+        `/categories/${selectModel._id}?pages=${selectMark.title}/${selectModel.title}`
+      );
   };
 
   return (
