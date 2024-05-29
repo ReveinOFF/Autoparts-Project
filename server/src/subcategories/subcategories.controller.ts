@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { SubcategoriesService } from './subcategories.service';
 
 @Controller('subcategories')
@@ -10,9 +18,24 @@ export class SubcategoriesController {
     return await this.subcategoriesService.create(create);
   }
 
+  @Post('upt-subcategories')
+  async update(@Body() update) {
+    return await this.subcategoriesService.updateById(update);
+  }
+
   @Get('get-all')
   async getAll() {
     return await this.subcategoriesService.getAll();
+  }
+
+  @Get('get-by-id/:id')
+  async getById(@Param('id') id: string) {
+    return await this.subcategoriesService.getById(id);
+  }
+
+  @Delete('del-by-id/:id')
+  async delById(@Param('id') id: string) {
+    return await this.subcategoriesService.delById(id);
   }
 
   @Get('get-one/:id')

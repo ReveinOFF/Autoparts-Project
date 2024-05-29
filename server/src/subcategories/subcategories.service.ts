@@ -28,6 +28,33 @@ export class SubcategoriesService {
     }
   }
 
+  async getById(id) {
+    try {
+      return this.subcategoriesModel.findById(id).exec();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async delById(id) {
+    try {
+      return this.subcategoriesModel.findByIdAndDelete(id).exec();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async updateById(data) {
+    try {
+      return this.subcategoriesModel.findByIdAndUpdate(data._id, data).exec();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   async getOne(id, page = 1, limit = 40) {
     try {
       const skip = (page - 1) * limit;
