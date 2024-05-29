@@ -84,6 +84,7 @@
 
 .slider {
   margin-top: 79px;
+  overflow: hidden;
 }
 
 .slider > .title {
@@ -108,13 +109,19 @@
 }
 
 .slider_block {
+  display: flex;
+  transition: transform 0.5s ease;
+  width: 200%;
+}
+
+.slider_block > div {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 42px;
   margin-bottom: 30px;
 }
 
-.slider_block > div > img {
+.slider_block > div > div > img {
   width: 100%;
 }
 
@@ -128,9 +135,18 @@
   width: 15px;
   height: 15px;
   background: #535353;
+  cursor: pointer;
 }
 
-.slider_block > div {
+.pages_unslide {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #000000;
+  background: #dfdfdf;
+  cursor: pointer;
+}
+
+.slider_block > div > div {
   position: relative;
 }
 

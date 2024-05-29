@@ -12,7 +12,7 @@ import cat5 from "../../assets/images/main/cat5.png";
 import cat6 from "../../assets/images/main/cat6.png";
 import cat_arrow from "../../assets/images/main/cat_arrow.svg";
 import styles from "./home.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -25,6 +25,8 @@ export default function Home() {
   const [dataModel, setDataModel] = useState([]);
   const [sDataModel, setSDataModel] = useState([]);
   const navigate = useNavigate();
+  const [pageIndex, setPageIndex] = useState(0);
+  const sliderRef = useRef(null);
 
   const getMark = async () => {
     const res = await axios.get(`${process.env.REACT_APP_HOST}/mark/all-mark`);
@@ -57,6 +59,77 @@ export default function Home() {
       navigate(
         `/categories/${selectModel._id}?pages=${selectMark.title}/${selectModel.title}`
       );
+  };
+
+  const pages = [
+    [
+      {
+        title: "ТО & Фільтра",
+        subtitle: "Супер ціни",
+        img: category1,
+      },
+      {
+        title: "Запчастини двигуна",
+        subtitle: "Будь-які",
+        img: category1,
+      },
+    ],
+    [
+      {
+        title: "Електрика та освітлення",
+        subtitle: "Супер ціни",
+        img: category1,
+      },
+      {
+        title: "Кузов і складові",
+        subtitle: "Нові надходження",
+        img: category1,
+      },
+    ],
+  ];
+
+  const handleNext = () => {
+    setPageIndex((prev) => (prev + 1) % 2);
+  };
+
+  const handlePrev = () => {
+    setPageIndex((prev) => (prev - 1 + 2) % 2);
+  };
+
+  const handlePageClick = (index) => {
+    setPageIndex(index);
+  };
+
+  const handleTouchStart = (e) => {
+    sliderRef.current.startX = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!sliderRef.current.startX) return;
+    const diffX = e.touches[0].clientX - sliderRef.current.startX;
+    if (diffX > 50) {
+      handlePrev();
+      sliderRef.current.startX = null;
+    } else if (diffX < -50) {
+      handleNext();
+      sliderRef.current.startX = null;
+    }
+  };
+
+  const handleMouseDown = (e) => {
+    sliderRef.current.startX = e.clientX;
+  };
+
+  const handleMouseUp = (e) => {
+    if (!sliderRef.current.startX) return;
+    const diffX = e.clientX - sliderRef.current.startX;
+    if (diffX > 50) {
+      handlePrev();
+      sliderRef.current.startX = null;
+    } else if (diffX < -50) {
+      handleNext();
+      sliderRef.current.startX = null;
+    }
   };
 
   return (
@@ -135,29 +208,59 @@ export default function Home() {
             ПОПУЛЯРНІ <span>КОЛЕКЦІЇ</span>
           </h2>
           <div>
-            <img src={arrowLeft} alt="arrow left" width={15} height={20} />
+            <img
+              src={arrowLeft}
+              alt="arrow left"
+              width={15}
+              height={20}
+              onClick={handlePrev}
+              style={{ cursor: "pointer" }}
+            />
             <img src={lineSVG} alt="center line" width={15} height={20} />
-            <img src={arrowRight} alt="arrow right" width={15} height={20} />
+            <img
+              src={arrowRight}
+              alt="arrow right"
+              width={15}
+              height={20}
+              onClick={handleNext}
+              style={{ cursor: "pointer" }}
+            />
           </div>
         </div>
-        <div className={styles.slider_block}>
-          <div>
-            <div className={styles.slider_info}>
-              <div>ТО & Фільтра</div>
-              <div>Супер ціни</div>
-              <button>Переглянути</button>
+        <div
+          className={styles.slider_block}
+          style={{ transform: `translateX(-${pageIndex * 50}%)` }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          ref={sliderRef}
+        >
+          {pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page.map((block, blockIndex) => (
+                <div key={blockIndex}>
+                  <div className={styles.slider_info}>
+                    <div>{block.title}</div>
+                    <div>{block.subtitle}</div>
+                    <button>Переглянути</button>
+                  </div>
+                  <img src={block.img} alt="category" />
+                </div>
+              ))}
             </div>
-            <img src={category1} alt="category" />
-          </div>
-          <div>
-            <img src={category2} alt="category" />
-          </div>
+          ))}
         </div>
         <div className={styles.pages_block}>
-          <div className={styles.pages_slide}></div>
-          <div className={styles.pages_slide}></div>
-          <div className={styles.pages_slide}></div>
-          <div className={styles.pages_slide}></div>
+          {pages.map((_, index) => (
+            <div
+              key={index}
+              className={
+                index === pageIndex ? styles.pages_slide : styles.pages_unslide
+              }
+              onClick={() => handlePageClick(index)}
+            ></div>
+          ))}
         </div>
       </div>
       <div className={`${styles.bot_category} container`}>
