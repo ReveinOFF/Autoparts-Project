@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { AddProductDto, FiltersProductDto, PutProductDto } from './product.dto';
+import { FiltersProductDto } from './product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('product')
@@ -19,12 +19,12 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post('add-product')
-  async create(@Body() createProductDto: AddProductDto) {
+  async create(@Body() createProductDto) {
     return await this.productService.create(createProductDto);
   }
 
   @Put('put-product')
-  async update(@Body() dto: PutProductDto) {
+  async update(@Body() dto) {
     return await this.productService.update(dto);
   }
 

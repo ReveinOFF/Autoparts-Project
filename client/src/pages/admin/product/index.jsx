@@ -42,7 +42,6 @@ export default function AdminProduct() {
             />
             <div>
               <div className="title">{item.title}</div>
-              <div className="desc">{item.description}</div>
               <div className="price">{item.price}$</div>
             </div>
             <div>

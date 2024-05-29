@@ -45,6 +45,8 @@ import Categories from "./pages/categories";
 import SCProducts from "./pages/SCProducts";
 import SProducts from "./pages/SProducts";
 import SubCategories from "./pages/subcategories";
+import AdminSubCategory from "./pages/admin/subcategory";
+import AddSubCat from "./pages/admin/addSubCat";
 
 export default function App() {
   return (
@@ -127,6 +129,8 @@ export default function App() {
             <Route path="home" element={<AdminHome />} />
             <Route path="category" element={<AdminCategory />} />
             <Route path="category/:id" element={<AddCategory />} />
+            <Route path="subcategory" element={<AdminSubCategory />} />
+            {/* <Route path="subcategory/:id" element={<AddSubCat />} /> */}
             <Route path="exp" element={<ExportImport />} />
             <Route path="products" element={<AdminProduct />} />
             <Route path="products/:id" element={<AddProduct />} />

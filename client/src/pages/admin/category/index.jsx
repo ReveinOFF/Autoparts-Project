@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CategoriesHttp } from "../../../http/CategoriesHttp";
+import Image from "../../../components/image/image";
 
 export default function AdminCategory() {
   const [data, setData] = useState([]);
@@ -27,7 +28,14 @@ export default function AdminCategory() {
       <Link to="/admin/edit/category/add">Добавить</Link>
       <div className="list_a">
         {data?.map((item) => (
-          <div className="item_a1" key={item._id}>
+          <div className="item_a2" key={item._id}>
+            <Image
+              src={
+                item?.image?.length > 3
+                  ? `${process.env.REACT_APP_IMG}${item.image}`
+                  : []
+              }
+            />
             <div>
               <div className="title">{item.title}</div>
               <div className="desc">{item.description}</div>

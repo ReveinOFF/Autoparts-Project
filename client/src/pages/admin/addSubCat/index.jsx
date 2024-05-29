@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import styles from "../../../styles/add.module.css";
 
 export default function AddSubCat() {
   const [type, setType] = useState("add");
@@ -25,13 +26,13 @@ export default function AddSubCat() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (type === "add") {
-      await CategoriesHttp.addCategories(data);
-      navigate("/admin/edit/category");
-    } else {
-      await CategoriesHttp.putCategories({ _id: id, ...data });
-      window.location.reload();
-    }
+    // if (type === "add") {
+    //   await CategoriesHttp.addCategories(data);
+    //   navigate("/admin/edit/category");
+    // } else {
+    //   await CategoriesHttp.putCategories({ _id: id, ...data });
+    //   window.location.reload();
+    // }
   };
 
   const getSubCategory = async () => {
@@ -47,7 +48,7 @@ export default function AddSubCat() {
 
   return (
     <div className="container_a">
-      {catShow && (
+      {/* {catShow && (
         <MultiSelect
           data={subcategory || []}
           changeSelected={(list) => {
@@ -57,7 +58,7 @@ export default function AddSubCat() {
           selected={data?.subCategorieIds}
           onClose={() => setCatShow(false)}
         />
-      )}
+      )} */}
       <h1 className={styles.h1}>
         {type === "add" ? "Create Sub-Category" : "Update Sub-Category"}
       </h1>
@@ -90,7 +91,7 @@ export default function AddSubCat() {
         </fieldset>
         <fieldset>
           <label htmlFor="price">Суб-Категорія</label>
-          <div className={styles.sl} onClick={() => setCatShow(true)}>
+          {/* <div className={styles.sl} onClick={() => setCatShow(true)}>
             <span>
               {subcategory
                 ?.filter((item) => data?.subCategorieIds?.includes(item._id))
@@ -98,7 +99,7 @@ export default function AddSubCat() {
                 ?.join(", ") || "Не вибрано"}
             </span>
             <img src={arrowImg} alt="arrow" width={10} />
-          </div>
+          </div> */}
         </fieldset>
         <button type="submit">{type === "add" ? "Створити" : "Змінити"}</button>
       </form>

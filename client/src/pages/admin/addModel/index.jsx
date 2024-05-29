@@ -6,7 +6,6 @@ import arrowImg from "../../../assets/images/header/arrow.svg";
 import MultiSelect from "../../../components/admin/multi-select";
 import closeImg from "../../../assets/images/admin/ha_exit.svg";
 import { FilesHttp } from "../../../http/FileHttp";
-import axios from "axios";
 
 export default function AddModel() {
   const [type, setType] = useState("");
@@ -15,8 +14,9 @@ export default function AddModel() {
   const [file, setFile] = useState();
   const [urlImg, setUrlImg] = useState();
   const [img, setImg] = useState();
-  const [subcategory, setSubCategory] = useState([]);
-  const [catShow, setCatShow] = useState(false);
+  const [mark, setMark] = useState([]);
+  const [catMark, setMarkShow] = useState(false);
+  const [markSelected, setMarkSelected] = useState([]);
   const [imgDel, setImgDel] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -36,38 +36,44 @@ export default function AddModel() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    let sendData = data;
     let image = "";
 
     if (file) {
       const form = new FormData();
       form.append(`file`, file);
       const res = await FilesHttp.uploadFileOne(form);
-      image = res.data;
+      sendData.image = res.data;
+
+      if (res.data.length > 0) {
+        sendData.image = res.data;
+        image = res.data;
+      }
     }
 
+    if (markSelected?.length > 0) sendData.markIds = markSelected;
+
     if (type === "add") {
-      data.image = image;
-      await BrandHttp.addModel(data);
+      await BrandHttp.addModel(sendData);
       navigate("/admin/edit/mark");
     } else {
       if (imgDel && !img) {
         await FilesHttp.deleteFile(data.image);
         setImgDel(false);
-      }
-      await BrandHttp.putModel({ _id: id, ...data, image: image });
+        await BrandHttp.putModel({ _id: id, ...sendData, image: image });
+      } else await BrandHttp.putModel({ _id: id, ...sendData });
       window.location.reload();
     }
   };
 
-  const getSubCategory = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_HOST}/subcategories/get-all`
-    );
-    setSubCategory(res.data);
+  const getMarks = async () => {
+    const res = await BrandHttp.getBrands();
+
+    setMark(res.data);
   };
 
   useEffect(() => {
-    getSubCategory();
+    getMarks();
   }, []);
 
   const deleteImg = () => {
@@ -79,15 +85,23 @@ export default function AddModel() {
 
   return (
     <div className="container_a">
-      {catShow && (
+      {catMark && (
         <MultiSelect
-          data={subcategory || []}
+          data={mark || []}
           changeSelected={(list) => {
-            setData((prev) => ({ ...prev, subCategorieIds: list || [] }));
-            setCatShow(!catShow);
+            setMarkSelected(list);
+            setMarkShow(!catMark);
           }}
-          selected={data?.subCategorieIds}
-          onClose={() => setCatShow(false)}
+          selected={
+            markSelected?.length > 0
+              ? markSelected
+              : data?.markIds?.length > 0
+              ? mark
+                  .filter((item) => data?.markIds?.includes(item._id))
+                  ?.map((m) => m._id)
+              : []
+          }
+          onClose={() => setMarkShow(false)}
         />
       )}
       <h1 className={styles.h1}>
@@ -170,11 +184,15 @@ export default function AddModel() {
           ></textarea>
         </fieldset>
         <fieldset>
-          <label htmlFor="price">Суб-Категорія</label>
-          <div className={styles.sl} onClick={() => setCatShow(true)}>
+          <label htmlFor="model">Бренд</label>
+          <div className={`${styles.sl}`} onClick={() => setMarkShow(true)}>
             <span>
-              {subcategory
-                ?.filter((item) => data?.subCategorieIds?.includes(item._id))
+              {mark
+                ?.filter(
+                  (item) =>
+                    markSelected?.includes(item._id) ||
+                    data?.markIds?.includes(item._id)
+                )
                 ?.map((item) => item.title)
                 ?.join(", ") || "Не вибрано"}
             </span>

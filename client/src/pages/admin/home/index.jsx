@@ -164,7 +164,7 @@ export default function AdminHome() {
                   <strong>Статус:</strong> {item.status}
                 </div>
                 <div>
-                  <strong>Кількість товарів:</strong> {item.productIds.length}
+                  <strong>Кількість товарів:</strong> {item?.productIds?.length}
                 </div>
               </div>
               <div>{new Date(item.dataCreate).toLocaleDateString("ru-RU")}</div>

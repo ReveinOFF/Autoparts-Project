@@ -1,5 +1,5 @@
-import { Injectable, Delete } from '@nestjs/common';
-import { AddProductDto, FiltersProductDto, PutProductDto } from './product.dto';
+import { Injectable } from '@nestjs/common';
+import { FiltersProductDto } from './product.dto';
 import { Product } from './product.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
@@ -14,7 +14,7 @@ export class ProductService {
     @InjectModel(Product.name) private productsModel: Model<Product>,
   ) {}
 
-  async create(dto: AddProductDto) {
+  async create(dto) {
     try {
       return this.productsModel.create(dto);
     } catch (error) {
@@ -23,7 +23,7 @@ export class ProductService {
     }
   }
 
-  async update(dto: PutProductDto) {
+  async update(dto) {
     try {
       return this.productsModel.findByIdAndUpdate(dto._id, dto);
     } catch (error) {

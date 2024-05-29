@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BrandHttp } from "../../../http/BrandHttp";
 import styles from "../../../styles/add.module.css";
-import arrowImg from "../../../assets/images/header/arrow.svg";
-import MultiSelect from "../../../components/admin/multi-select";
-import { CategoriesHttp } from "../../../http/CategoriesHttp";
 import closeImg from "../../../assets/images/admin/ha_exit.svg";
 import { FilesHttp } from "../../../http/FileHttp";
 
@@ -16,9 +13,6 @@ export default function AddMark() {
   const [urlImg, setUrlImg] = useState();
   const [img, setImg] = useState();
   const [imgDel, setImgDel] = useState(false);
-  const [showModel, setShowModel] = useState(false);
-  const [model, setModel] = useState([]);
-  const [modelSelected, setModelSelected] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -37,42 +31,33 @@ export default function AddMark() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const sendData = {};
-
+    let sendData = data;
     let image = "";
 
     if (file) {
       const form = new FormData();
       form.append(`file`, file);
       const res = await FilesHttp.uploadFileOne(form);
-      image = res.data;
+      sendData.image = res.data;
+
+      if (res.data.length > 0) {
+        sendData.image = res.data;
+        image = res.data;
+      }
     }
 
-    sendData = data;
-    sendData.modelIds = modelSelected;
-
     if (type === "add") {
-      sendData.image = image;
-      await BrandHttp.addBrand(data);
+      await BrandHttp.addBrand(sendData);
       navigate("/admin/edit/mark");
     } else {
       if (imgDel && !img) {
         await FilesHttp.deleteFile(data.image);
         setImgDel(false);
-      }
-      await BrandHttp.putBrand({ _id: id, ...sendData, image: image });
+        await BrandHttp.putBrand({ _id: id, ...sendData, image: image });
+      } else await BrandHttp.putBrand({ _id: id, ...sendData });
       window.location.reload();
     }
   };
-
-  const getModel = async () => {
-    const res = await BrandHttp.getModels();
-    setModel(res.data);
-  };
-
-  useEffect(() => {
-    getModel();
-  }, []);
 
   const deleteImg = () => {
     setImgDel(true);
@@ -83,17 +68,6 @@ export default function AddMark() {
 
   return (
     <div className="container_a">
-      {showModel && (
-        <MultiSelect
-          data={model || []}
-          changeSelected={(list) => {
-            setModelSelected(list);
-            setShowModel(!showModel);
-          }}
-          selected={modelSelected}
-          onClose={() => setShowModel(false)}
-        />
-      )}
       <h1 className={styles.h1}>
         {type === "add" ? "Create Brand" : "Update Brand"}
       </h1>
@@ -172,18 +146,6 @@ export default function AddMark() {
               setData((prev) => ({ ...prev, description: e.target.value }))
             }
           ></textarea>
-        </fieldset>
-        <fieldset>
-          <label htmlFor="model">Модель</label>
-          <div className={`${styles.sl}`} onClick={() => setShowModel(true)}>
-            <span>
-              {model
-                ?.filter((item) => modelSelected.includes(item._id))
-                .map((item) => item.title)
-                .join(", ") || "Не вибрано"}
-            </span>
-            <img src={arrowImg} alt="arrow" width={10} />
-          </div>
         </fieldset>
         <button type="submit">{type === "add" ? "Створити" : "Змінити"}</button>
       </form>

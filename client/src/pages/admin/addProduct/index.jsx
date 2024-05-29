@@ -4,11 +4,9 @@ import styles from "../../../styles/add.module.css";
 import { ProductHttp } from "../../../http/ProductHttp";
 import arrowImg from "../../../assets/images/header/arrow.svg";
 import MultiSelect from "../../../components/admin/multi-select";
-import { CategoriesHttp } from "../../../http/CategoriesHttp";
 import { BrandHttp } from "../../../http/BrandHttp";
 import closeImg from "../../../assets/images/admin/ha_exit.svg";
 import { FilesHttp } from "../../../http/FileHttp";
-import axios from "axios";
 import RichText from "../../../components/rich-text";
 
 export default function AddProduct() {
@@ -20,17 +18,8 @@ export default function AddProduct() {
   const [oldImg, setOldImg] = useState([]);
   const [delImg, setDelImg] = useState([]);
   const [model, setModel] = useState([]);
-  const [subCat, setSubCat] = useState([]);
-  const [mark, setMark] = useState([]);
-  const [category, setCategory] = useState([]);
-  const [showCategory, setShowCategory] = useState(false);
-  const [showMark, setShowMark] = useState(false);
-  const [showSubCat, setShowSubCat] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const [modelSelected, setModelSelected] = useState([]);
-  const [subCatSelected, setSubCatSelected] = useState([]);
-  const [markSelected, setMarkSelected] = useState([]);
-  const [categorySelected, setCategorySelected] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -61,9 +50,6 @@ export default function AddProduct() {
 
         setData(res.data);
         setModelSelected(res.data.modelIds || []);
-        setMarkSelected(res.data.brandIds || []);
-        setCategorySelected(res.data.categorieIds || []);
-        setSubCatSelected(res.data.subCategorieIds || []);
         setOldImg(res.data.image || []);
         setDesc(
           res.data.description ? JSON.parse(res.data.description) : defaultValue
@@ -89,12 +75,9 @@ export default function AddProduct() {
     });
 
     delete formDataObject["files"];
-    formDataObject["categorieIds"] = categorySelected;
-    formDataObject["brandIds"] = markSelected;
     formDataObject["modelIds"] = modelSelected;
-    formDataObject["subCategorieIds"] = subCatSelected;
-    formDataObject["description"] = desc;
-    formDataObject["characteristics"] = charact;
+    formDataObject["description"] = JSON.stringify(desc);
+    formDataObject["characteristics"] = JSON.stringify(charact);
 
     if (files.length > 0) {
       const form = new FormData();
@@ -118,26 +101,9 @@ export default function AddProduct() {
     }
   };
 
-  const getCategory = async () => {
-    const res = await CategoriesHttp.getCategories();
-    setCategory(res.data);
-  };
-
-  const getMark = async () => {
-    const res = await BrandHttp.getBrands();
-    setMark(res?.data || []);
-  };
-
   const getModel = async () => {
     const res = await BrandHttp.getModels();
     setModel(res?.data || []);
-  };
-
-  const getSubCat = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_HOST}/subcategories/get-all`
-    );
-    setSubCat(res?.data || []);
   };
 
   const deleteImg = (i) => {
@@ -151,36 +117,11 @@ export default function AddProduct() {
   };
 
   useEffect(() => {
-    getMark();
     getModel();
-    getSubCat();
-    getCategory();
   }, []);
 
   return (
     <div className="container_a">
-      {showCategory && (
-        <MultiSelect
-          data={category || []}
-          changeSelected={(list) => {
-            setCategorySelected(list);
-            setShowCategory(!showCategory);
-          }}
-          selected={categorySelected}
-          onClose={() => setShowCategory(false)}
-        />
-      )}
-      {showMark && (
-        <MultiSelect
-          data={mark || []}
-          changeSelected={(list) => {
-            setMarkSelected(list);
-            setShowMark(!showMark);
-          }}
-          selected={markSelected}
-          onClose={() => setShowMark(false)}
-        />
-      )}
       {showModel && (
         <MultiSelect
           data={model || []}
@@ -190,17 +131,6 @@ export default function AddProduct() {
           }}
           selected={modelSelected}
           onClose={() => setShowModel(false)}
-        />
-      )}
-      {showSubCat && (
-        <MultiSelect
-          data={subCat || []}
-          changeSelected={(list) => {
-            setSubCatSelected(list);
-            setShowSubCat(!showModel);
-          }}
-          selected={subCatSelected}
-          onClose={() => setShowSubCat(false)}
         />
       )}
       <h1 className={styles.h1}>
@@ -269,11 +199,11 @@ export default function AddProduct() {
             defaultValue={data?.title}
           />
         </fieldset>
-        <fieldset>
+        <fieldset className={styles.rich_prod}>
           <label htmlFor="title">Опис</label>
           <RichText value={desc} setValue={setDesc} />
         </fieldset>
-        <fieldset>
+        <fieldset className={styles.rich_prod}>
           <label htmlFor="title">Характеристика</label>
           <RichText value={charact} setValue={setCharact} />
         </fieldset>
@@ -287,47 +217,11 @@ export default function AddProduct() {
           />
         </fieldset>
         <fieldset>
-          <label htmlFor="price">Категорія</label>
-          <div className={styles.sl} onClick={() => setShowCategory(true)}>
-            <span>
-              {category
-                ?.filter((item) => categorySelected.includes(item._id))
-                .map((item) => item.title)
-                .join(", ") || "Не вибрано"}
-            </span>
-            <img src={arrowImg} alt="arrow" width={10} />
-          </div>
-        </fieldset>
-        <fieldset>
-          <label htmlFor="price">Марка</label>
-          <div className={`${styles.sl}`} onClick={() => setShowMark(true)}>
-            <span>
-              {mark
-                ?.filter((item) => markSelected.includes(item._id))
-                .map((item) => item.title)
-                .join(", ") || "Не вибрано"}
-            </span>
-            <img src={arrowImg} alt="arrow" width={10} />
-          </div>
-        </fieldset>
-        <fieldset>
           <label htmlFor="model">Модель</label>
           <div className={`${styles.sl}`} onClick={() => setShowModel(true)}>
             <span>
               {model
                 ?.filter((item) => modelSelected.includes(item._id))
-                .map((item) => item.title)
-                .join(", ") || "Не вибрано"}
-            </span>
-            <img src={arrowImg} alt="arrow" width={10} />
-          </div>
-        </fieldset>
-        <fieldset>
-          <label htmlFor="subCat">Суб-Категорія</label>
-          <div className={`${styles.sl}`} onClick={() => setShowModel(true)}>
-            <span>
-              {subCat
-                ?.filter((item) => subCatSelected.includes(item._id))
                 .map((item) => item.title)
                 .join(", ") || "Не вибрано"}
             </span>

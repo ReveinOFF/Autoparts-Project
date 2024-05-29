@@ -282,6 +282,7 @@ const ToolbarButton = ({
 
   return (
     <button
+      type="button"
       onMouseDown={handleClick}
       style={{
         margin: "0 4px",

@@ -7,6 +7,7 @@ import axios from "axios";
 import closeImg from "../../../assets/images/admin/ha_exit.svg";
 import MultiSelect from "../../../components/admin/multi-select";
 import { FilesHttp } from "../../../http/FileHttp";
+import { BrandHttp } from "../../../http/BrandHttp";
 
 export default function AddCategory() {
   const [type, setType] = useState("add");
@@ -20,6 +21,8 @@ export default function AddCategory() {
   const navigate = useNavigate();
   const [catShow, setCatShow] = useState(false);
   const [subcategory, setSubCategory] = useState([]);
+  const [modShow, setModShow] = useState(false);
+  const [model, setModel] = useState([]);
 
   useEffect(() => {
     if (id === "add") {
@@ -31,6 +34,12 @@ export default function AddCategory() {
         setImg(res.data.image);
       });
     }
+  }, []);
+
+  useEffect(() => {
+    BrandHttp.getModels().then((res) => {
+      setModel(res.data);
+    });
   }, []);
 
   const handleSubmit = async (e) => {
@@ -88,6 +97,17 @@ export default function AddCategory() {
           }}
           selected={data?.subCategorieIds}
           onClose={() => setCatShow(false)}
+        />
+      )}
+      {modShow && (
+        <MultiSelect
+          data={model || []}
+          changeSelected={(list) => {
+            setData((prev) => ({ ...prev, modelIds: list || [] }));
+            setModShow(!modShow);
+          }}
+          selected={data?.modelIds}
+          onClose={() => setModShow(false)}
         />
       )}
       <h1 className={styles.h1}>
@@ -175,6 +195,18 @@ export default function AddCategory() {
             <span>
               {subcategory
                 ?.filter((item) => data?.subCategorieIds?.includes(item._id))
+                ?.map((item) => item.title)
+                ?.join(", ") || "Не вибрано"}
+            </span>
+            <img src={arrowImg} alt="arrow" width={10} />
+          </div>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="price">Модель</label>
+          <div className={styles.sl} onClick={() => setModShow(true)}>
+            <span>
+              {model
+                ?.filter((item) => data?.modelIds?.includes(item._id))
                 ?.map((item) => item.title)
                 ?.join(", ") || "Не вибрано"}
             </span>

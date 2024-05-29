@@ -113,6 +113,7 @@
   position: absolute;
   right: 10px;
   top: 10px;
+  z-index: 2;
   border-radius: 50%;
   filter: invert(15%) sepia(93%) saturate(6754%) hue-rotate(4deg)
     brightness(111%) contrast(120%);
@@ -124,4 +125,12 @@
   border-radius: 10px;
   height: 100%;
   object-fit: cover;
+}
+
+.rich_prod {
+  width: 100%;
+}
+
+.rich_prod > div > div {
+  margin-right: 0;
 }

@@ -28,6 +28,16 @@ export default function LeftLayout() {
             Категорії
           </NavLink>
           <NavLink
+            to="/admin/edit/subcategory"
+            className={
+              location.pathname === "/admin/edit/subcategory"
+                ? styles.active
+                : null
+            }
+          >
+            Під-Категорії
+          </NavLink>
+          <NavLink
             to="/admin/edit/products"
             className={
               location.pathname === "/admin/edit/products"
