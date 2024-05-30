@@ -19,6 +19,7 @@ import { isSaved, removeFavItem, updateFavData } from "../../utils/fovourite";
 import { useDispatch, useSelector } from "react-redux";
 import Cart from "../../components/cart";
 import { SET_CART } from "../../reducers/cartReducer";
+import CurrencyConverter from "../../components/currencyConverter";
 
 export default function Product() {
   const { isAuth } = useSelector((s) => s.auth);
@@ -29,6 +30,7 @@ export default function Product() {
   const [showCart, setShowCart] = useState(false);
   const [type, setType] = useState(1);
   const { id } = useParams();
+  const [curr, setCurr] = useState([]);
 
   const getProduct = async () => {
     if (isAuth) {
@@ -55,6 +57,16 @@ export default function Product() {
       setImgSelected(tempData.image[0]);
     }
   };
+
+  useEffect(() => {
+    const GetCurr = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_HOST}/currency`);
+
+      setCurr(res.data);
+    };
+
+    GetCurr();
+  }, []);
 
   useEffect(() => {
     getProduct();
@@ -173,7 +185,11 @@ export default function Product() {
               </div>
               <div>{data?.reviewsCount} відгуків</div>
             </div>
-            <div className={styles.price}>{data?.price} $</div>
+            <CurrencyConverter
+              className={styles.price}
+              amount={data?.price}
+              exchangeRates={curr}
+            />
             <div className={styles.btns}>
               <button onClick={() => addToCart()}>
                 <img src={cartImg} alt="cart" />

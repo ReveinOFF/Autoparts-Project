@@ -9,6 +9,9 @@ import starImg from "../../assets/images/profile/star.svg";
 import starAImg from "../../assets/images/profile/star_a.svg";
 import Image from "../image/image";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import CurrencyConverter from "../currencyConverter";
 
 export default function ProductsComponent({
   data,
@@ -18,6 +21,17 @@ export default function ProductsComponent({
   addToCart,
 }) {
   const { t } = useTranslation();
+  const [curr, setCurr] = useState([]);
+
+  useEffect(() => {
+    const GetCurr = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_HOST}/currency`);
+
+      setCurr(res.data);
+    };
+
+    GetCurr();
+  }, []);
 
   return (
     <div className={styles.block}>
@@ -70,7 +84,11 @@ export default function ProductsComponent({
                       <span>{item.reviewsCount}</span>
                     </div>
                   </div>
-                  <div className={styles.price}>{item.price} $</div>
+                  <CurrencyConverter
+                    className={styles.price}
+                    amount={item.price}
+                    exchangeRates={curr}
+                  />
                 </div>
                 <img
                   src={cartImg}

@@ -1,18 +1,19 @@
-import React, { useCallback } from "react";
+import getSymbolFromCurrency from "currency-symbol-map";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 
-const CurrencyConverter = ({ amount, exchangeRates }) => {
+const CurrencyConverter = ({ amount, exchangeRates, ...props }) => {
   const state = useSelector((s) => s.curr);
 
-  const convertCurrency = useCallback(() => {
+  const convertCurrency = useMemo(() => {
     if (state.course === "usd") return amount;
-    return amount * exchangeRates[state.course];
+    return amount * exchangeRates.find((item) => item.key === state.key).course;
   }, [state]);
 
   return (
-    <span>
-      {convertCurrency(amount, currency).toFixed(2)} {currency}
-    </span>
+    <div {...props}>
+      {convertCurrency.toFixed(2)} {getSymbolFromCurrency(state.key)}
+    </div>
   );
 };
 

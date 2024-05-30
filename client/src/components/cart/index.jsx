@@ -13,15 +13,28 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SET_CART } from "../../reducers/cartReducer";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+import CurrencyConverter from "../currencyConverter";
 
 export default function Cart({ onClose, ...params }) {
   const { t } = useTranslation();
   const [data, setData] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [curr, setCurr] = useState([]);
 
   useEffect(() => {
     setData(getCartDataWithTP());
+  }, []);
+
+  useEffect(() => {
+    const GetCurr = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_HOST}/currency`);
+
+      setCurr(res.data);
+    };
+
+    GetCurr();
   }, []);
 
   const minuseCount = (id) => {
@@ -152,7 +165,10 @@ export default function Cart({ onClose, ...params }) {
                       alt="delete"
                       onClick={() => removeCart(item.id)}
                     />
-                    <div>{item.price} $</div>
+                    <CurrencyConverter
+                      amount={item.price}
+                      exchangeRates={curr}
+                    />
                   </div>
                 </div>
               ))

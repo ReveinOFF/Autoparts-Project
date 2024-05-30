@@ -21,6 +21,7 @@ import axios from "axios";
 import getSymbolFromCurrency from "currency-symbol-map";
 import Cart from "../cart";
 import { DATA_CURR_ACTION } from "../../reducers/currReducer";
+import CurrencyConverter from "../currencyConverter";
 
 export default function Header() {
   const [course, setCourse] = useState(
@@ -280,7 +281,10 @@ export default function Header() {
             </div>
             <div className={styles.cart_info}>
               <div>{t("header.cart")}</div>
-              <div>{state.totalPrice}$</div>
+              <CurrencyConverter
+                amount={state.totalPrice}
+                exchangeRates={curr}
+              />
             </div>
           </div>
         </div>
