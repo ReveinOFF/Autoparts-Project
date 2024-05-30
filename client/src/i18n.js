@@ -14,6 +14,8 @@ i18n
       localStorage.getItem("lng") ||
       ln.includes(navigator.language.split("-")[0].toLocaleLowerCase())
         ? navigator.language.split("-")[0].toLocaleLowerCase()
+        : navigator.language.split("-")[0].toLocaleLowerCase() === "ru"
+        ? "ua"
         : "en",
     fallbackLng: "en",
     saveMissing: false,

@@ -11,8 +11,8 @@ export class CurrencyController {
   }
 
   @Post()
-  async addCurr(@Body('key') key: string) {
-    return await this.currService.addCurr(key);
+  async addCurr(@Body() data) {
+    return await this.currService.addCurr(data);
   }
 
   @Delete('/:id')

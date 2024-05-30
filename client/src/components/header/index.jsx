@@ -20,9 +20,14 @@ import { DEFAULT_DATA_USER_ACTION } from "../../reducers/profileReducer";
 import axios from "axios";
 import getSymbolFromCurrency from "currency-symbol-map";
 import Cart from "../cart";
+import { DATA_CURR_ACTION } from "../../reducers/currReducer";
 
 export default function Header() {
-  const [course, setCourse] = useState(localStorage.getItem("course") || "usd");
+  const [course, setCourse] = useState(
+    localStorage.getItem("course")
+      ? JSON.parse(localStorage.getItem("course"))
+      : { key: "usd", course: 1 }
+  );
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const { isAuth } = useSelector((s) => s.auth);
@@ -95,8 +100,9 @@ export default function Header() {
   };
 
   const changeCourse = (course) => {
-    localStorage.setItem("course", course);
+    localStorage.setItem("course", JSON.stringify(course));
     setCourse(course);
+    dispatch({ type: DATA_CURR_ACTION, payload: course });
     window.location.reload();
   };
 
@@ -169,9 +175,9 @@ export default function Header() {
                 onClick={() => setShowCurr(!showCurr)}
               >
                 <div style={{ fontSize: 18 }}>
-                  {course === "uah" ? "₴" : "$"}
+                  {getSymbolFromCurrency(course.key)}
                 </div>
-                <div>{course.toLocaleUpperCase()}</div>
+                <div>{course.key.toLocaleUpperCase()}</div>
                 <img src={arrowTwoImg} alt="arrow" width={12} height={12} />
               </div>
               <div
@@ -180,12 +186,9 @@ export default function Header() {
                 }`}
               >
                 {curr
-                  .filter((item) => item.key !== course)
+                  .filter((item) => item.key !== course.key)
                   .map((item) => (
-                    <button
-                      key={item._id}
-                      onClick={() => changeCourse(item.key)}
-                    >
+                    <button key={item._id} onClick={() => changeCourse(item)}>
                       <span>{getSymbolFromCurrency(item.key)}</span>{" "}
                       <span>{item.key.toLocaleUpperCase()}</span>
                     </button>

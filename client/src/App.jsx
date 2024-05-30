@@ -47,8 +47,20 @@ import SProducts from "./pages/SProducts";
 import SubCategories from "./pages/subcategories";
 import AdminSubCategory from "./pages/admin/subcategory";
 import AddSubCat from "./pages/admin/addSubCat";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { DATA_CURR_ACTION } from "./reducers/currReducer";
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem("course"))
+      dispatch({
+        type: DATA_CURR_ACTION,
+        payload: JSON.parse(localStorage.getItem("course")),
+      });
+  }, []);
   return (
     <>
       <ScrollToTop />

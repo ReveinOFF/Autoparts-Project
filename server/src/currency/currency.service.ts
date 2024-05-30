@@ -11,9 +11,9 @@ export class CurrService {
     return await this.currModel.find().exec();
   }
 
-  async addCurr(key: string): Promise<Curr> {
+  async addCurr(data): Promise<Curr> {
     try {
-      return this.currModel.create({ key });
+      return this.currModel.create(data);
     } catch (error) {
       console.error(error);
       throw error;

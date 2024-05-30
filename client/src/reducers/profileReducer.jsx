@@ -1,5 +1,5 @@
 export const DATA_USER_ACTION = "DATA_USER_ACTION";
-export const DEFAULT_DATA_USER_ACTION = "DATA_USER_ACTION";
+export const DEFAULT_DATA_USER_ACTION = "DATA_USER_ACTION_DEF";
 
 const initialState = {
   name: "User",
