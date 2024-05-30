@@ -12,8 +12,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SET_CART } from "../../reducers/cartReducer";
+import { useTranslation } from "react-i18next";
 
 export default function Cart({ onClose, ...params }) {
+  const { t } = useTranslation();
   const [data, setData] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -119,7 +121,7 @@ export default function Cart({ onClose, ...params }) {
   return (
     <div className={styles.cart} {...params}>
       <div className={styles.top}>
-        <h2>Корзина</h2>
+        <h2>{t("cart.h2")}</h2>
         <img src={close} alt="close" onClick={onClose} />
       </div>
       <div className={styles.bottom}>
@@ -157,10 +159,10 @@ export default function Cart({ onClose, ...params }) {
             : "Пусто"}
         </div>
         <div className={styles.btn}>
-          <button onClick={onClose}>Продовжити покупки</button>
+          <button onClick={onClose}>{t("cart.btn")}</button>
           <div>
             <div>{data?.totalPrice || 0}</div>
-            <button onClick={() => checkout()}>Оформити замовлення</button>
+            <button onClick={() => checkout()}>{t("cart.btn")}</button>
           </div>
         </div>
       </div>

@@ -1,1 +1,47 @@
-{}
+{
+  "cart": {
+    "h2": "Cart",
+    "btn": "Continue shopping",
+    "btn2": "Place an order"
+  },
+  "footer": {
+    "title1": "Information",
+    "about": "About us",
+    "ord-inf": "Delivery information",
+    "privacy": "Privacy policy",
+
+    "title2": "Support",
+    "contact": "Contacts",
+    "ret-ord": "Return of goods",
+
+    "title3": "Personal account",
+    "profile": "Personal account",
+    "log": "Log in / Create an account"
+  },
+  "products": {
+    "text": "Ready to ship"
+  },
+  "profile-lay": {
+    "order": "My orders",
+    "cart": "Cart",
+    "fav": "Wish lists",
+    "recalls": "My feedback"
+  },
+  "header": {
+    "l-fav": "Favorites",
+    "profile": "Profile",
+    "exit": "Exit",
+    "log": "Log in / Create an account",
+    "lng": "Language",
+
+    "search": "Search by product name, number, etc.",
+    "prod-notf": "This product is not available in our store",
+    "cart": "Cart",
+
+    "category": "Categories",
+    "menu": "Menu",
+    "l-main": "Home",
+    "l-contact": "Contacts",
+    "l-about": "About us"
+  }
+}

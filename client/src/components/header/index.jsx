@@ -18,13 +18,12 @@ import { AUTH_USER_ACTION } from "../../reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { DEFAULT_DATA_USER_ACTION } from "../../reducers/profileReducer";
 import axios from "axios";
-import { CategoriesHttp } from "../../http/CategoriesHttp";
 import getSymbolFromCurrency from "currency-symbol-map";
 import Cart from "../cart";
 
 export default function Header() {
   const [course, setCourse] = useState(localStorage.getItem("course") || "usd");
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const { isAuth } = useSelector((s) => s.auth);
   const state = useSelector((s) => s.cart);
@@ -126,7 +125,7 @@ export default function Header() {
               className="flex-align"
             >
               <img src={heartImg} alt="heart" width={20} height={20} />
-              Обрані
+              {t("header.l-fav")}
             </Link>
             <Link
               to="tel:+38012312312"
@@ -145,7 +144,7 @@ export default function Header() {
                   style={{ fontSize: 15 }}
                 >
                   <img src={clientImg} alt="client" width={15} height={15} />{" "}
-                  Профіль
+                  {t("header.profile")}
                 </button>
                 <button
                   onClick={logout}
@@ -153,13 +152,13 @@ export default function Header() {
                   style={{ fontSize: 15 }}
                 >
                   <img src={exitImg} alt="client" width={15} height={15} />{" "}
-                  Вийти
+                  {t("header.exit")}
                 </button>
               </div>
             ) : (
               <Link to="/login" className={`flex-align ${styles.p11}`}>
                 <img src={clientImg} alt="client" width={20} height={20} />{" "}
-                Увійти/Створити кабінет
+                {t("header.log")}
               </Link>
             )}
             <div style={{ position: "relative" }} className={styles.p2}>
@@ -205,7 +204,7 @@ export default function Header() {
                 ) : (
                   <img src={uaImg} alt="ukraine" width={20} height={15} />
                 )}
-                <div>Мова</div>
+                <div>{t("header.lng")}</div>
                 <img src={arrowTwoImg} alt="arrow" width={12} height={12} />
               </div>
               {lng?.en && i18n.language === "ua" ? (
@@ -247,7 +246,7 @@ export default function Header() {
           >
             <input
               type="text"
-              placeholder="Пошук за назвою товару, номер і тд."
+              placeholder={t("header.search")}
               onChange={(e) => {
                 setSearchValue(e.target.value);
                 setProducts([]);
@@ -265,9 +264,7 @@ export default function Header() {
               ))}
             </div>
             {products?.length < 1 && (
-              <div className={styles.prod_nf}>
-                Такого товару немає в нашому магазині
-              </div>
+              <div className={styles.prod_nf}>{t("header.prod-notf")}</div>
             )}
           </div>
           <div
@@ -279,7 +276,7 @@ export default function Header() {
               <div>{state.count}</div>
             </div>
             <div className={styles.cart_info}>
-              <div>Кошик</div>
+              <div>{t("header.cart")}</div>
               <div>{state.totalPrice}$</div>
             </div>
           </div>
@@ -299,8 +296,8 @@ export default function Header() {
                 onClick={() => setShowCategory(!showCategory)}
               >
                 <img src={burgerImg} alt="burger" width={15} height={15} />
-                <div className={styles.show_k}>Категорії</div>
-                <div className={styles.show_m}>Меню</div>
+                <div className={styles.show_k}>{t("header.category")}</div>
+                <div className={styles.show_m}>{t("header.menu")}</div>
                 <img src={arrowImg} alt="arrow" width={10} height={10} />
               </div>
               <div className={styles.cat_modal}>
@@ -345,9 +342,9 @@ export default function Header() {
                 ))}
               </div>
             </div>
-            <NavLink to="/">Головна</NavLink>
-            <NavLink to="/contact">Контакти</NavLink>
-            <NavLink to="/about">Про нас</NavLink>
+            <NavLink to="/">{t("header.l-main")}</NavLink>
+            <NavLink to="/contact">{t("header.l-contact")}</NavLink>
+            <NavLink to="/about">{t("header.l-about")}</NavLink>
           </nav>
         </div>
       )}

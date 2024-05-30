@@ -69,7 +69,7 @@ export default function AddMark() {
   return (
     <div className="container_a">
       <h1 className={styles.h1}>
-        {type === "add" ? "Create Brand" : "Update Brand"}
+        {type === "add" ? "Створити марку" : "Редагувати марку"}
       </h1>
       <Link to="/admin/edit/mark" className={styles.a}>
         Назад

@@ -134,7 +134,7 @@ export default function AddProduct() {
         />
       )}
       <h1 className={styles.h1}>
-        {type === "add" ? "Create Product" : "Update Product"}
+        {type === "add" ? "Створити продукт" : "Редагувати продукт"}
       </h1>
       <Link to="/admin/edit/products" className={styles.a}>
         Назад

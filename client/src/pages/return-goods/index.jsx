@@ -5,12 +5,13 @@ import styles from "../contact/contact.module.css";
 import axios from "axios";
 import { FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import contactImg from "../../assets/images/contact/contact.svg";
 import closeImg from "../../assets/images/admin/ha_exit.svg";
 
 export default function ReturnGoods() {
   const [show, setShow] = useState(false);
+  const [infoData, setInfoData] = useState({});
 
   const onHandleSubmit = async (formData) => {
     await axios.post(`${process.env.REACT_APP_HOST}/contact`, formData);
@@ -57,6 +58,16 @@ export default function ReturnGoods() {
     dirty,
     handleBlur,
   } = formik;
+
+  useEffect(() => {
+    const getInfo = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_HOST}/info`);
+
+      setInfoData(res.data);
+    };
+
+    getInfo();
+  }, []);
 
   return (
     <div className="container" style={{ marginBottom: 60 }}>
@@ -131,16 +142,16 @@ export default function ReturnGoods() {
       <h3 className={styles.h3}>Телефон</h3>
       <div className={styles.info_contact}>
         <img src={phoneImg} alt="phone" width={25} />
-        <span>+380661231231</span>
+        <span>{infoData?.phoneOne}</span>
       </div>
       <div className={styles.info_contact}>
         <img src={phoneImg} alt="phone" width={25} />
-        <span>+380631231231</span>
+        <span>{infoData?.phoneTwo}</span>
       </div>
       <h3 className={styles.h3}>Пошта</h3>
       <div className={styles.info_contact}>
         <img src={mailImg} alt="email" width={25} />
-        <span>autopartsinvolved@gmail.com</span>
+        <span>{infoData?.email}</span>
       </div>
     </div>
   );

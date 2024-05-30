@@ -8,6 +8,7 @@ import delImg from "../../assets/images/profile/deliver.svg";
 import starImg from "../../assets/images/profile/star.svg";
 import starAImg from "../../assets/images/profile/star_a.svg";
 import Image from "../image/image";
+import { useTranslation } from "react-i18next";
 
 export default function ProductsComponent({
   data,
@@ -16,6 +17,8 @@ export default function ProductsComponent({
   addFav,
   addToCart,
 }) {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.block}>
       {data?.length > 0 &&
@@ -83,7 +86,7 @@ export default function ProductsComponent({
                 />
               </div>
               <div className={styles.delivery}>
-                <span>Готовий до відправки</span>
+                <span>{t("products.text")}</span>
                 <img src={delImg} alt="delivery" />
               </div>
             </div>

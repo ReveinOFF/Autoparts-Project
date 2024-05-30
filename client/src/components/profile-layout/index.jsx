@@ -10,11 +10,13 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { DATA_USER_ACTION } from "../../reducers/profileReducer";
+import { useTranslation } from "react-i18next";
 
 export default function ProfileLayout() {
   const location = useLocation();
   const profile = useSelector((s) => s.profile);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getProfile = async () => {
@@ -56,14 +58,14 @@ export default function ProfileLayout() {
             }
           >
             <img src={orderImg} alt="order" width={30} />
-            <span>Мої замовлення</span>
+            <span>{t("profile-lay.order")}</span>
           </NavLink>
           <NavLink
             to="/profile/cart"
             style={{ backgroundColor: "transparent" }}
           >
             <img src={cartImg} alt="cart" width={30} />
-            <span>Корзина</span>
+            <span>{t("profile-lay.cart")}</span>
           </NavLink>
           <NavLink
             to="/profile/favourites"
@@ -73,7 +75,7 @@ export default function ProfileLayout() {
             }
           >
             <img src={favImg} alt="favourites" width={30} />
-            <span>Списки бажань</span>
+            <span>{t("profile-lay.fav")}</span>
           </NavLink>
           <NavLink
             to="/profile/recall"
@@ -83,7 +85,7 @@ export default function ProfileLayout() {
             }
           >
             <img src={recImg} alt="recall" width={30} />
-            <span>Мої відгуки</span>
+            <span>{t("profile-lay.recalls")}</span>
           </NavLink>
         </div>
         <div></div>

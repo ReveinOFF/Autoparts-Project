@@ -111,7 +111,7 @@ export default function AddCategory() {
         />
       )}
       <h1 className={styles.h1}>
-        {type === "add" ? "Create Category" : "Update Category"}
+        {type === "add" ? "Створити категорію" : "Редагувати категорію"}
       </h1>
       <Link to="/admin/edit/category" className={styles.a}>
         Назад

@@ -105,7 +105,7 @@ export default function AddModel() {
         />
       )}
       <h1 className={styles.h1}>
-        {type === "add" ? "Create Model" : "Update Model"}
+        {type === "add" ? "Створити модель" : "Редагувати модель"}
       </h1>
       <Link to="/admin/edit/mark" className={styles.a}>
         Назад

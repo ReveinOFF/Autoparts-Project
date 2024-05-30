@@ -109,7 +109,7 @@ export default function AddSubCat() {
         />
       )}
       <h1 className={styles.h1}>
-        {type === "add" ? "Create Sub-Category" : "Update Sub-Category"}
+        {type === "add" ? "Створити під-каталог" : "Редагувати під-каталог"}
       </h1>
       <Link to="/admin/edit/subcategory" className={styles.a}>
         Назад
