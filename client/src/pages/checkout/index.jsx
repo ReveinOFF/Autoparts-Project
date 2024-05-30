@@ -19,6 +19,8 @@ import { SET_CART } from "../../reducers/cartReducer";
 import { jwtDecode } from "jwt-decode";
 import contactImg from "../../assets/images/contact/contact.svg";
 import closeImg from "../../assets/images/admin/ha_exit.svg";
+import { useTranslation } from "react-i18next";
+import CurrencyConverter from "../../components/currencyConverter";
 
 function reducer(state, action) {
   if (action.type === "update") {
@@ -44,6 +46,8 @@ export default function Checkout() {
     showPay: "receiving",
     comment: "",
   });
+  const { t } = useTranslation();
+  const [curr, setCurr] = useState([]);
 
   const [cart, setCart] = useState({});
 
@@ -92,6 +96,16 @@ export default function Checkout() {
     const res = getCartDataWithTP();
     setCart(res);
     dispatch({ type: "update", payload: { cart: res } });
+  }, []);
+
+  useEffect(() => {
+    const GetCurr = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_HOST}/currency`);
+
+      setCurr(res.data);
+    };
+
+    GetCurr();
   }, []);
 
   useEffect(() => {
@@ -244,19 +258,19 @@ export default function Checkout() {
                 }}
               />
               <img src={contactImg} alt="contact" />
-              <h1>Дякуємо за замовлення</h1>
-              <p>Замовлення знаходиться в обробці</p>
+              <h1>{t("checkout.modh1")}</h1>
+              <p>{t("checkout.modp")}</p>
             </div>
           </div>
         )}
-        <h1>Оформлення замовлення</h1>
+        <h1>{t("checkout.h1")}</h1>
         <div>
-          <h2>Ваші контактні дані</h2>
+          <h2>{t("checkout.h2")}</h2>
           <div>
             <div className={styles.input_top}>
               <fieldset className={styles.input_block}>
                 <label htmlFor="surname">
-                  Прізвище <img src={infoImg} alt="info" />
+                  {t("checkout.surname")} <img src={infoImg} alt="info" />
                 </label>
                 <input
                   type="text"
@@ -272,7 +286,7 @@ export default function Checkout() {
               </fieldset>
               <fieldset className={styles.input_block}>
                 <label htmlFor="name">
-                  Ім`я <img src={infoImg} alt="info" />
+                  {t("checkout.name")} <img src={infoImg} alt="info" />
                 </label>
                 <input
                   type="text"
@@ -289,7 +303,7 @@ export default function Checkout() {
             </div>
             <fieldset className={styles.input_block}>
               <label htmlFor="mobOrEml">
-                Мобільний телефон або ел. пошта <img src={infoImg} alt="info" />
+                {t("checkout.mob")} <img src={infoImg} alt="info" />
               </label>
               <input
                 type="text"
@@ -305,7 +319,7 @@ export default function Checkout() {
             </fieldset>
             <fieldset className={styles.input_block}>
               <label htmlFor="city">
-                Місто <img src={infoImg} alt="info" />
+                {t("checkout.city")} <img src={infoImg} alt="info" />
               </label>
               <div
                 className={styles.map_sel}
@@ -327,8 +341,8 @@ export default function Checkout() {
                       </div>
                     ) : (
                       <div>
-                        <div>Пусто</div>
-                        <div>Вибрати місто</div>
+                        <div>{t("checkout.empty")}</div>
+                        <div>{t("checkout.citys")}</div>
                       </div>
                     )}
                   </div>
@@ -341,7 +355,7 @@ export default function Checkout() {
                 >
                   <input
                     type="text"
-                    placeholder="Шукати..."
+                    placeholder={t("checkout.search")}
                     onChange={(e) => setSearch(e.target.value)}
                   />
                   <div onScroll={handleScroll}>
@@ -367,7 +381,7 @@ export default function Checkout() {
           </div>
         </div>
         <div>
-          <h2>Замовлення</h2>
+          <h2>{t("checkout.order")}</h2>
           <div className={styles.cart}>
             {cart?.data?.map((item) => (
               <div className={styles.cart_item}>
@@ -377,9 +391,14 @@ export default function Checkout() {
                 </div>
                 <div>
                   <div>
-                    {item.mainPrice} $ <span>x</span> {item.count} од.
+                    <CurrencyConverter
+                      style={{ display: "inline" }}
+                      amount={item.mainPrice}
+                      exchangeRates={curr}
+                    />{" "}
+                    <span>x</span> {item.count} од.
                   </div>
-                  <div>{item.price} $</div>
+                  <CurrencyConverter amount={item.price} exchangeRates={curr} />
                   <img
                     src={delImg}
                     alt="delete"
@@ -389,13 +408,16 @@ export default function Checkout() {
               </div>
             ))}
             <div className={styles.cart_total}>
-              <div>Всього:</div>
-              <div>{cart?.totalPrice} $</div>
+              <div>{t("checkout.price")}</div>
+              <CurrencyConverter
+                amount={cart?.totalPrice}
+                exchangeRates={curr}
+              />
             </div>
           </div>
         </div>
         <div>
-          <h2>Доставка</h2>
+          <h2>{t("checkout.deliv")}</h2>
           <div className={styles.delivery}>
             {state?.showPoshta === "nova" ? (
               <>
@@ -403,8 +425,8 @@ export default function Checkout() {
                   <img src={circleAImg} alt="circle" />
                   <div className={styles.sel_a_info}>
                     <div>
-                      <div>Самовивіз з Нової Пошти</div>
-                      <div>Середній термін доставки 2 дні</div>
+                      <div>{t("checkout.dnp")}</div>
+                      <div>{t("checkout.dnp1")}</div>
                     </div>
                     <div
                       style={{
@@ -425,7 +447,7 @@ export default function Checkout() {
                         {novaSelected ? (
                           <div>{novaSelected.Description}</div>
                         ) : (
-                          <div>виберіть відповідне відділення</div>
+                          <div>{t("checkout.dnpo")}</div>
                         )}
                         <img src={arrImg} alt="arrow" width={15} />
                       </button>
@@ -436,7 +458,7 @@ export default function Checkout() {
                       >
                         <input
                           type="text"
-                          placeholder="Шукати..."
+                          placeholder={t("checkout.search")}
                           onChange={(e) => setSearchNova(e.target.value)}
                         />
                         <div>
@@ -459,10 +481,10 @@ export default function Checkout() {
                     </div>
                   </div>
                   <div className={styles.tarif}>
-                    <div>за тарифами перевізника</div>
+                    <div>{t("checkout.tarif")}</div>
                     <div>
                       <img src={mapImg} alt="map" />
-                      <span>Обрати на мапі</span>
+                      <span>{t("checkout.map")}</span>
                     </div>
                   </div>
                 </div>
@@ -474,9 +496,9 @@ export default function Checkout() {
                 >
                   <div>
                     <img src={circleImg} alt="circle" />
-                    <span>Самовивіз з Укр. Пошти</span>
+                    <span>{t("checkout.urk")}</span>
                   </div>
-                  <div>за тарифами перевізника</div>
+                  <div>{t("checkout.tarif")}</div>
                 </div>
               </>
             ) : (
@@ -492,16 +514,16 @@ export default function Checkout() {
                 >
                   <div>
                     <img src={circleImg} alt="circle" />
-                    <span>Самовивіз з Нової Пошти</span>
+                    <span>{t("checkout.dnp")}</span>
                   </div>
-                  <div>за тарифами перевізника</div>
+                  <div>{t("checkout.tarif")}</div>
                 </div>
                 <div className={styles.sel_del_a}>
                   <img src={circleAImg} alt="circle" />
                   <div className={styles.sel_a_info}>
                     <div>
-                      <div>Самовивіз з Укр. Пошти</div>
-                      <div>Середній термін доставки 2 дні</div>
+                      <div>{t("checkout.urk")}</div>
+                      <div>{t("checkout.dnp1")}</div>
                     </div>
                     <div style={{ position: "relative" }}>
                       <button
@@ -516,7 +538,7 @@ export default function Checkout() {
                         {ukrSelected ? (
                           <div>{ukrSelected}</div>
                         ) : (
-                          <div>виберіть відповідне відділення</div>
+                          <div>{t("checkout.dnpo")}</div>
                         )}
                         <img src={arrImg} alt="arrow" width={15} />
                       </button>
@@ -527,7 +549,7 @@ export default function Checkout() {
                       >
                         <input
                           type="text"
-                          placeholder="Відділення..."
+                          placeholder={t("checkout.search2")}
                           onChange={(e) => {
                             setUkrSelected(e.target.value);
                             dispatch({
@@ -540,7 +562,7 @@ export default function Checkout() {
                     </div>
                   </div>
                   <div className={styles.tarif}>
-                    <div>за тарифами перевізника</div>
+                    <div>{t("checkout.tarif")}</div>
                   </div>
                 </div>
               </>
@@ -548,7 +570,7 @@ export default function Checkout() {
           </div>
         </div>
         <div>
-          <h2>Оплата</h2>
+          <h2>{t("checkout.buy")}</h2>
           <div className={styles.select_pay}>
             <div
               className={`${
@@ -568,7 +590,7 @@ export default function Checkout() {
                   style={{ marginLeft: "5px" }}
                 />
               )}
-              <span>При отриманні</span>
+              <span>{t("checkout.take")}</span>
             </div>
             <div
               className={`${
@@ -593,15 +615,15 @@ export default function Checkout() {
                   style={{ marginLeft: "5px" }}
                 />
               )}
-              <span>Передплата на картку продавця</span>
+              <span>{t("checkout.prebuy")}</span>
             </div>
           </div>
         </div>
         <div className={styles.order_last}>
-          <label htmlFor="comment">Коментар до замовлення</label>
+          <label htmlFor="comment">{t("checkout.comment")}</label>
           <textarea
             name="comment"
-            placeholder="Коментар до замовлення"
+            placeholder={t("checkout.comment")}
             value={state.comment}
             onChange={(e) =>
               dispatch({ type: "update", payload: { comment: e.target.value } })
@@ -610,42 +632,44 @@ export default function Checkout() {
         </div>
       </div>
       <aside className={styles.aside}>
-        <h1>Разом</h1>
+        <h1>{t("checkout.all")}</h1>
         <div>
           <div className={styles.block_info}>
-            <div>{cart?.data?.length} товар на суму</div>
-            <div>{cart?.totalPrice} $</div>
+            <div>
+              {cart?.data?.length} {t("checkout.prodsum")}
+            </div>
+            <CurrencyConverter amount={cart?.totalPrice} exchangeRates={curr} />
           </div>
           <div className={styles.block_info}>
-            <div>Вартість доставки</div>
+            <div>{t("checkout.sum")}</div>
             <div style={{ maxWidth: "120px", textAlign: "end" }}>
-              за тарифами перевізника
+              {t("checkout.tarif")}
             </div>
           </div>
           <div className={styles.block_info}>
-            <div>До сплати</div>
-            <div style={{ color: "#000", fontSize: "30px" }}>
-              {cart?.totalPrice} $
-            </div>
+            <div>{t("checkout.buyall")}</div>
+            <CurrencyConverter
+              style={{ color: "#000", fontSize: "30px" }}
+              amount={cart?.totalPrice}
+              exchangeRates={curr}
+            />
           </div>
           <button
             className={styles.send_order}
             onClick={onOrder}
             disabled={cart?.data?.length < 1}
           >
-            Підтверджую замовлення
+            {t("checkout.succ")}
           </button>
         </div>
         <div className={styles.order_list}>
-          <div>Підтверджуючи замовлення, я ознайомився та приймаю умови:</div>
+          <div>{t("checkout.succdesc")}</div>
           <ul>
             <li>
-              <Link to="/order-info">інформація про доставку</Link>
+              <Link to="/order-info">{t("checkout.delivdesc")}</Link>
             </li>
             <li>
-              <Link to="/privacy">
-                положення про обробку і захист персоналних даних
-              </Link>
+              <Link to="/privacy">{t("checkout.privacy")}</Link>
             </li>
           </ul>
         </div>

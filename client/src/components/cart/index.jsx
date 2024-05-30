@@ -181,7 +181,7 @@ export default function Cart({ onClose, ...params }) {
               amount={data?.totalPrice || 0}
               exchangeRates={curr}
             />
-            <button onClick={() => checkout()}>{t("cart.btn")}</button>
+            <button onClick={() => checkout()}>{t("cart.btn2")}</button>
           </div>
         </div>
       </div>
