@@ -177,7 +177,10 @@ export default function Cart({ onClose, ...params }) {
         <div className={styles.btn}>
           <button onClick={onClose}>{t("cart.btn")}</button>
           <div>
-            <div>{data?.totalPrice || 0}</div>
+            <CurrencyConverter
+              amount={data?.totalPrice || 0}
+              exchangeRates={curr}
+            />
             <button onClick={() => checkout()}>{t("cart.btn")}</button>
           </div>
         </div>
