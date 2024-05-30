@@ -114,6 +114,10 @@
   width: 200%;
 }
 
+.slider_block * {
+  user-select: none;
+}
+
 .slider_block > div {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -123,6 +127,7 @@
 
 .slider_block > div > div > img {
   width: 100%;
+  height: 100%;
 }
 
 .pages_block {

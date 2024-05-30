@@ -247,7 +247,7 @@ export default function Home() {
                     <div>{block.subtitle}</div>
                     <button>{t("home.show")}</button>
                   </div>
-                  <img src={block.img} alt="category" />
+                  <img src={block.img} alt="category" draggable={false} />
                 </div>
               ))}
             </div>
