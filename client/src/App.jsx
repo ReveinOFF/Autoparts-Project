@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/home";
 import Layout from "./components/layout";
 import About from "./pages/about";
@@ -142,6 +142,7 @@ export default function App() {
             <Route path="mark/ml/:id" element={<AddModel />} />
             <Route path="pages" element={<AdminPages />} />
           </Route>
+          <Route index element={<Navigate to="edit" />} />
         </Route>
       </Routes>
     </>

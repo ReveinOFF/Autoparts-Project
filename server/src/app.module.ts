@@ -16,6 +16,7 @@ import { PagesModule } from './pages/pages.module';
 import { SubcategoriesModule } from './subcategories/subcategories.module';
 import { ContactModule } from './contact/contact.module';
 import { RecallModule } from './recall/recall.module';
+import { InfoModule } from './info/info.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { RecallModule } from './recall/recall.module';
     SubcategoriesModule,
     ContactModule,
     RecallModule,
+    InfoModule,
   ],
   controllers: [],
 })

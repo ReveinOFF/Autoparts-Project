@@ -12,3 +12,20 @@
 .btn_save:hover {
   background: rgb(44, 200, 44);
 }
+
+.fieldset {
+  border: 0;
+  display: grid;
+  justify-content: center;
+}
+
+.fieldset label {
+  margin-bottom: 10px;
+}
+
+.fieldset input {
+  border-radius: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.471);
+  padding: 10px;
+  width: 500px;
+}
