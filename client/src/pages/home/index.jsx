@@ -15,6 +15,7 @@ import styles from "./home.module.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
   const [showMark, setShowMark] = useState();
@@ -27,6 +28,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [pageIndex, setPageIndex] = useState(0);
   const sliderRef = useRef(null);
+  const { t } = useTranslation();
 
   const getMark = async () => {
     const res = await axios.get(`${process.env.REACT_APP_HOST}/mark/all-mark`);
@@ -64,26 +66,26 @@ export default function Home() {
   const pages = [
     [
       {
-        title: "ТО & Фільтра",
-        subtitle: "Супер ціни",
+        title: t("home.t1"),
+        subtitle: t("home.st1"),
         img: category1,
       },
       {
-        title: "Запчастини двигуна",
-        subtitle: "Будь-які",
-        img: category1,
+        title: t("home.t2"),
+        subtitle: t("home.st2"),
+        img: category2,
       },
     ],
     [
       {
-        title: "Електрика та освітлення",
-        subtitle: "Супер ціни",
+        title: t("home.t3"),
+        subtitle: t("home.st3"),
         img: category1,
       },
       {
-        title: "Кузов і складові",
-        subtitle: "Нові надходження",
-        img: category1,
+        title: t("home.t4"),
+        subtitle: t("home.st4"),
+        img: category2,
       },
     ],
   ];
@@ -135,8 +137,8 @@ export default function Home() {
   return (
     <>
       <div className={styles.top}>
-        <h1>Обирай найкращі деталі</h1>
-        <hgroup>Маємо більше ніж 100 000 запчастин</hgroup>
+        <h1>{t("home.h1")}</h1>
+        <hgroup>{t("home.hg")}</hgroup>
         <div className="flex-center">
           <div className={styles.category}>
             <button
@@ -144,7 +146,7 @@ export default function Home() {
               className={showMark ? styles.active : ""}
             >
               <span>
-                {selectMark.title ? selectMark.title : "Виберіть марку"}
+                {selectMark.title ? selectMark.title : t("home.smark")}
               </span>
               <img src={arrowSVG} alt="arrow" />
             </button>
@@ -176,7 +178,7 @@ export default function Home() {
               }}
             >
               <span>
-                {selectModel.title ? selectModel.title : "Виберіть модель"}
+                {selectModel.title ? selectModel.title : t("home.smodel")}
               </span>
               <img src={arrowSVG} alt="arrow" />
             </button>
@@ -198,14 +200,14 @@ export default function Home() {
             </div>
           </div>
           <button className={styles.cat_btn} onClick={findCat}>
-            Пошук
+            {t("home.search")}
           </button>
         </div>
       </div>
       <div className={`${styles.slider} container`}>
         <div className={styles.title}>
           <h2>
-            ПОПУЛЯРНІ <span>КОЛЕКЦІЇ</span>
+            {t("home.h211")} <span>{t("home.h212")}</span>
           </h2>
           <div>
             <img
@@ -243,7 +245,7 @@ export default function Home() {
                   <div className={styles.slider_info}>
                     <div>{block.title}</div>
                     <div>{block.subtitle}</div>
-                    <button>Переглянути</button>
+                    <button>{t("home.show")}</button>
                   </div>
                   <img src={block.img} alt="category" />
                 </div>
@@ -265,91 +267,91 @@ export default function Home() {
       </div>
       <div className={`${styles.bot_category} container`}>
         <h2 className={styles.title}>
-          ОСНОВНІ <span>КАТЕГОРІЇ</span>
+          {t("home.h221")} <span>{t("home.h222")}</span>
         </h2>
         <div className={styles.category_list}>
           <div className={styles.block_category}>
             <img src={cat1} alt="category" />
             <div className={styles.cat_info}>
-              <div className={styles.title}>Кузов</div>
+              <div className={styles.title}>{t("home.ct1")}</div>
               <div>
-                <div>Внутрішні частини</div>
-                <div>Зовнішні частини</div>
-                <div>Система склоочисника</div>
+                <div>{t("home.sct11")}</div>
+                <div>{t("home.sct12")}</div>
+                <div>{t("home.sct13")}</div>
               </div>
             </div>
             <a href="/" className={`${styles.link} flex-align`}>
-              Показати всі <img src={cat_arrow} alt="arrow" />
+              {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
           <div className={styles.block_category}>
             <img src={cat2} alt="category" />
             <div className={styles.cat_info}>
-              <div className={styles.title}>Електр. частина</div>
+              <div className={styles.title}>{t("home.ct2")}</div>
               <div>
-                <div>Аудіо</div>
-                <div>Електрика</div>
-                <div>Запалювання</div>
+                <div>{t("home.sct21")}</div>
+                <div>{t("home.sct22")}</div>
+                <div>{t("home.sct23")}</div>
               </div>
             </div>
             <a href="/" className={`${styles.link} flex-align`}>
-              Показати всі <img src={cat_arrow} alt="arrow" />
+              {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
           <div className={styles.block_category}>
             <img src={cat3} alt="category" />
             <div className={styles.cat_info}>
-              <div className={styles.title}>Освітлення</div>
+              <div className={styles.title}>{t("home.ct3")}</div>
               <div>
-                <div>Протитуманна фара</div>
-                <div>Задній ліхтар</div>
-                <div>Лампа ближ. світла</div>
+                <div>{t("home.sct31")}</div>
+                <div>{t("home.sct32")}</div>
+                <div>{t("home.sct33")}</div>
               </div>
             </div>
             <a href="/" className={`${styles.link} flex-align`}>
-              Показати всі <img src={cat_arrow} alt="arrow" />
+              {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
           <div className={styles.block_category}>
             <img src={cat4} alt="category" />
             <div className={styles.cat_info}>
-              <div className={styles.title}>Деталі двигуна</div>
+              <div className={styles.title}>{t("home.ct4")}</div>
               <div>
-                <div>Гідрокомпенсатори</div>
-                <div>Маслянний піддон</div>
-                <div>Поршень</div>
+                <div>{t("home.sct41")}</div>
+                <div>{t("home.sct42")}</div>
+                <div>{t("home.sct43")}</div>
               </div>
             </div>
             <a href="/" className={`${styles.link} flex-align`}>
-              Показати всі <img src={cat_arrow} alt="arrow" />
+              {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
           <div className={styles.block_category}>
             <img src={cat5} alt="category" />
             <div className={styles.cat_info}>
-              <div className={styles.title}>Розхідники ТО</div>
+              <div className={styles.title}>{t("home.ct5")}</div>
               <div>
-                <div>Комплект ГРМ</div>
-                <div>Свічка запалювання</div>
-                <div>Гальмувальні колодки</div>
+                <div>{t("home.sct51")}</div>
+                <div>{t("home.sct52")}</div>
+                <div>{t("home.sct53")}</div>
               </div>
             </div>
             <a href="/" className={`${styles.link} flex-align`}>
-              Показати всі <img src={cat_arrow} alt="arrow" />
+              {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
           <div className={styles.block_category}>
             <img src={cat6} alt="category" />
             <div className={styles.cat_info}>
-              <div className={styles.title}>Колеса та шини</div>
+              <div className={styles.title}>{t("home.ct6")}</div>
               <div>
-                <div>Диски</div>
-                <div>Ковпаки</div>
-                <div>Резина</div>
+                <div>{t("home.sct61")}</div>
+                <div>{t("home.sct62")}</div>
+                <div>{t("home.sct63")}</div>
               </div>
             </div>
             <a href="/" className={`${styles.link} flex-align`}>
-              Показати всі <img src={cat_arrow} alt="arrow" />
+              {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
         </div>
