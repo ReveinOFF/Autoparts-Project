@@ -4,11 +4,13 @@ import arrowPage from "../../assets/images/main/arrow_page.svg";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import styles from "./categories.module.css";
 import arr from "../../assets/images/arrow.svg";
+import { useTranslation } from "react-i18next";
 
 export default function Categories() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const [data, setData] = useState([]);
+  const { t } = useTranslation();
 
   const findCateg = async () => {
     const res = await axios.get(
@@ -43,8 +45,7 @@ export default function Categories() {
           ))}
       </div>
       <h1 className={styles.h1}>
-        Каталог запчастин{" "}
-        <span>{searchParams.get("pages").replace("/", " ")}</span>
+        {t("cat.h1")} <span>{searchParams.get("pages").replace("/", " ")}</span>
       </h1>
       <div className={styles.category_block}>
         {data?.length > 0 ? (
@@ -77,14 +78,14 @@ export default function Categories() {
                   )}/${item.title}`}
                   className={styles.bot}
                 >
-                  <div>Показати все</div>
+                  <div>{t("cat.btn")}</div>
                   <img src={arr} alt="arrow" width={15} />
                 </Link>
               )}
             </div>
           ))
         ) : (
-          <div>Пусто</div>
+          <div>{t("cat.empty")}</div>
         )}
       </div>
     </div>

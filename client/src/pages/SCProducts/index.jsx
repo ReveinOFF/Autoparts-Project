@@ -11,6 +11,7 @@ import Cart from "../../components/cart";
 import { SET_CART } from "../../reducers/cartReducer";
 import { updateCartData } from "../../utils/cart";
 import Pagination from "../../components/pagination";
+import { useTranslation } from "react-i18next";
 
 export default function SCProducts() {
   const { id } = useParams();
@@ -30,6 +31,7 @@ export default function SCProducts() {
   const dispatch = useDispatch();
   const [productsVis, setProductsVis] = useState([]);
   const { isAuth } = useSelector((s) => s.auth);
+  const { t } = useTranslation();
 
   const addToFav = async (item) => {
     updateFavData(item);
@@ -193,7 +195,7 @@ export default function SCProducts() {
             className={showMark ? styles.active : ""}
           >
             <span>
-              {selectMark.title ? selectMark.title : "Виберіть марку"}
+              {selectMark.title ? selectMark.title : t("scproducts.mark")}
             </span>
             <img src={arrowSVG} alt="arrow" />
           </button>
@@ -223,7 +225,7 @@ export default function SCProducts() {
             }}
           >
             <span>
-              {selectModel.title ? selectModel.title : "Виберіть модель"}
+              {selectModel.title ? selectModel.title : t("scproducts.model")}
             </span>
             <img src={arrowSVG} alt="arrow" />
           </button>
@@ -243,7 +245,7 @@ export default function SCProducts() {
           </div>
         </div>
         <button className={styles.cat_btn} onClick={findProdModel}>
-          Пошук
+          {t("scproducts.btn")}
         </button>
       </div>
       <ProductsComponent
@@ -264,7 +266,7 @@ export default function SCProducts() {
           onChangePage={(page) => setCurrPage(page)}
         />
       )}
-      {productsVis.length < 1 && <u>Пусто</u>}
+      {productsVis.length < 1 && <u>{t("empty")}</u>}
     </div>
   );
 }

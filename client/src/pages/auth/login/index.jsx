@@ -7,7 +7,7 @@ import AuthInput from "../../../components/auth-input";
 import axios from "axios";
 
 export default function Login() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const onHandleSubmit = async (formData) => {
@@ -20,19 +20,19 @@ export default function Login() {
       navigate("/");
       window.location.reload();
     } catch (error) {
-      alert(error?.response?.data?.message || "Error occurred login");
+      alert(error?.response?.data?.message || t("login.err"));
     }
   };
 
   const UpdateSchema = Yup.object().shape({
     login: Yup.string()
-      .email("Write correct email")
-      .required("This field is required")
-      .max(30, "Max length is 30 symbols"),
+      .email(t("validation.email"))
+      .required(t("validation.req"))
+      .max(30, t("validation.max30")),
     password: Yup.string()
-      .required("This field is required")
-      .min(8, "Min length is 8 symbols")
-      .max(30, "Max length is 30 symbols"),
+      .required(t("validation.req"))
+      .min(8, t("validation.min8"))
+      .max(30, t("validation.max30")),
   });
 
   const initialValues = {
@@ -54,9 +54,9 @@ export default function Login() {
       <div className="container">
         <FormikProvider value={formik}>
           <form onSubmit={handleSubmit}>
-            <h2 className={styles.authForm_Name}>Login</h2>
+            <h2 className={styles.authForm_Name}>{t("login.h2")}</h2>
             <AuthInput
-              title="Email:"
+              title={t("login.email")}
               name="login"
               type="email"
               value={values.login}
@@ -65,7 +65,7 @@ export default function Login() {
               error={errors.login}
             />
             <AuthInput
-              title="Password:"
+              title={t("login.pass")}
               name="password"
               type="password"
               value={values.password}
@@ -74,14 +74,15 @@ export default function Login() {
               error={errors.password}
             />
             <div className={styles.formPart}>
-              <label htmlFor="email">Remember Me</label>
+              <label htmlFor="email">{t("login.rememb")}</label>
               <input type="checkbox" />
             </div>
             <button type="submit" className={styles.formSubmitBtn}>
-              Submit
+              {t("login.btn")}
             </button>
             <div className={styles.suggestionBlock}>
-              Don't have an account? <Link to="/registration">Register</Link>
+              {t("login.not-reg")}{" "}
+              <Link to="/registration">{t("login.reg")}</Link>
             </div>
           </form>
         </FormikProvider>

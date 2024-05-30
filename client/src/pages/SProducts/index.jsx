@@ -11,6 +11,7 @@ import Cart from "../../components/cart";
 import { SET_CART } from "../../reducers/cartReducer";
 import { updateCartData } from "../../utils/cart";
 import Pagination from "../../components/pagination";
+import { useTranslation } from "react-i18next";
 
 export default function SProducts() {
   const { id } = useParams();
@@ -23,6 +24,7 @@ export default function SProducts() {
   const dispatch = useDispatch();
   const [productsVis, setProductsVis] = useState([]);
   const { isAuth } = useSelector((s) => s.auth);
+  const { t } = useTranslation();
 
   const addToFav = async (item) => {
     updateFavData(item);
@@ -155,7 +157,7 @@ export default function SProducts() {
           onChangePage={(page) => setCurrPage(page)}
         />
       )}
-      {productsVis.length < 1 && <u>Пусто</u>}
+      {productsVis.length < 1 && <u>{t("empty")}</u>}
     </div>
   );
 }

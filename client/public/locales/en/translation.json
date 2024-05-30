@@ -78,5 +78,45 @@
     "call": "Contact us",
     "phone": "Phone",
     "email2": "Mail"
+  },
+  "login": {
+    "h2": "Login",
+    "email": "Email:",
+    "pass": "Password:",
+    "rememb": "Remember Me",
+    "btn": "Submit",
+    "not-reg": "Don't have an account?",
+    "reg": "Register",
+    "err": "Error occurred login"
+  },
+  "reg": {
+    "h2": "Registration",
+    "email": "Email:",
+    "name": "Name:",
+    "surname": "Surname:",
+    "pass": "Password:",
+    "rememb": "Remember Me",
+    "btn": "Submit",
+    "not-reg": "Have an account?",
+    "reg": "Login",
+    "err": "Error occurred registration"
+  },
+  "cat": {
+    "h1": "Spare parts catalog",
+    "btn": "Show all",
+    "empty": "Empty"
+  },
+  "empty": "Empty",
+  "scproducts": {
+    "mark": "Choose a brand",
+    "model": "Choose a model",
+    "btn": "Search"
+  },
+  "validation": {
+    "req": "This field is required",
+    "email": "Write correct email",
+    "max30": "Max length is 30 symbols",
+    "min8": "Min length is 8 symbols",
+    "min2": "Min length is 2 symbols"
   }
 }

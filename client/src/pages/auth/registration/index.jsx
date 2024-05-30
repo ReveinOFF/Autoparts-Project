@@ -7,7 +7,7 @@ import styles from "../login/login.module.css";
 import axios from "axios";
 
 export default function Registration() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const onHandleSubmit = async (formData) => {
@@ -20,26 +20,26 @@ export default function Registration() {
       navigate("/");
       window.location.reload();
     } catch (error) {
-      alert(error?.response?.data?.message || "Error occurred registration");
+      alert(error?.response?.data?.message || t("reg.err"));
     }
   };
 
   const UpdateSchema = Yup.object().shape({
     login: Yup.string()
-      .email("Write correct email")
-      .required("This field is required")
-      .max(30, "Max length is 30 symbols"),
+      .email(t("validation.email"))
+      .required(t("validation.req"))
+      .max(30, t("validation.max30")),
     name: Yup.string()
-      .required("This field is required")
-      .min(2, "Min length is 2 symbols")
-      .max(30, "Max length is 30 symbols"),
+      .required(t("validation.req"))
+      .min(2, t("validation.min2"))
+      .max(30, t("validation.max30")),
     surname: Yup.string()
-      .min(2, "Min length is 2 symbols")
-      .max(30, "Max length is 30 symbols"),
+      .min(2, t("validation.min2"))
+      .max(30, t("validation.max30")),
     password: Yup.string()
-      .required("This field is required")
-      .min(8, "Min length is 8 symbols")
-      .max(30, "Max length is 30 symbols"),
+      .required(t("validation.req"))
+      .min(8, t("validation.min8"))
+      .max(30, t("validation.max30")),
   });
 
   const initialValues = {
@@ -63,9 +63,9 @@ export default function Registration() {
       <div className="container">
         <FormikProvider value={formik}>
           <form onSubmit={handleSubmit}>
-            <h2 className={styles.authForm_Name}>Registration</h2>
+            <h2 className={styles.authForm_Name}>{t("reg.h2")}</h2>
             <AuthInput
-              title="Email:"
+              title={t("reg.email")}
               name="login"
               type="email"
               value={values.login}
@@ -74,7 +74,7 @@ export default function Registration() {
               error={errors.login}
             />
             <AuthInput
-              title="Name:"
+              title={t("reg.name")}
               name="name"
               type="text"
               value={values.name}
@@ -83,7 +83,7 @@ export default function Registration() {
               error={errors.name}
             />
             <AuthInput
-              title="Surname:"
+              title={t("reg.surname")}
               name="surname"
               type="text"
               value={values.surname}
@@ -92,7 +92,7 @@ export default function Registration() {
               error={errors.surname}
             />
             <AuthInput
-              title="Password:"
+              title={t("reg.pass")}
               name="password"
               type="password"
               value={values.password}
@@ -101,14 +101,14 @@ export default function Registration() {
               error={errors.password}
             />
             <div className={styles.formPart}>
-              <label htmlFor="email">Remember Me</label>
+              <label htmlFor="email">{t("reg.rememb")}</label>
               <input type="checkbox" />
             </div>
             <button type="submit" className={styles.formSubmitBtn}>
-              Submit
+              {t("reg.btn")}
             </button>
             <div className={styles.suggestionBlock}>
-              Have an account? <Link to="/login">Login</Link>
+              {t("reg.not-reg")} <Link to="/login">{t("reg.reg")}</Link>
             </div>
           </form>
         </FormikProvider>
