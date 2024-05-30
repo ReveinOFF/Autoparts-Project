@@ -43,5 +43,40 @@
     "l-main": "Home",
     "l-contact": "Contacts",
     "l-about": "About us"
+  },
+  "about": "About us",
+  "contact": {
+    "mess-h1": "Thank you!",
+    "p": "We will contact you shortly",
+    "h1": "Contacts",
+    "h2": "Write to us",
+    "name": "Name",
+    "email": "E-mail address",
+    "mess": "Message",
+    "btn": "Send",
+    "call": "Contact us",
+    "phone": "Phone",
+    "email2": "Mail"
+  },
+  "fav": {
+    "h1": "Selected products",
+    "div1": "Your wish list is empty",
+    "div2": "Fill it with goods"
+  },
+  "oi": "Delivery information",
+  "privacy": "Privacy policy",
+  "ret-prod": {
+    "mess-h1": "Thank you!",
+    "p": "We will contact you shortly",
+    "h1": "Return of goods",
+    "h2": "Enter the data",
+    "name": "Name",
+    "email": "E-mail address",
+    "prod": "The product you want to return",
+    "mess": "Reason for return",
+    "btn": "Send",
+    "call": "Contact us",
+    "phone": "Phone",
+    "email2": "Mail"
   }
 }

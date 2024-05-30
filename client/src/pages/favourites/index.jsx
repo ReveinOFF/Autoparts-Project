@@ -8,11 +8,13 @@ import Cart from "../../components/cart";
 import { useDispatch } from "react-redux";
 import { SET_CART } from "../../reducers/cartReducer";
 import { updateCartData } from "../../utils/cart";
+import { useTranslation } from "react-i18next";
 
 export default function Favourites() {
   const [data, setData] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const getProducts = async () => {
     const isEmpty = isFavEmpty();
@@ -23,7 +25,11 @@ export default function Favourites() {
       `${process.env.REACT_APP_HOST}/product/get-product-ids`,
       fav
     );
-    setData(res?.data || []);
+    const dataWithFav = (res?.data || []).map((item) => ({
+      ...item,
+      isFav: true,
+    }));
+    setData(dataWithFav);
   };
 
   useEffect(() => {
@@ -56,7 +62,7 @@ export default function Favourites() {
         </div>
       )}
       <div className="container" style={{ paddingBottom: 60 }}>
-        <h1 className="h1_border">Обрані товари</h1>
+        <h1 className="h1_border">{t("fav.h1")}</h1>
         <ProductsComponent
           data={data}
           addToCart={addToCart}
@@ -65,8 +71,8 @@ export default function Favourites() {
         {(!data || data?.length < 1) && (
           <div className="profile_empty">
             <img src={emptyImg} alt="empty" style={{ width: "30%" }} />
-            <div>Ваш список бажань пустий</div>
-            <div>Наповніть його товарами</div>
+            <div>{t("fav.div1")}</div>
+            <div>{t("fav.div2")}</div>
           </div>
         )}
       </div>

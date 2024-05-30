@@ -11,7 +11,7 @@ export default function About() {
       children: [{ text: "" }],
     },
   ]);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const getPages = async () => {
@@ -37,7 +37,7 @@ export default function About() {
 
   return (
     <div className="container">
-      <h1 className="h1_infoblock">Про нас</h1>
+      <h1 className="h1_infoblock">{t("about")}</h1>
       <div
         className="div_infoblock"
         dangerouslySetInnerHTML={{ __html: ConvertJsonToHtml(value) }}

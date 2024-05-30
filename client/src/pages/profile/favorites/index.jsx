@@ -48,7 +48,7 @@ export default function FavoritesP() {
       )}
       <h1>Список бажань</h1>
       <ProductsComponent
-        data={state?.savedProducts}
+        data={state?.savedProducts.map((item) => ({ ...item, isFav: true }))}
         removeFav={removeFav}
         addToCart={addToCart}
       />

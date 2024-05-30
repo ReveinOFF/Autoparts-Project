@@ -8,10 +8,12 @@ import { FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import contactImg from "../../assets/images/contact/contact.svg";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Contact() {
   const [show, setShow] = useState(false);
   const [infoData, setInfoData] = useState({});
+  const { t } = useTranslation();
 
   const onHandleSubmit = async (formData) => {
     await axios.post(`${process.env.REACT_APP_HOST}/contact`, formData);
@@ -72,19 +74,19 @@ export default function Contact() {
           <div>
             <img src={closeImg} alt="close" onClick={() => setShow(false)} />
             <img src={contactImg} alt="contact" />
-            <h1>Дякуємо !</h1>
-            <p>Ми зв`яжемось з вами найближчим часом</p>
+            <h1>{t("contact.mess-h1")}</h1>
+            <p>{t("contact.p")}</p>
           </div>
         </div>
       )}
-      <h1 className="h1_infoblock">Контакти</h1>
-      <h2 className={styles.h2}>Напишіть нам</h2>
+      <h1 className="h1_infoblock">{t("contact.h1")}</h1>
+      <h2 className={styles.h2}>{t("contact.h2")}</h2>
       <FormikProvider value={formik}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div>
             <fieldset>
               <label htmlFor="name">
-                Ім`я <img src={infoImg} alt="info" width={15} />
+                {t("contact.name")} <img src={infoImg} alt="info" width={15} />
               </label>
               <input
                 type="text"
@@ -96,7 +98,7 @@ export default function Contact() {
             </fieldset>
             <fieldset>
               <label htmlFor="email">
-                Ел. адреса <img src={infoImg} alt="info" width={15} />
+                {t("contact.email")} <img src={infoImg} alt="info" width={15} />
               </label>
               <input
                 type="email"
@@ -108,7 +110,7 @@ export default function Contact() {
             </fieldset>
           </div>
           <fieldset>
-            <label htmlFor="message">Повідомлення</label>
+            <label htmlFor="message">{t("contact.mess")}</label>
             <textarea
               name="message"
               value={values.message}
@@ -117,12 +119,12 @@ export default function Contact() {
             ></textarea>
           </fieldset>
           <button disabled={isSubmitting || !dirty || !isValid}>
-            Надіслати
+            {t("contact.btn")}
           </button>
         </form>
       </FormikProvider>
-      <h2 className={styles.h2}>Зв`яжіться з нами</h2>
-      <h3 className={styles.h3}>Телефон</h3>
+      <h2 className={styles.h2}>{t("contact.call")}</h2>
+      <h3 className={styles.h3}>{t("contact.phone")}</h3>
       <div className={styles.info_contact}>
         <img src={phoneImg} alt="phone" width={25} />
         <span>{infoData?.phoneOne}</span>
@@ -131,7 +133,7 @@ export default function Contact() {
         <img src={phoneImg} alt="phone" width={25} />
         <span>{infoData?.phoneTwo}</span>
       </div>
-      <h3 className={styles.h3}>Пошта</h3>
+      <h3 className={styles.h3}>{t("contact.email2")}</h3>
       <div className={styles.info_contact}>
         <img src={mailImg} alt="email" width={25} />
         <span>{infoData?.email}</span>

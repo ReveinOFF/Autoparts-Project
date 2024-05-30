@@ -11,7 +11,7 @@ export default function OrderInfo() {
       children: [{ text: "" }],
     },
   ]);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const getPages = async () => {
@@ -39,7 +39,7 @@ export default function OrderInfo() {
 
   return (
     <div className="container">
-      <h1 className="h1_infoblock">Інформація про доставку</h1>
+      <h1 className="h1_infoblock">{t("oi")}</h1>
       <div
         className="div_infoblock"
         dangerouslySetInnerHTML={{ __html: ConvertJsonToHtml(value) }}
