@@ -76,6 +76,7 @@ button {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
   margin-top: 30px;
 }
 
@@ -337,7 +338,10 @@ button {
 
 .profile-show > div:last-of-type {
   display: flex;
-  gap: 80px;
+  flex-wrap: wrap;
+  column-gap: 80px;
+  row-gap: 10px;
+  margin-bottom: 10px;
 }
 
 .profile_empty {
@@ -425,4 +429,25 @@ button {
   justify-content: center;
   background: #0000004d;
   z-index: 5;
+}
+
+@media screen and (max-width: 800px) {
+  .container {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .h1_border {
+    font-size: 30px;
+    font-weight: 700;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+    width: 95%;
+    margin: 0 auto;
+  }
 }

@@ -50,7 +50,7 @@ export default function FavoritesP() {
       )}
       <h1>{t("profile.fav.h1")}</h1>
       <ProductsComponent
-        data={state?.savedProducts.map((item) => ({ ...item, isFav: true }))}
+        data={state?.savedProducts?.map((item) => ({ ...item, isFav: true }))}
         removeFav={removeFav}
         addToCart={addToCart}
       />

@@ -165,3 +165,86 @@
 .btn > div > button:hover {
   background: #ffc63f;
 }
+
+@media screen and (max-width: 1080px) {
+  .block {
+    height: 100%;
+  }
+
+  .btn {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .btn > button {
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .bottom {
+    justify-content: center;
+  }
+
+  .block {
+    width: 400px;
+    align-items: center;
+    margin-inline: auto;
+  }
+
+  .item {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .item > img {
+    margin-left: auto;
+  }
+
+  .count {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .inf {
+    margin-left: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+  }
+
+  .inf > img {
+    grid-row: 2;
+    margin-top: 0;
+  }
+
+  .inf > div {
+    grid: 1;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .title {
+    margin-left: 0;
+  }
+
+  .item {
+    grid-template-columns: 1fr;
+  }
+
+  .item > img {
+    margin-right: auto;
+    margin-bottom: 5px;
+  }
+
+  .count {
+    margin-inline: auto;
+    margin-block: 5px;
+  }
+
+  .inf {
+    margin-inline: auto;
+  }
+
+  .inf > img {
+    margin-inline: auto;
+  }
+}

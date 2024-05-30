@@ -38,3 +38,23 @@
 .list > div {
   color: #929292;
 }
+
+@media screen and (max-width: 1000px) {
+  .h1 {
+    font-size: 25px;
+  }
+
+  .subcategories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .h1 {
+    font-size: 20px;
+  }
+
+  .subcategories {
+    grid-template-columns: 1fr;
+  }
+}

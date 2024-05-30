@@ -235,16 +235,7 @@ export default function Checkout() {
   }, [searchNova]);
 
   return (
-    <div
-      className="container"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr auto",
-        alignItems: "flex-start",
-        gap: "40px",
-        paddingBlock: "60px",
-      }}
-    >
+    <div className={`container ${styles.comp}`}>
       <div className={styles.checkout}>
         {show && (
           <div className="succ">

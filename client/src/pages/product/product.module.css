@@ -178,3 +178,35 @@
   font-size: 16px;
   font-weight: 400;
 }
+
+@media screen and (max-width: 920px) {
+  .product {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .product > div:first-of-type > img {
+    max-width: unset;
+    max-height: unset;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .information > div:first-of-type {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .information > div:first-of-type > div {
+    padding: 0;
+    padding-block: 10px;
+    border: 0;
+    border-bottom: 1px solid black;
+    width: 100%;
+  }
+
+  .information > div:first-of-type > div:not(:last-of-type) {
+    border-right: 0;
+  }
+}

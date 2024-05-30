@@ -25,11 +25,11 @@ export default function Favourites() {
       `${process.env.REACT_APP_HOST}/product/get-product-ids`,
       fav
     );
-    const dataWithFav = (res?.data || []).map((item) => ({
+    const dataWithFav = res?.data?.map((item) => ({
       ...item,
       isFav: true,
     }));
-    setData(dataWithFav);
+    setData(dataWithFav || []);
   };
 
   useEffect(() => {

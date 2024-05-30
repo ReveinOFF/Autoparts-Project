@@ -105,3 +105,23 @@
   filter: invert(90%) sepia(26%) saturate(7485%) hue-rotate(346deg)
     brightness(107%) contrast(98%);
 }
+
+@media screen and (max-width: 1000px) {
+  .h1 {
+    font-size: 25px;
+  }
+
+  .category_block {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .h1 {
+    font-size: 20px;
+  }
+
+  .category_block {
+    grid-template-columns: 1fr;
+  }
+}

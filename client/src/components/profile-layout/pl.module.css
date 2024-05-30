@@ -1,3 +1,8 @@
+.prof {
+  display: flex;
+  margin-block: 60px;
+}
+
 .nav {
   display: grid;
   border-right: 1px solid #000000;
@@ -60,4 +65,41 @@
 .profile {
   margin-left: 20px;
   width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  .prof {
+    display: grid;
+  }
+
+  .nav {
+    border-right: 0;
+    justify-self: center;
+    display: block;
+    height: auto;
+  }
+
+  .profile {
+    margin-left: 0;
+  }
+
+  .nav_list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .nav > div:last-of-type {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .nav_list {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .nav {
+    width: 100%;
+  }
 }

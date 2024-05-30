@@ -35,7 +35,7 @@ export default function ProfileLayout() {
   }, []);
 
   return (
-    <div className="container" style={{ display: "flex", marginBlock: 60 }}>
+    <div className={`container ${styles.prof}`}>
       <nav className={styles.nav}>
         <NavLink to="/profile" style={{ backgroundColor: "transparent" }}>
           <img
@@ -63,6 +63,9 @@ export default function ProfileLayout() {
           <NavLink
             to="/profile/cart"
             style={{ backgroundColor: "transparent" }}
+            className={
+              location.pathname === "/profile/cart" ? styles.activeL : ""
+            }
           >
             <img src={cartImg} alt="cart" width={30} />
             <span>{t("profile-lay.cart")}</span>
