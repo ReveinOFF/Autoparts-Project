@@ -16,6 +16,7 @@ import {
 } from "../../../reducers/profileReducer";
 import { AUTH_USER_ACTION } from "../../../reducers/authReducer";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Profile() {
   const state = useSelector((s) => s.profile);
@@ -23,6 +24,7 @@ export default function Profile() {
   const [data, setData] = useState({});
   const [tempData, setTempData] = useState({});
   const [sex, setSex] = useState("Male");
+  const { t } = useTranslation();
 
   const [showB1, setShowB1] = useState(false);
   const [showB2, setShowB2] = useState(false);
@@ -105,13 +107,13 @@ export default function Profile() {
 
   return (
     <>
-      <h1>Особисті дані</h1>
+      <h1>{t("profile.main.h1")}</h1>
       <div className="pf-b">
         <div className={`profile-block ${showB1 ? "active" : ""}`}>
           <div className="profile-block-btn" onClick={() => setShowB1(!showB1)}>
             <div>
               <img src={profileImg} alt="profile" width={18} />
-              <h2>Особисті дані</h2>
+              <h2>{t("profile.main.h2")}</h2>
             </div>
             <img src={arrowImg} alt="arrow" width={17} />
           </div>
@@ -121,9 +123,9 @@ export default function Profile() {
               style={{ columnGap: editB1 ? "10%" : "20%" }}
             >
               <div className="profile-info">
-                <div>Прізвище</div>
+                <div>{t("profile.main.surname")}</div>
                 {!editB1 ? (
-                  <div>{state?.surname || "Не вказано"}</div>
+                  <div>{state?.surname || t("profile.main.not-data")}</div>
                 ) : (
                   <input
                     type="text"
@@ -139,9 +141,9 @@ export default function Profile() {
                 )}
               </div>
               <div className="profile-info">
-                <div>Ім`я</div>
+                <div>{t("profile.main.name")}</div>
                 {!editB1 ? (
-                  <div>{state?.name || "Не вказано"}</div>
+                  <div>{state?.name || t("profile.main.not-data")}</div>
                 ) : (
                   <input
                     type="text"
@@ -157,9 +159,9 @@ export default function Profile() {
                 )}
               </div>
               <div className="profile-info">
-                <div>По-батькові (необов`язково)</div>
+                <div>{t("profile.main.patr")}</div>
                 {!editB1 ? (
-                  <div>{state?.patronymic || "Не вказано"}</div>
+                  <div>{state?.patronymic || t("profile.main.not-data")}</div>
                 ) : (
                   <input
                     type="text"
@@ -178,11 +180,11 @@ export default function Profile() {
                 )}
               </div>
               <div className="profile-info">
-                <div>Дата народження</div>
+                <div>{t("profile.main.date")}</div>
                 {!editB1 ? (
                   <div>
                     {new Date(state?.birthDay).toLocaleDateString("ru-RU") ||
-                      "Не вказано"}
+                      t("profile.main.not-data")}
                   </div>
                 ) : (
                   <input
@@ -206,9 +208,9 @@ export default function Profile() {
                 )}
               </div>
               <div className="profile-info">
-                <div>Стать</div>
+                <div>{t("profile.main.sex")}</div>
                 {!editB1 ? (
-                  <div>{state?.sex || "Не вказано"}</div>
+                  <div>{state?.sex || t("profile.main.not-data")}</div>
                 ) : (
                   <div
                     className={styles.select_sex}
@@ -250,12 +252,12 @@ export default function Profile() {
                   setSex("Male");
                 }}
               >
-                Редагувати
+                {t("profile.main.edit")}
               </button>
             ) : (
               <>
                 <button className="profile-btn" onClick={handleClick}>
-                  Зберегти
+                  {t("profile.main.save")}
                 </button>
                 <button
                   className="profile-btn"
@@ -274,7 +276,7 @@ export default function Profile() {
                     });
                   }}
                 >
-                  Скасувати
+                  {t("profile.main.cancel")}
                 </button>
               </>
             )}
@@ -284,16 +286,16 @@ export default function Profile() {
           <div className="profile-block-btn" onClick={() => setShowB2(!showB2)}>
             <div>
               <img src={contactImg} alt="profile" width={18} />
-              <h2>Контакти</h2>
+              <h2>{t("profile.main.contact")}</h2>
             </div>
             <img src={arrowImg} alt="arrow" width={17} />
           </div>
           <div>
             <div className={`profile-ins ${styles.p1}`}>
               <div className="profile-info">
-                <div>Електронна пошта</div>
+                <div>{t("profile.main.email")}</div>
                 {!editB2 ? (
-                  <div>{state?.email || "Не вказано"}</div>
+                  <div>{state?.email || t("profile.main.not-data")}</div>
                 ) : (
                   <input
                     type="email"
@@ -319,12 +321,12 @@ export default function Profile() {
                   setEditB2(true);
                 }}
               >
-                Редагувати
+                {t("profile.main.edit")}
               </button>
             ) : (
               <>
                 <button className="profile-btn" onClick={handleClick}>
-                  Зберегти
+                  {t("profile.main.save")}
                 </button>
                 <button
                   className="profile-btn"
@@ -337,7 +339,7 @@ export default function Profile() {
                     });
                   }}
                 >
-                  Скасувати
+                  {t("profile.main.cancel")}
                 </button>
               </>
             )}
@@ -347,7 +349,7 @@ export default function Profile() {
           <div className="profile-block-btn" onClick={() => setShowB3(!showB3)}>
             <div>
               <img src={deliveryImg} alt="profile" width={18} />
-              <h2>Адреса доставки</h2>
+              <h2>{t("profile.main.addr")}</h2>
             </div>
             <img src={arrowImg} alt="arrow" width={17} />
           </div>
@@ -355,7 +357,7 @@ export default function Profile() {
             {state.address?.map((item, index) => (
               <div className={`profile-ins ${styles.p2}`}>
                 <div className="profile-info">
-                  <div>Місто</div>
+                  <div>{t("profile.main.city")}</div>
                   <div>
                     <input
                       type="text"
@@ -378,7 +380,7 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className="profile-info">
-                  <div>Вулиця</div>
+                  <div>{t("profile.main.street")}</div>
                   <div>
                     <input
                       type="text"
@@ -403,7 +405,7 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className="profile-info">
-                  <div>Будинок</div>
+                  <div>{t("profile.main.house")}</div>
                   <div>
                     <input
                       type="text"
@@ -428,7 +430,7 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className="profile-info">
-                  <div>Квартира</div>
+                  <div>{t("profile.main.apart")}</div>
                   <div>
                     <input
                       type="text"
@@ -463,7 +465,7 @@ export default function Profile() {
             ))}
             <div className={styles.add} onClick={addAddress}>
               <img src={addImg} alt="add" width={20} />
-              <span>Адреса доставки</span>
+              <span>{t("profile.main.addr2")}</span>
             </div>
             {!editB3 ? (
               <button
@@ -473,12 +475,12 @@ export default function Profile() {
                   setEditB3(true);
                 }}
               >
-                Редагувати
+                {t("profile.main.edit")}
               </button>
             ) : (
               <>
                 <button className="profile-btn" onClick={handleClick}>
-                  Зберегти
+                  {t("profile.main.save")}
                 </button>
                 <button
                   className="profile-btn"
@@ -491,7 +493,7 @@ export default function Profile() {
                     });
                   }}
                 >
-                  Скасувати
+                  {t("profile.main.cancel")}
                 </button>
               </>
             )}
@@ -501,16 +503,16 @@ export default function Profile() {
           <div className="profile-block-btn" onClick={() => setShowB4(!showB4)}>
             <div>
               <img src={logImg} alt="profile" width={18} />
-              <h2>Логін</h2>
+              <h2>{t("profile.main.login")}</h2>
             </div>
             <img src={arrowImg} alt="arrow" width={17} />
           </div>
           <div>
             <div className={`profile-ins ${styles.p1}`}>
               <div className="profile-info">
-                <div>Логін (електронна пошта)</div>
+                <div>{t("profile.main.log-em")}</div>
                 {!editB4 ? (
-                  <div>{state?.login || "Не вказано"}</div>
+                  <div>{state?.login || t("profile.main.not-data")}</div>
                 ) : (
                   <input
                     type="email"
@@ -536,12 +538,12 @@ export default function Profile() {
                   setEditB4(true);
                 }}
               >
-                Редагувати
+                {t("profile.main.edit")}
               </button>
             ) : (
               <>
                 <button className="profile-btn" onClick={handleClick}>
-                  Зберегти
+                  {t("profile.main.save")}
                 </button>
                 <button
                   className="profile-btn"
@@ -554,7 +556,7 @@ export default function Profile() {
                     });
                   }}
                 >
-                  Скасувати
+                  {t("profile.main.cancel")}
                 </button>
               </>
             )}
@@ -564,14 +566,14 @@ export default function Profile() {
           <div className="profile-block-btn" onClick={() => setShowB5(!showB5)}>
             <div>
               <img src={vinImg} alt="profile" width={18} />
-              <h2>Додаткова інформація</h2>
+              <h2>{t("profile.main.info")}</h2>
             </div>
             <img src={arrowImg} alt="arrow" width={17} />
           </div>
           <div>
             <div className={`profile-ins ${styles.p2}`}>
               <div className="profile-info">
-                <div>VIN номер автомобіля</div>
+                <div>{t("profile.main.vin")}</div>
                 <div>
                   <input
                     type="text"
@@ -598,12 +600,12 @@ export default function Profile() {
                   setEditB5(true);
                 }}
               >
-                Редагувати
+                {t("profile.main.edit")}
               </button>
             ) : (
               <>
                 <button className="profile-btn" onClick={handleClick}>
-                  Зберегти
+                  {t("profile.main.save")}
                 </button>
                 <button
                   className="profile-btn"
@@ -616,18 +618,18 @@ export default function Profile() {
                     });
                   }}
                 >
-                  Скасувати
+                  {t("profile.main.cancel")}
                 </button>
               </>
             )}
           </div>
         </div>
         <div className={styles.pe}>
-          <Link to="password">Змінити пароль</Link>
-          <div onClick={remAcc}>Видалити акаунт</div>
+          <Link to="password">{t("profile.main.change")}</Link>
+          <div onClick={remAcc}>{t("profile.main.del")}</div>
         </div>
         <div className={styles.pl} onClick={logout}>
-          Вихід
+          {t("profile.main.exit")}
         </div>
       </div>
     </>

@@ -112,11 +112,97 @@
     "model": "Choose a model",
     "btn": "Search"
   },
+  "product": {
+    "recalls": "reviews",
+    "cart": "Add to cart",
+    "buy": "Payment in cash, by card, to a current account or online with Visa/Mastercard",
+    "desc": "Description",
+    "chara": "Characteristics",
+    "recall": "Reviews",
+    "five": "Very good",
+    "four": "Good",
+    "three": "Normal",
+    "two": "Bad",
+    "one": "Very bad",
+    "zero": "(None)"
+  },
+  "home": {},
+  "checkout": {},
+  "profile": {
+    "fav": {
+      "h1": "Wish list",
+      "nf1": "Your wish list is empty",
+      "nf2": "Fill it with goods"
+    },
+    "main": {
+      "h1": "Personal data",
+      "h2": "Personal data",
+      "surname": "Last Name",
+      "name": "Name",
+      "patr": "Patronymic (optional)",
+      "date": "Date of birth",
+      "sex": "Gender",
+      "contact": "Contacts",
+      "email": "Email",
+      "addr": "Delivery address",
+      "city": "City",
+      "street": "Street",
+      "house": "House",
+      "apart": "Apartment",
+      "addr2": "Delivery address",
+      "login": "Login",
+      "log-em": "Login (e-mail)",
+      "info": "Additional information",
+      "vin": "VIN number of the car",
+      "change": "Change password",
+      "del": "Delete account",
+      "exit": "Exit",
+
+      "not-data": "Not specified",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "order": {
+      "h1": "My orders",
+      "order": "Order",
+      "name": "Product name",
+      "count": "Кількість",
+      "price": "Сумма",
+      "nf1": "The order list is empty",
+      "nf2": "You have not ordered anything yet"
+    },
+    "pass": {
+      "h1": "Change password",
+      "back": "Back",
+      "oldpass": "Old password",
+      "newpass": "New password",
+      "cnewpass": "Repeat the new password",
+      "btn": "Change",
+      "succ": "Password has been updated!",
+      "err": "An error occurred while logging in"
+    },
+    "recall": {
+      "h1": "My orders",
+      "rec": "Product review",
+      "raiting": "Rating",
+      "date": "Date of departure",
+      "nf1": "No reviews yet",
+      "nf2": "No reviews yet",
+      "five": "(Very good)",
+      "four": "(Good)",
+      "three": "(Normal)",
+      "two": "(Bad)",
+      "one": "(Very bad)",
+      "zero": "(None)"
+    }
+  },
   "validation": {
     "req": "This field is required",
     "email": "Write correct email",
     "max30": "Max length is 30 symbols",
     "min8": "Min length is 8 symbols",
-    "min2": "Min length is 2 symbols"
+    "min2": "Min length is 2 symbols",
+    "pass": "Passwords must match"
   }
 }

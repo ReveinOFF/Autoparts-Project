@@ -1,15 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import arrowImg from "../../../assets/images/profile/arrow.svg";
 import emptyImg from "../../../assets/images/profile/empty.png";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import CurrencyConverter from "../../../components/currencyConverter";
+import { useTranslation } from "react-i18next";
 
 export default function OrdersP() {
   const [show, setShow] = useState([]);
   const state = useSelector((s) => s.profile);
+  const [curr, setCurr] = useState([]);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    const GetCurr = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_HOST}/currency`);
+
+      setCurr(res.data);
+    };
+
+    GetCurr();
+  }, []);
 
   return (
     <>
-      <h1>Мої замовлення</h1>
+      <h1>{t("profile.order.h1")}</h1>
       <div className="pf-b">
         {state?.orders?.length > 0 ? (
           state.orders.map((item, index) => (
@@ -30,7 +45,9 @@ export default function OrdersP() {
                 }
               >
                 <div>
-                  <h2>Замовлення #{index + 1}</h2>
+                  <h2>
+                    {t("profile.order.order")} #{index + 1}
+                  </h2>
                 </div>
                 <img src={arrowImg} alt="arrow" width={17} />
               </div>
@@ -40,16 +57,19 @@ export default function OrdersP() {
                     <div>{index2 + 1}</div>
                     <div>
                       <div className="profile-info">
-                        <div>Назва товару</div>
+                        <div>{t("profile.order.name")}</div>
                         <div>{item2.name}</div>
                       </div>
                       <div className="profile-info">
-                        <div>Кількість</div>
+                        <div>{t("profile.order.count")}</div>
                         <div>{item2.quantity}</div>
                       </div>
                       <div className="profile-info">
-                        <div>Сумма</div>
-                        <div>{item2.price}$</div>
+                        <div>{t("profile.order.price")}</div>
+                        <CurrencyConverter
+                          amount={item2.price}
+                          exchangeRates={curr}
+                        />
                       </div>
                     </div>
                   </div>
@@ -60,8 +80,8 @@ export default function OrdersP() {
         ) : (
           <div className="profile_empty">
             <img src={emptyImg} alt="empty" />
-            <div>Список замовлень пустий</div>
-            <div>Ви ще нічого не замовляли</div>
+            <div>{t("profile.order.nf1")}</div>
+            <div>{t("profile.order.nf2")}</div>
           </div>
         )}
       </div>

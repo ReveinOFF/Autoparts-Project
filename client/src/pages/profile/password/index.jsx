@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import styles from "./pass.module.css";
 import arrowImg from "../../../assets/images/profile/arrow.svg";
+import { useTranslation } from "react-i18next";
 
 export default function Password() {
   const state = useSelector((s) => s.profile);
+  const { t } = useTranslation();
 
   const onHandleSubmitPass = async (formData) => {
     try {
@@ -18,22 +20,22 @@ export default function Password() {
         { ...formData, userId: _id }
       );
 
-      alert("Password update!");
+      alert(t("profile.pass.succ"));
     } catch (error) {
-      console.log(error?.response?.data?.message || "Error occurred login");
+      console.log(error?.response?.data?.message || t("profile.pass.err"));
       console.log(error);
     }
   };
 
   const UpdateSchema = Yup.object().shape({
-    oldPassword: Yup.string().required("This field is required"),
+    oldPassword: Yup.string().required(t("validation.req")),
     newPassword: Yup.string()
-      .required("This field is required")
-      .min(8, "Min length is 8 symbols")
-      .max(30, "Max length is 30 symbols"),
+      .required(t("validation.req"))
+      .min(8, t("validation.min8"))
+      .max(30, t("validation.max30")),
     newRPassword: Yup.string()
-      .required("This field is required")
-      .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
+      .required(t("validation.req"))
+      .oneOf([Yup.ref("newPassword"), null], t("validation.pass")),
   });
 
   const initialValues = {
@@ -54,19 +56,19 @@ export default function Password() {
 
   return (
     <>
-      <h1>Змінити пароль</h1>
+      <h1>{t("profile.pass.h1")}</h1>
       <Link to={-1} className={styles.back}>
         <img src={arrowImg} alt="arrow" width={15} />
-        <span>Назад</span>
+        <span>{t("profile.pass.back")}</span>
       </Link>
       <FormikProvider value={formik}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div>
-            <label htmlFor="oldPassword">Старий пароль</label>
+            <label htmlFor="oldPassword">{t("profile.pass.oldpass")}</label>
             <input
               type="password"
               name="oldPassword"
-              placeholder="Старий пароль"
+              placeholder={t("profile.pass.oldpass")}
               value={values.oldPassword}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -76,11 +78,11 @@ export default function Password() {
             <p>{errors.oldPassword}</p>
           )}
           <div>
-            <label htmlFor="newPassword">Новий пароль</label>
+            <label htmlFor="newPassword">{t("profile.pass.newpass")}</label>
             <input
               type="password"
               name="newPassword"
-              placeholder="Новий пароль"
+              placeholder={t("profile.pass.newpass")}
               value={values.newPassword}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -90,11 +92,11 @@ export default function Password() {
             <p>{errors.newPassword}</p>
           )}
           <div>
-            <label htmlFor="newRPassword">Повторити новий пароль</label>
+            <label htmlFor="newRPassword">{t("profile.pass.cnewpass")}</label>
             <input
               type="password"
               name="newRPassword"
-              placeholder="Повторити новий пароль"
+              placeholder={t("profile.pass.cnewpass")}
               value={values.newRPassword}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -107,7 +109,7 @@ export default function Password() {
             type="submit"
             disabled={formik.isSubmitting || !formik.dirty || !formik.isValid}
           >
-            Змінити
+            {t("profile.pass.btn")}
           </button>
         </form>
       </FormikProvider>

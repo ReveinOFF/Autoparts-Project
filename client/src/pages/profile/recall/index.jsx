@@ -3,10 +3,12 @@ import arrowImg from "../../../assets/images/profile/arrow.svg";
 import emptyImg from "../../../assets/images/profile/empty.png";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { useTranslation } from "react-i18next";
 
 export default function RecallP() {
   const [data, setData] = useState([]);
   const [show, setShow] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getData = async () => {
@@ -26,7 +28,7 @@ export default function RecallP() {
 
   return (
     <>
-      <h1>Мої замовлення</h1>
+      <h1>{t("profile.recall.h1")}</h1>
       <div className="pf-b">
         {data.length > 0 ? (
           data.map((item) => (
@@ -54,30 +56,30 @@ export default function RecallP() {
                 <div className="profile-show2">
                   <div>
                     <div className="profile-info">
-                      <div>Відгук на товар</div>
+                      <div>{t("profile.recall.rec")}</div>
                       <div>{item.message}</div>
                     </div>
                   </div>
                   <div>
                     <div className="profile-info">
-                      <div>Рейтинг</div>
+                      <div>{t("profile.recall.raiting")}</div>
                       <div>
                         {item.star}{" "}
                         {item.star === 5
-                          ? "(Дуже добре)"
+                          ? t("profile.recall.five")
                           : item.star === 4
-                          ? "(Добре)"
+                          ? t("profile.recall.four")
                           : item.star === 3
-                          ? "(Нормально)"
+                          ? t("profile.recall.three")
                           : item.star === 2
-                          ? "(Погано)"
+                          ? t("profile.recall.two")
                           : item.star === 1
-                          ? "(Дуже погано)"
-                          : "(Ніякий)"}
+                          ? t("profile.recall.one")
+                          : t("profile.recall.zero")}
                       </div>
                     </div>
                     <div className="profile-info">
-                      <div>Дата залишення</div>
+                      <div>{t("profile.recall.date")}</div>
                       <div>
                         {new Date(item.dataCreate).toLocaleDateString("ru-RU")}
                       </div>
@@ -90,8 +92,8 @@ export default function RecallP() {
         ) : (
           <div className="profile_empty">
             <img src={emptyImg} alt="empty" />
-            <div>Відгуків ще немає</div>
-            <div>Ви ще не залишали відгуки про товари</div>
+            <div>{t("profile.recall.nf1")}</div>
+            <div>{t("profile.recall.nf2")}</div>
           </div>
         )}
       </div>

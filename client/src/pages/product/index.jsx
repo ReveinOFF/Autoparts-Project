@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Cart from "../../components/cart";
 import { SET_CART } from "../../reducers/cartReducer";
 import CurrencyConverter from "../../components/currencyConverter";
+import { useTranslation } from "react-i18next";
 
 export default function Product() {
   const { isAuth } = useSelector((s) => s.auth);
@@ -31,6 +32,7 @@ export default function Product() {
   const [type, setType] = useState(1);
   const { id } = useParams();
   const [curr, setCurr] = useState([]);
+  const { t } = useTranslation();
 
   const getProduct = async () => {
     if (isAuth) {
@@ -183,7 +185,9 @@ export default function Product() {
                   }
                 })}
               </div>
-              <div>{data?.reviewsCount} відгуків</div>
+              <div>
+                {data?.reviewsCount} {t("product.recalls")}
+              </div>
             </div>
             <CurrencyConverter
               className={styles.price}
@@ -193,7 +197,7 @@ export default function Product() {
             <div className={styles.btns}>
               <button onClick={() => addToCart()}>
                 <img src={cartImg} alt="cart" />
-                <span>Додати у кошик</span>
+                <span>{t("product.cart")}</span>
               </button>
               {data?.isFav ? (
                 <button onClick={remToFav}>
@@ -210,10 +214,7 @@ export default function Product() {
                 <img src={cardImg} alt="card" width={40} />
               </div>
               <div>
-                <div>
-                  Оплата готівкою, картою, на розрахунковий рахунок або онлайн
-                  за допомогою Visa/Mastercard
-                </div>
+                <div>{t("product.buy")}</div>
                 <div>
                   <img src={mcImg} alt="master card" width={70} height={30} />
                   <img src={vcImg} alt="visa card" width={50} height={30} />
@@ -228,19 +229,19 @@ export default function Product() {
               className={type === 1 ? styles.active : ""}
               onClick={() => setType(1)}
             >
-              Опис
+              {t("product.desc")}
             </div>
             <div
               className={type === 2 ? styles.active : ""}
               onClick={() => setType(2)}
             >
-              Характеристика
+              {t("product.chara")}
             </div>
             <div
               className={type === 3 ? styles.active : ""}
               onClick={() => setType(3)}
             >
-              Відгуки
+              {t("product.recall")}
             </div>
           </div>
           <div>
@@ -315,7 +316,19 @@ export default function Product() {
                           }
                         })}
                       </div>
-                      <div>Дуже гарно</div>
+                      <div>
+                        {item?.star === 5
+                          ? t("product.five")
+                          : item?.star === 4
+                          ? t("product.four")
+                          : item?.star === 3
+                          ? t("product.three")
+                          : item?.star === 2
+                          ? t("product.two")
+                          : item?.star === 1
+                          ? t("product.one")
+                          : t("product.zero")}
+                      </div>
                     </div>
                   </div>
                 ))}
