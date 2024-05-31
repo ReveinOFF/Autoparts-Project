@@ -37,6 +37,14 @@ export class SubcategoriesService {
     }
   }
 
+  async getByTitle(name: string) {
+    try {
+      return await this.subcategoriesModel.findOne({ title: name }).exec();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async delById(id) {
     try {
       return this.subcategoriesModel.findByIdAndDelete(id).exec();
@@ -320,11 +328,13 @@ export class SubcategoriesService {
         ])
         .exec();
 
-      const totalProducts = res[0].totalProducts;
-      const totalPages = Math.ceil(totalProducts / limit);
+      if (res[0]?.totalProducts) {
+        const totalProducts = res[0]?.totalProducts;
+        const totalPages = Math.ceil(totalProducts / limit);
 
-      res[0].totalPages = totalPages;
-      res[0].currPage = page;
+        res[0].totalPages = totalPages;
+        res[0].currPage = page;
+      }
 
       return res[0];
     } catch (error) {

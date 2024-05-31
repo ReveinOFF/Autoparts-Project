@@ -303,4 +303,12 @@ export class CategoriesService {
       throw error;
     }
   }
+
+  async getByTitle(name: string) {
+    try {
+      return await this.categoriesModel.findOne({ title: name }).exec();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

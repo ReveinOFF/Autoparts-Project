@@ -193,15 +193,16 @@ export class AuthenticationService {
       .toArray();
 
     for (const order of orders) {
-      for (const item of order.productIds) {
-        const product = await this.authModel.db
-          .collection('products')
-          .findOne({ _id: new Types.ObjectId(item.productId) });
-        if (product) {
-          item.name = product.title;
-          item.price = product.price;
+      if (order?.productIds)
+        for (const item of order?.productIds) {
+          const product = await this.authModel.db
+            .collection('products')
+            .findOne({ _id: new Types.ObjectId(item.productId) });
+          if (product) {
+            item.name = product.title;
+            item.price = product.price;
+          }
         }
-      }
     }
 
     for (const product of products) {

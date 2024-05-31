@@ -124,6 +124,7 @@ button {
   width: 100px;
   margin-right: 20px;
   border-radius: 10px;
+  object-fit: cover;
 }
 
 .item_a1:not(:last-of-type),
@@ -377,6 +378,7 @@ button {
   left: 0;
   right: 0;
   display: flex;
+  z-index: 5;
   align-items: center;
   justify-content: center;
   background: #0000004d;

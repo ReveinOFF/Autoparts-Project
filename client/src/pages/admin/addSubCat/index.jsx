@@ -11,7 +11,7 @@ export default function AddSubCat() {
   const [type, setType] = useState("add");
   const navigate = useNavigate();
   const { id } = useParams();
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
   const [subcategory, setSubCategory] = useState([]);
   const [mark, setMark] = useState([]);
   const [product, setProduct] = useState([]);
@@ -63,7 +63,7 @@ export default function AddSubCat() {
         `${process.env.REACT_APP_HOST}/subcategories/add-subcategories`,
         { ...data }
       );
-      navigate("/admin/edit/category");
+      navigate("/admin/edit/subcategory");
     } else {
       await axios.put(
         `${process.env.REACT_APP_HOST}/subcategories/upt-subcategories`,
@@ -121,7 +121,7 @@ export default function AddSubCat() {
             type="text"
             name="title"
             placeholder="Назва"
-            defaultValue={data.title}
+            defaultValue={data?.title}
             onChange={(e) =>
               setData((prev) => ({ ...prev, title: e.target.value }))
             }
@@ -132,56 +132,50 @@ export default function AddSubCat() {
           <textarea
             name="description"
             placeholder="Опис"
-            defaultValue={data.description}
+            defaultValue={data?.description}
             onChange={(e) =>
               setData((prev) => ({ ...prev, description: e.target.value }))
             }
           ></textarea>
         </fieldset>
-        {(data?.productIds?.length > 0 || data?.markIds?.length > 0) && (
-          <fieldset>
-            <label htmlFor="price">Суб-Категорія</label>
-            <div className={styles.sl} onClick={() => setSubcatShow(true)}>
-              <span>
-                {subcategory
-                  ?.filter((item) =>
-                    data?.subChildCategorieIds?.includes(item._id)
-                  )
-                  ?.map((item) => item.title)
-                  ?.join(", ") || "Не вибрано"}
-              </span>
-              <img src={arrowImg} alt="arrow" width={10} />
-            </div>
-          </fieldset>
-        )}
-        {data?.subChildCategorieIds?.length > 0 && (
-          <>
-            <fieldset>
-              <label htmlFor="price">Бренд</label>
-              <div className={styles.sl} onClick={() => setMarkShow(true)}>
-                <span>
-                  {mark
-                    ?.filter((item) => data?.markIds?.includes(item._id))
-                    ?.map((item) => item.title)
-                    ?.join(", ") || "Не вибрано"}
-                </span>
-                <img src={arrowImg} alt="arrow" width={10} />
-              </div>
-            </fieldset>
-            <fieldset>
-              <label htmlFor="price">Товари</label>
-              <div className={styles.sl} onClick={() => setProductShow(true)}>
-                <span>
-                  {product
-                    ?.filter((item) => data?.productIds?.includes(item._id))
-                    ?.map((item) => item.title)
-                    ?.join(", ") || "Не вибрано"}
-                </span>
-                <img src={arrowImg} alt="arrow" width={10} />
-              </div>
-            </fieldset>
-          </>
-        )}
+        <fieldset>
+          <label htmlFor="price">Суб-Категорія</label>
+          <div className={styles.sl} onClick={() => setSubcatShow(true)}>
+            <span>
+              {subcategory
+                ?.filter((item) =>
+                  data?.subChildCategorieIds?.includes(item._id)
+                )
+                ?.map((item) => item.title)
+                ?.join(", ") || "Не вибрано"}
+            </span>
+            <img src={arrowImg} alt="arrow" width={10} />
+          </div>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="price">Бренд</label>
+          <div className={styles.sl} onClick={() => setMarkShow(true)}>
+            <span>
+              {mark
+                ?.filter((item) => data?.markIds?.includes(item._id))
+                ?.map((item) => item.title)
+                ?.join(", ") || "Не вибрано"}
+            </span>
+            <img src={arrowImg} alt="arrow" width={10} />
+          </div>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="price">Товари</label>
+          <div className={styles.sl} onClick={() => setProductShow(true)}>
+            <span>
+              {product
+                ?.filter((item) => data?.productIds?.includes(item._id))
+                ?.map((item) => item.title)
+                ?.join(", ") || "Не вибрано"}
+            </span>
+            <img src={arrowImg} alt="arrow" width={10} />
+          </div>
+        </fieldset>
         <button type="submit">{type === "add" ? "Створити" : "Змінити"}</button>
       </form>
     </div>

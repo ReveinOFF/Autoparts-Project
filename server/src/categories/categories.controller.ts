@@ -38,6 +38,11 @@ export class CategoriesController {
     return await this.categoriesService.getOne(id);
   }
 
+  @Get('get-title/:title')
+  async getByTitle(@Param('title') title: string) {
+    return await this.categoriesService.getByTitle(title);
+  }
+
   @Get('cat-mod/:id')
   async getCategoriesByModel(@Param('id') id: string) {
     return await this.categoriesService.getCategoriesByModel(id);

@@ -97,7 +97,7 @@ export default function SProducts() {
       );
 
       setData(res.data);
-      setProductsVis(res.data?.products);
+      setProductsVis(res.data?.products || []);
     } else {
       const res = await axios.get(
         `${process.env.REACT_APP_HOST}/subcategories/get-one/${id}?page=${
@@ -110,7 +110,7 @@ export default function SProducts() {
       else tempData.isFav = false;
 
       setData(res.data);
-      setProductsVis(res.data?.products);
+      setProductsVis(res.data?.products || []);
     }
   };
 
@@ -150,14 +150,14 @@ export default function SProducts() {
         addFav={addToFav}
         addToCart={addToCart}
       />
-      {data.totalPages > 1 && (
+      {data?.totalPages > 1 && (
         <Pagination
           currPage={currPage}
-          totalPage={data.totalPages}
+          totalPage={data?.totalPages}
           onChangePage={(page) => setCurrPage(page)}
         />
       )}
-      {productsVis.length < 1 && <u>{t("empty")}</u>}
+      {productsVis?.length < 1 && <u>{t("empty")}</u>}
     </div>
   );
 }

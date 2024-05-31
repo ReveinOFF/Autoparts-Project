@@ -53,6 +53,7 @@ export default function FavoritesP() {
         data={state?.savedProducts?.map((item) => ({ ...item, isFav: true }))}
         removeFav={removeFav}
         addToCart={addToCart}
+        pages={`?pages=favourites`}
       />
       {(!state?.savedProducts || state?.savedProducts?.length < 1) && (
         <div className="profile_empty">

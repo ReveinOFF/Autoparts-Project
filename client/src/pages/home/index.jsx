@@ -134,6 +134,22 @@ export default function Home() {
     }
   };
 
+  const goSubCat = async (title) => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_HOST}/categories/get-title/${title}`
+    );
+
+    navigate(`/subcategories/${res.data._id}?pages=${title}`);
+  };
+
+  const goProd = async (title, cat) => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_HOST}/subcategories/get-title/${title}`
+    );
+
+    navigate(`/s/products/${res.data._id}?pages=${cat}/${title}`);
+  };
+
   return (
     <>
       <div className={styles.top}>
@@ -245,7 +261,9 @@ export default function Home() {
                   <div className={styles.slider_info}>
                     <div>{block.title}</div>
                     <div>{block.subtitle}</div>
-                    <button>{t("home.show")}</button>
+                    <button onClick={() => goSubCat(block.title)}>
+                      {t("home.show")}
+                    </button>
                   </div>
                   <img src={block.img} alt="category" draggable={false} />
                 </div>
@@ -275,12 +293,21 @@ export default function Home() {
             <div className={styles.cat_info}>
               <div className={styles.title}>{t("home.ct1")}</div>
               <div>
-                <div>{t("home.sct11")}</div>
-                <div>{t("home.sct12")}</div>
-                <div>{t("home.sct13")}</div>
+                <div onClick={() => goProd("Внутрішні частини", "Кузов")}>
+                  {t("home.sct11")}
+                </div>
+                <div onClick={() => goProd("Зовнішні частини", "Кузов")}>
+                  {t("home.sct12")}
+                </div>
+                <div onClick={() => goProd("Система склоочисника", "Кузов")}>
+                  {t("home.sct13")}
+                </div>
               </div>
             </div>
-            <a href="/" className={`${styles.link} flex-align`}>
+            <a
+              className={`${styles.link} flex-align`}
+              onClick={() => goSubCat("Кузов")}
+            >
               {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
@@ -289,12 +316,21 @@ export default function Home() {
             <div className={styles.cat_info}>
               <div className={styles.title}>{t("home.ct2")}</div>
               <div>
-                <div>{t("home.sct21")}</div>
-                <div>{t("home.sct22")}</div>
-                <div>{t("home.sct23")}</div>
+                <div onClick={() => goProd("Аудіо", "Електр. частина")}>
+                  {t("home.sct21")}
+                </div>
+                <div onClick={() => goProd("Електрика", "Електр. частина")}>
+                  {t("home.sct22")}
+                </div>
+                <div onClick={() => goProd("Запалювання", "Електр. частина")}>
+                  {t("home.sct23")}
+                </div>
               </div>
             </div>
-            <a href="/" className={`${styles.link} flex-align`}>
+            <a
+              onClick={() => goSubCat("Електр. частина")}
+              className={`${styles.link} flex-align`}
+            >
               {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
@@ -303,12 +339,21 @@ export default function Home() {
             <div className={styles.cat_info}>
               <div className={styles.title}>{t("home.ct3")}</div>
               <div>
-                <div>{t("home.sct31")}</div>
-                <div>{t("home.sct32")}</div>
-                <div>{t("home.sct33")}</div>
+                <div onClick={() => goProd("Протитуманна фара", "Освітлення")}>
+                  {t("home.sct31")}
+                </div>
+                <div onClick={() => goProd("Задній ліхтар", "Освітлення")}>
+                  {t("home.sct32")}
+                </div>
+                <div onClick={() => goProd("Лампа ближ. світла", "Освітлення")}>
+                  {t("home.sct33")}
+                </div>
               </div>
             </div>
-            <a href="/" className={`${styles.link} flex-align`}>
+            <a
+              onClick={() => goSubCat("Освітлення")}
+              className={`${styles.link} flex-align`}
+            >
               {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
@@ -317,12 +362,25 @@ export default function Home() {
             <div className={styles.cat_info}>
               <div className={styles.title}>{t("home.ct4")}</div>
               <div>
-                <div>{t("home.sct41")}</div>
-                <div>{t("home.sct42")}</div>
-                <div>{t("home.sct43")}</div>
+                <div
+                  onClick={() => goProd("Гідрокомпенсатори", "Деталі двигуна")}
+                >
+                  {t("home.sct41")}
+                </div>
+                <div
+                  onClick={() => goProd("Маслянний піддон", "Деталі двигуна")}
+                >
+                  {t("home.sct42")}
+                </div>
+                <div onClick={() => goProd("Поршень", "Деталі двигуна")}>
+                  {t("home.sct43")}
+                </div>
               </div>
             </div>
-            <a href="/" className={`${styles.link} flex-align`}>
+            <a
+              onClick={() => goSubCat("Деталі двигуна")}
+              className={`${styles.link} flex-align`}
+            >
               {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
@@ -331,12 +389,27 @@ export default function Home() {
             <div className={styles.cat_info}>
               <div className={styles.title}>{t("home.ct5")}</div>
               <div>
-                <div>{t("home.sct51")}</div>
-                <div>{t("home.sct52")}</div>
-                <div>{t("home.sct53")}</div>
+                <div onClick={() => goProd("Комплект ГРМ", "Розхідники ТО")}>
+                  {t("home.sct51")}
+                </div>
+                <div
+                  onClick={() => goProd("Свічка запалювання", "Розхідники ТО")}
+                >
+                  {t("home.sct52")}
+                </div>
+                <div
+                  onClick={() =>
+                    goProd("Гальмувальні колодки", "Розхідники ТО")
+                  }
+                >
+                  {t("home.sct53")}
+                </div>
               </div>
             </div>
-            <a href="/" className={`${styles.link} flex-align`}>
+            <a
+              onClick={() => goSubCat("Розхідники ТО")}
+              className={`${styles.link} flex-align`}
+            >
               {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>
@@ -345,12 +418,21 @@ export default function Home() {
             <div className={styles.cat_info}>
               <div className={styles.title}>{t("home.ct6")}</div>
               <div>
-                <div>{t("home.sct61")}</div>
-                <div>{t("home.sct62")}</div>
-                <div>{t("home.sct63")}</div>
+                <div onClick={() => goProd("Диски", "Колеса та шини")}>
+                  {t("home.sct61")}
+                </div>
+                <div onClick={() => goProd("Ковпаки", "Колеса та шини")}>
+                  {t("home.sct62")}
+                </div>
+                <div onClick={() => goProd("Резина", "Колеса та шини")}>
+                  {t("home.sct63")}
+                </div>
               </div>
             </div>
-            <a href="/" className={`${styles.link} flex-align`}>
+            <a
+              onClick={() => goSubCat("Колеса та шини")}
+              className={`${styles.link} flex-align`}
+            >
               {t("home.all")} <img src={cat_arrow} alt="arrow" />
             </a>
           </div>

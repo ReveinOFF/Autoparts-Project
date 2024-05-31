@@ -236,6 +236,7 @@
 
 .cat_info > div:last-of-type > div {
   color: #929292;
+  cursor: pointer;
 }
 
 .cat_info {
@@ -253,6 +254,7 @@
   font-weight: 700;
   grid-column: 2;
   gap: 5px;
+  cursor: pointer;
 }
 
 .top_select {

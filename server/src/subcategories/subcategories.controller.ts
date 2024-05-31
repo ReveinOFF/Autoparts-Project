@@ -23,6 +23,11 @@ export class SubcategoriesController {
     return await this.subcategoriesService.updateById(update);
   }
 
+  @Get('get-title/:title')
+  async getByTitle(@Param('title') title: string) {
+    return await this.subcategoriesService.getByTitle(title);
+  }
+
   @Get('get-all')
   async getAll() {
     return await this.subcategoriesService.getAll();

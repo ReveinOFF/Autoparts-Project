@@ -10,13 +10,11 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    lng:
-      localStorage.getItem("lng") ||
-      ln.includes(navigator.language.split("-")[0].toLocaleLowerCase())
-        ? navigator.language.split("-")[0].toLocaleLowerCase()
-        : navigator.language.split("-")[0].toLocaleLowerCase() === "ru"
-        ? "ua"
-        : "en",
+    lng: localStorage.getItem("lng")
+      ? localStorage.getItem("lng")
+      : ln.includes(navigator.language.split("-")[0].toLocaleLowerCase())
+      ? navigator.language.split("-")[0].toLocaleLowerCase()
+      : "en",
     fallbackLng: "en",
     saveMissing: false,
     detection: {
