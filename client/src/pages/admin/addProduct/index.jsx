@@ -48,17 +48,30 @@ export default function AddProduct() {
           },
         ];
 
+        let desc;
+        let char;
+
+        try {
+          desc = Array.isArray(JSON?.parse(res.data?.description))
+            ? JSON?.parse(res.data?.description)
+            : defaultValue;
+        } catch (error) {
+          desc = defaultValue;
+        }
+
+        try {
+          char = Array.isArray(JSON?.parse(res.data?.characteristics))
+            ? JSON?.parse(res.data?.characteristics)
+            : defaultValue;
+        } catch (error) {
+          char = defaultValue;
+        }
+
         setData(res.data);
         setModelSelected(res.data.modelIds || []);
         setOldImg(res.data.image || []);
-        setDesc(
-          res.data.description ? JSON.parse(res.data.description) : defaultValue
-        );
-        setCharact(
-          res.data.characteristics
-            ? JSON.parse(res.data.characteristics)
-            : defaultValue
-        );
+        setDesc(desc);
+        setCharact(char);
         setType("id");
       });
     }

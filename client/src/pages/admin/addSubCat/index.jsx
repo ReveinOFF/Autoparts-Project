@@ -66,7 +66,7 @@ export default function AddSubCat() {
       navigate("/admin/edit/subcategory");
     } else {
       await axios.put(
-        `${process.env.REACT_APP_HOST}/subcategories/upt-subcategories`,
+        `${process.env.REACT_APP_HOST}/subcategories/put-subcategories`,
         { _id: id, ...data }
       );
       window.location.reload();

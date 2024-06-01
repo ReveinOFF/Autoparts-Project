@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { SubcategoriesService } from './subcategories.service';
@@ -18,7 +19,7 @@ export class SubcategoriesController {
     return await this.subcategoriesService.create(create);
   }
 
-  @Post('upt-subcategories')
+  @Put('put-subcategories')
   async update(@Body() update) {
     return await this.subcategoriesService.updateById(update);
   }
