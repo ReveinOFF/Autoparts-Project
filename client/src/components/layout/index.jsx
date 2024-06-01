@@ -4,7 +4,6 @@ import Footer from "../footer";
 
 export default function Layout() {
   const location = useLocation();
-
   return (
     <>
       <Header />

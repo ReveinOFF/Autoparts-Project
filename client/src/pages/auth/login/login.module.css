@@ -1,8 +1,6 @@
 .login {
   background-image: url("../../../assets/images/auth/AuthBg.png");
-  height: 100%;
-  width: 100%;
-  background-size: 1100px;
+  background-size: cover;
   background-repeat: repeat;
 }
 
