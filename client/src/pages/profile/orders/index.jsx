@@ -27,7 +27,7 @@ export default function OrdersP() {
       <h1>{t("profile.order.h1")}</h1>
       <div className="pf-b">
         {state?.orders?.length > 0 ? (
-          state.orders.map((item, index) => (
+          state?.orders?.map((item, index) => (
             <div
               className={`profile-block ${
                 show.includes(item._id) ? "active" : ""
@@ -52,7 +52,7 @@ export default function OrdersP() {
                 <img src={arrowImg} alt="arrow" width={17} />
               </div>
               <div>
-                {item?.productIds.map((item2, index2) => (
+                {item?.productIds?.map((item2, index2) => (
                   <div className="profile-show" key={index2}>
                     <div>{index2 + 1}</div>
                     <div>

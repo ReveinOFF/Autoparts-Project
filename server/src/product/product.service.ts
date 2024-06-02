@@ -306,6 +306,10 @@ export class ProductService {
         .pipe(csvParse())
         .on('data', async (data) => {
           Object.keys(data).forEach((key) => {
+            if (key === 'description' || key === 'characteristic') {
+              return;
+            }
+
             if (typeof data[key] === 'string') {
               if (data[key].startsWith('["') && data[key].endsWith('"]')) {
                 data[key] = JSON.parse(data[key]);
@@ -316,6 +320,10 @@ export class ProductService {
           });
 
           Object.keys(data).forEach((key) => {
+            if (key === 'description' || key === 'characteristic') {
+              return;
+            }
+
             if (
               typeof data[key] === 'string' &&
               data[key].startsWith('"') &&
@@ -346,7 +354,12 @@ export class ProductService {
       for await (const rowData of data) {
         const item = {};
         for (const key of firstRowKeys) {
-          if (typeof rowData[key] === 'string' && rowData[key].includes(',')) {
+          if (key === 'description' || key === 'characteristic') {
+            item[key] = rowData[key];
+          } else if (
+            typeof rowData[key] === 'string' &&
+            rowData[key].includes(',')
+          ) {
             item[key] = rowData[key].split(',').map((entry) => entry.trim());
           } else {
             item[key] = rowData[key];

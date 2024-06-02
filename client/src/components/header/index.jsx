@@ -89,7 +89,6 @@ export default function Header() {
         )
         .then((res) => {
           setProducts(res.data);
-          console.log(res);
         })
         .catch((e) => alert(e));
     }
@@ -261,7 +260,10 @@ export default function Header() {
             </button>
             <div className={styles.search_f}>
               {products?.map((item) => (
-                <Link to={`/product/${item._id}`} key={item._id}>
+                <Link
+                  to={`/product/${item._id}?pages=${t("search")}`}
+                  key={item._id}
+                >
                   <img src={searchImg} alt="search" width={15} height={15} />{" "}
                   {item.title}
                 </Link>

@@ -248,7 +248,7 @@ export default function Product() {
             {type === 1 ? (
               data?.description ? (
                 <>
-                  {typeof data?.description !== "string" ? (
+                  {typeof JSON.parse(data?.description) !== "string" ? (
                     <div
                       dangerouslySetInnerHTML={{
                         __html: ConvertJsonToHtml(
@@ -266,7 +266,7 @@ export default function Product() {
             ) : type === 2 ? (
               data?.characteristics ? (
                 <>
-                  {typeof data?.characteristics !== "string" ? (
+                  {typeof JSON.parse(data?.description) !== "string" ? (
                     <div
                       dangerouslySetInnerHTML={{
                         __html: ConvertJsonToHtml(
