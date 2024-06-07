@@ -78,7 +78,14 @@ export class ModeleService {
 
   async findWithMark() {
     try {
-      return this.modeleModel
+      const marks = await this.modeleModel.db
+        .collection('marks')
+        .find()
+        .toArray();
+
+      const allModels = await this.modeleModel.find().exec();
+
+      const modelsWithMarks = await this.modeleModel
         .aggregate([
           {
             $addFields: {
@@ -92,7 +99,10 @@ export class ModeleService {
             },
           },
           {
-            $unwind: '$markIds',
+            $unwind: {
+              path: '$markIds',
+              preserveNullAndEmptyArrays: true,
+            },
           },
           {
             $lookup: {
@@ -103,7 +113,10 @@ export class ModeleService {
             },
           },
           {
-            $unwind: '$mark',
+            $unwind: {
+              path: '$mark',
+              preserveNullAndEmptyArrays: true,
+            },
           },
           {
             $group: {
@@ -127,6 +140,35 @@ export class ModeleService {
           },
         ])
         .exec();
+
+      const modelsWithAllMarks = marks.map((mark) => {
+        const found = modelsWithMarks.find(
+          (m) => String(m.markId) === String(mark._id),
+        );
+        if (found) {
+          return found;
+        } else {
+          return {
+            markId: mark._id,
+            markTitle: mark.title,
+            markImage: mark.image,
+            modele: [],
+          };
+        }
+      });
+
+      const modelsInMarks = modelsWithAllMarks.flatMap((m) => m.modele);
+
+      const modelsWithoutMarks = allModels.filter((model) => {
+        return !modelsInMarks.some(
+          (mod) => String(mod._id) === String(model._id),
+        );
+      });
+
+      return {
+        marks: modelsWithAllMarks,
+        models: modelsWithoutMarks,
+      };
     } catch (error) {
       throw error;
     }

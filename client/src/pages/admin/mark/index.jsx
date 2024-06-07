@@ -37,7 +37,7 @@ export default function AdminMark() {
         <button onClick={() => navigate(`mk/add`)}>Створити марку</button>
         <button onClick={() => navigate(`ml/add`)}>Створити модель</button>
       </div>
-      {data?.map((item) => (
+      {data?.marks?.map((item) => (
         <div key={item.markId} className={styles.mark_block}>
           <div className={styles.mark_info}>
             <img
@@ -76,6 +76,26 @@ export default function AdminMark() {
           </div>
         </div>
       ))}
+      <h2>Модели без брендов</h2>
+      <div className={styles.model_block}>
+        {data?.models?.map((val) => (
+          <div key={val._id}>
+            <img
+              src={`${process.env.REACT_APP_IMG}${val.image}`}
+              alt="model"
+              width={80}
+            />
+            <div className={styles.model_info}>
+              <div>{val.title}</div>
+              <div>{val.description}</div>
+            </div>
+            <div className={styles.model_btn}>
+              <button onClick={() => navigate(`ml/${val._id}`)}>Змінити</button>
+              <button onClick={() => deleteModel(val._id)}>Видалити</button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

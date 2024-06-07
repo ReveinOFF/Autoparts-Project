@@ -153,6 +153,7 @@ header {
   color: #fdb819;
 }
 
+.active_cat > div:first-of-type > img:first-of-type,
 .active_cat > div:first-of-type > img:last-of-type {
   filter: invert(67%) sepia(68%) saturate(548%) hue-rotate(356deg)
     brightness(101%) contrast(99%);

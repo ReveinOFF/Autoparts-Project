@@ -45,6 +45,22 @@ export default function Header() {
   const [curr, setCurr] = useState([]);
   const navigate = useNavigate();
 
+  const eventBlockClose = (e) => {
+    if (!e.target.closest("#category-block")) setShowCategory(false);
+  };
+
+  useEffect(() => {
+    if (showCategory) {
+      document.addEventListener("click", eventBlockClose);
+    } else {
+      document.removeEventListener("click", eventBlockClose);
+    }
+
+    return () => {
+      document.removeEventListener("click", eventBlockClose);
+    };
+  }, [showCategory]);
+
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_HOST}/categories/header-cat`)
@@ -299,6 +315,7 @@ export default function Header() {
               className={`${styles.category} ${
                 showCategory ? styles.active_cat : null
               }`}
+              id="category-block"
             >
               <div
                 className="flex-align"
@@ -314,9 +331,9 @@ export default function Header() {
                   <div>
                     <span>{item.title}</span>
                     <img src={arrowImg} alt="arrow" width={10} height={10} />
-                    {item.subCategorieIds && (
+                    {item?.subCategorieIds?.length > 0 && (
                       <div className={styles.subcat}>
-                        {item.subCategories?.map((item2) => (
+                        {item?.subCategories?.map((item2) => (
                           <div>
                             <span>{item2.title}</span>
                             <img
@@ -325,7 +342,7 @@ export default function Header() {
                               width={10}
                               height={10}
                             />
-                            {item2.subChildCategorieIds && (
+                            {item2?.subChildCategorieIds?.length > 0 && (
                               <div className={styles.subchildcat}>
                                 {item2.subChildCategories?.map((item3) => (
                                   <Link
