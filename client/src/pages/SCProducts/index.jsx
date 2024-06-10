@@ -105,7 +105,7 @@ export default function SCProducts() {
 
       setDataMark(res.data?.marks);
       setData(res.data);
-      setProductsVis(res.data?.products);
+      setProductsVis(res.data?.products || []);
     } else {
       const res = await axios.get(
         `${process.env.REACT_APP_HOST}/subcategories/get-one/${id}?page=${
@@ -119,7 +119,7 @@ export default function SCProducts() {
 
       setDataMark(res.data?.marks);
       setData(res.data);
-      setProductsVis(res.data?.products);
+      setProductsVis(res.data?.products || []);
     }
   };
 
@@ -186,7 +186,7 @@ export default function SCProducts() {
       )}
       <div className={styles.info}>
         <hgroup>{searchParams.get("t1")}</hgroup>
-        <h1>{searchParams.get("t2")}</h1>
+        {searchParams.get("t2") && <h1>{searchParams.get("t2")}</h1>}
       </div>
       <div className={styles.selector}>
         <div className={styles.category}>
@@ -250,11 +250,9 @@ export default function SCProducts() {
       </div>
       <ProductsComponent
         data={productsVis}
-        pages={`?pages=${searchParams.get("t0")}/${searchParams.get(
-          "t1"
-        )}/${searchParams.get("t2")}${
-          findMod ? "/" + selectMark.title + "/" + selectModel.title : ""
-        }`}
+        pages={`?pages=${searchParams.get("t0")}/${searchParams.get("t1")}${
+          searchParams.get("t2") ? "/" + searchParams.get("t2") : ""
+        }${findMod ? "/" + selectMark.title + "/" + selectModel.title : ""}`}
         removeFav={remToFav}
         addFav={addToFav}
         addToCart={addToCart}
@@ -266,7 +264,7 @@ export default function SCProducts() {
           onChangePage={(page) => setCurrPage(page)}
         />
       )}
-      {productsVis.length < 1 && <u>{t("empty")}</u>}
+      {productsVis?.length < 1 && <u>{t("empty")}</u>}
     </div>
   );
 }

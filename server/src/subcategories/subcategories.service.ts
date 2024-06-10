@@ -336,6 +336,8 @@ export class SubcategoriesService {
         res[0].currPage = page;
       }
 
+      console.log(res);
+
       return res[0];
     } catch (error) {
       console.error(error);

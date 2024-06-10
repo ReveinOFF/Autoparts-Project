@@ -334,33 +334,51 @@ export default function Header() {
                     {item?.subCategorieIds?.length > 0 && (
                       <div className={styles.subcat}>
                         {item?.subCategories?.map((item2) => (
-                          <div>
-                            <span>{item2.title}</span>
-                            <img
-                              src={arrowImg}
-                              alt="arrow"
-                              width={10}
-                              height={10}
-                            />
-                            {item2?.subChildCategorieIds?.length > 0 && (
-                              <div className={styles.subchildcat}>
-                                {item2.subChildCategories?.map((item3) => (
-                                  <Link
-                                    to={`/sc/products/${item3._id}?t0=${item.title}&t1=${item2.title}&t2=${item3.title}`}
-                                    onClick={() => setShowCategory(false)}
-                                  >
-                                    <span>{item3.title}</span>
-                                    <img
-                                      src={arrowImg}
-                                      alt="arrow"
-                                      width={10}
-                                      height={10}
-                                    />
-                                  </Link>
-                                ))}
+                          <>
+                            {item2?.subChildCategorieIds?.length > 0 ? (
+                              <div>
+                                <span>{item2.title}</span>
+                                <img
+                                  src={arrowImg}
+                                  alt="arrow"
+                                  width={10}
+                                  height={10}
+                                />
+                                {item2?.subChildCategorieIds?.length > 0 && (
+                                  <div className={styles.subchildcat}>
+                                    {item2.subChildCategories?.map((item3) => (
+                                      <Link
+                                        to={`/sc/products/${item3._id}?t0=${item.title}&t1=${item2.title}&t2=${item3.title}`}
+                                        onClick={() => setShowCategory(false)}
+                                      >
+                                        <span>{item3.title}</span>
+                                        <img
+                                          src={arrowImg}
+                                          alt="arrow"
+                                          width={10}
+                                          height={10}
+                                        />
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
+                            ) : (
+                              <Link
+                                to={`/sc/products/${item2._id}?t0=${item.title}&t1=${item2.title}`}
+                                className={styles.sec_cat_l}
+                                onClick={() => setShowCategory(false)}
+                              >
+                                <span>{item2.title}</span>
+                                <img
+                                  src={arrowImg}
+                                  alt="arrow"
+                                  width={10}
+                                  height={10}
+                                />
+                              </Link>
                             )}
-                          </div>
+                          </>
                         ))}
                       </div>
                     )}
